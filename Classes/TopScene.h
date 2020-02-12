@@ -5,6 +5,8 @@
 class TopScene : public Scene
 {
 private:
+	Layer* _layer;
+
 	int _gold, _time;
 
 public:

@@ -149,6 +149,22 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     </PreLinkEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\Bitmap.cpp" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\CacheGif.cpp" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\CacheGifData.cpp" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\FileData.cpp" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\GifBase.cpp" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\GifMovie.cpp" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\GifMovieData.cpp" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\dgif_lib.c" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\gifalloc.c" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\gif_err.c" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\gif_font.c" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\gif_hash.c" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\quantize.c" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\InstantGif.cpp" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\InstantGifData.cpp" />
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\Movie.cpp" />
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\CharacterSelectScene.cpp" />
     <ClCompile Include="..\Classes\EndingScene.cpp" />
@@ -165,6 +181,21 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\Bitmap.h" />
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\CacheGif.h" />
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\CacheGifData.h" />
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\FileData.h" />
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\GifBase.h" />
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\GifMacros.h" />
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\GIFMovie.h" />
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\GIFMovieData.h" />
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\GifUtils.h" />
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\gif_hash.h" />
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\gif_lib.h" />
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\gif_lib_private.h" />
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\InstantGif.h" />
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\InstantGifData.h" />
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\Movie.h" />
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\CharacterSelectScene.h" />
     <ClInclude Include="..\Classes\cocos_framework.h" />

@@ -43,6 +43,9 @@
     <Filter Include="src\Pet">
       <UniqueIdentifier>{3fcb16be-e262-4d4f-b2b6-815c21f0db0d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Gif">
+      <UniqueIdentifier>{3b7e6e7a-4756-4d46-bb55-0ffd43f8e4bf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -86,6 +89,54 @@
     </ClCompile>
     <ClCompile Include="..\Classes\Item.cpp">
       <Filter>src\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\Bitmap.cpp">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\CacheGif.cpp">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\CacheGifData.cpp">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\dgif_lib.c">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\FileData.cpp">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\gif_err.c">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\gif_font.c">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\gif_hash.c">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\gifalloc.c">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\GifBase.cpp">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\GifMovie.cpp">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\GifMovieData.cpp">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\InstantGif.cpp">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\InstantGifData.cpp">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\Movie.cpp">
+      <Filter>src\Gif</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\quantize.c">
+      <Filter>src\Gif</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +184,51 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Item.h">
       <Filter>src\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\Bitmap.h">
+      <Filter>src\Gif</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\CacheGif.h">
+      <Filter>src\Gif</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\CacheGifData.h">
+      <Filter>src\Gif</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\FileData.h">
+      <Filter>src\Gif</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\gif_hash.h">
+      <Filter>src\Gif</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\gif_lib.h">
+      <Filter>src\Gif</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\gif_lib\gif_lib_private.h">
+      <Filter>src\Gif</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\GifBase.h">
+      <Filter>src\Gif</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\GifMacros.h">
+      <Filter>src\Gif</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\GIFMovie.h">
+      <Filter>src\Gif</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\GIFMovieData.h">
+      <Filter>src\Gif</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\GifUtils.h">
+      <Filter>src\Gif</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\InstantGif.h">
+      <Filter>src\Gif</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\InstantGifData.h">
+      <Filter>src\Gif</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\cocos2d-xgif\Classes\Gif\Movie.h">
+      <Filter>src\Gif</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -18,6 +18,11 @@
 #include "network/HttpClient.h"
 #include "AudioEngine.h"
 #include "Box2d/Box2d.h"
+#include "Gif/GIFMovie.h"
+#include "Gif/CacheGif.h"
+#include "Gif/CacheGifData.h"
+#include "Gif/InstantGif.h"
+#include "Gif/InstantGifData.h"
 
 // using namespace
 USING_NS_CC; // for cocos2d
