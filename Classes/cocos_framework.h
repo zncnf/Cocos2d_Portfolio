@@ -17,6 +17,7 @@
 #include "json/prettywriter.h"
 #include "network/HttpClient.h"
 #include "AudioEngine.h"
+#include "Box2d/Box2d.h"
 
 // using namespace
 USING_NS_CC; // for cocos2d

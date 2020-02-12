@@ -3,7 +3,6 @@
 #pragma once
 
 #include "cocos_framework.h"
-#include "Box2d/Box2d.h"
 
 #define PTM_RATIO 32
 

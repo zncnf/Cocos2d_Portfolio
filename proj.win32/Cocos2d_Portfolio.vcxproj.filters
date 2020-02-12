@@ -10,6 +10,39 @@
     <Filter Include="src">
       <UniqueIdentifier>{bb6c862e-70e9-49d9-81b7-3829a6f50471}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Intro">
+      <UniqueIdentifier>{82d2db99-e083-486f-8754-6b85b20bd879}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Ending">
+      <UniqueIdentifier>{403af9b5-d291-487b-a9c3-bf05c8fb5536}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Top">
+      <UniqueIdentifier>{c6a84c1d-b875-4803-99a0-96ed08279975}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Main">
+      <UniqueIdentifier>{e544e7bf-89c2-47d8-b0bb-2eff0ae0aa95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Shop">
+      <UniqueIdentifier>{1bb766a6-5169-4c65-b4b9-68553af69beb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Smelt">
+      <UniqueIdentifier>{6ac982a5-ed24-460a-84d4-633e15cc81f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Monster">
+      <UniqueIdentifier>{e4e6d0dc-8e43-42a9-80e9-933ee2c9a034}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Item">
+      <UniqueIdentifier>{e8a19795-a9b7-4cfc-a634-dc1f9740ef60}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\CharacterSelect">
+      <UniqueIdentifier>{25439022-70bb-48d2-8fc0-8e2786ca73ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Player">
+      <UniqueIdentifier>{a5f4cc9d-8d35-458e-baa8-1373716886d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\Pet">
+      <UniqueIdentifier>{3fcb16be-e262-4d4f-b2b6-815c21f0db0d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -20,6 +53,39 @@
     </ClCompile>
     <ClCompile Include="..\Classes\TrainingPhysics.cpp">
       <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\IntroScene.cpp">
+      <Filter>src\Intro</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\ShopScene.cpp">
+      <Filter>src\Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SmeltScene.cpp">
+      <Filter>src\Smelt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CharacterSelectScene.cpp">
+      <Filter>src\CharacterSelect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MainScene.cpp">
+      <Filter>src\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\EndingScene.cpp">
+      <Filter>src\Ending</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MonsterScene.cpp">
+      <Filter>src\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TopScene.cpp">
+      <Filter>src\Top</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\PetScene.cpp">
+      <Filter>src\Pet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Player.cpp">
+      <Filter>src\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Item.cpp">
+      <Filter>src\Item</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -34,6 +100,39 @@
     </ClInclude>
     <ClInclude Include="..\Classes\cocos_framework.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\IntroScene.h">
+      <Filter>src\Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ShopScene.h">
+      <Filter>src\Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SmeltScene.h">
+      <Filter>src\Smelt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CharacterSelectScene.h">
+      <Filter>src\CharacterSelect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MainScene.h">
+      <Filter>src\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\EndingScene.h">
+      <Filter>src\Ending</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MonsterScene.h">
+      <Filter>src\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TopScene.h">
+      <Filter>src\Top</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\PetScene.h">
+      <Filter>src\Pet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Player.h">
+      <Filter>src\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Item.h">
+      <Filter>src\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

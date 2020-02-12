@@ -1,5 +1,6 @@
 #include "AppDelegate.h"
 #include "TrainingPhysics.h"
+#include "TopScene.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
@@ -76,7 +77,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	glview->setDesignResolutionSize(1280, 720, ResolutionPolicy::EXACT_FIT);
 
 	// create a scene. it's an autorelease object
-	auto scene = TrainingPhysics::createScene();
+	auto scene = TopScene::createScene();
 
 	// run
 	director->runWithScene(scene);
