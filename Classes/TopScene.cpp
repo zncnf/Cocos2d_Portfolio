@@ -11,6 +11,7 @@ bool TopScene::init()
 		return false;
 	}
 	log("%d", Player::getInstance()->getItem()->getBuyGold());
+	//this->runAction(Player::getInstance())
 
 	return true;
 }

@@ -8,9 +8,12 @@ private:
 	static Player* Instance;
 	Player();
 
+	Sprite* _player;
+
 	string _name;
 	int _lv, _exp, _expm, _gold;
 	vector<Item*> _item;
+
 
 public:
 	static Player* getInstance();

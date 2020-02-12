@@ -4,6 +4,9 @@
 
 class TopScene : public Scene
 {
+private:
+	int _gold, _time;
+
 public:
 	static Scene* createScene();
 	virtual bool init();
