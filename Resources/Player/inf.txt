@@ -1,0 +1,25 @@
+이동
+player_walk_0_body ~ player_walk_3_body
+player_walk_0_head ~ player_walk_3_head
+player_walk_0_arm ~ player_walk_3_arm
+
+멈춤
+player_stand_0_body ~ player_stand_2_body
+player_stand_0_head ~ player_stand_2_head
+player_stand_0_arm ~ player_stand_2_arm
+
+공격
+player_swing_0_body ~ player_swing_2_body
+player_swing_0_head ~ player_swing_2_head
+player_swing_0_arm ~ player_swing_2_arm
+
+점프
+player_jump_0_body
+player_jump_0_head
+player_jump_0_arm
+player_jump_0_rhand
+player_jump_0_lhand
+
+죽음
+player_dead_0_body
+player_dead_0_head

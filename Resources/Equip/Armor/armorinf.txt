@@ -1,0 +1,10 @@
+commander_icon.png
+commander_iconRaw.png
+commander_walk_0_arm.png		0 ~ 3
+commander_walk_0_body.png	0 ~ 3
+commander_stand_0_arm.png	0 ~ 2
+commander_stand_0_body.png	0 ~ 2
+commander_swing_0_arm.png	0 ~ 2
+commander_swing_0_body.png	0 ~ 2
+commander_jump_0_arm.png
+commander_jump_0_body.png

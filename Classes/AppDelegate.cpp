@@ -1,6 +1,7 @@
 #include "AppDelegate.h"
 #include "TrainingPhysics.h"
 #include "TopScene.h"
+#include "MainScene.h"
 
 // #define USE_AUDIO_ENGINE 1
 // #define USE_SIMPLE_AUDIO_ENGINE 1
