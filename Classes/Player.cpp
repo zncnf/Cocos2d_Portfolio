@@ -7,7 +7,7 @@ Player::Player()
 	_cache = SpriteFrameCache::getInstance();
 	_cache->addSpriteFramesWithFile("Player/Player.plist");
 
-	_equip = new Equip();
+	
 
 	//«√∑π¿ÃæÓ ª˝º∫
 	_player = Layer::create();
@@ -17,21 +17,22 @@ Player::Player()
 	_player->addChild(_body, 5);
 
 	_head = Sprite::createWithSpriteFrameName("player_stand_0_head.png");
-	_player->addChild(_head, 6);
+	_player->addChild(_head, 10);
 
 	_arm = Sprite::createWithSpriteFrameName("player_stand_0_arm.png");
-	_player->addChild(_arm, 7);
+	_player->addChild(_arm, 15);
 
 	_rhand = Sprite::createWithSpriteFrameName("player_jump_0_rhand.png");
 	_rhand->setVisible(false);
-	_player->addChild(_rhand, 8);
+	_player->addChild(_rhand, 20);
 
 	_lhand = Sprite::createWithSpriteFrameName("player_jump_0_lhand.png");
 	_lhand->setVisible(false);
-	_player->addChild(_lhand, 9);
+	_player->addChild(_lhand, 25);
+	
+	_equip = new Equip(_player);
 
-
-	Vector<SpriteFrame*> frame[5];
+	Vector<SpriteFrame*> frame[4];
 
 	//∏ÿ√„
 	for (int i = 0; i < 3; i++) {
@@ -102,6 +103,8 @@ void Player::setStand()
 
 	_rhand->setVisible(false);
 	_lhand->setVisible(false);
+
+	_equip->setStand();
 }
 
 void Player::setFoot()
@@ -132,6 +135,8 @@ void Player::setWalk()
 
 	_rhand->setVisible(false);
 	_lhand->setVisible(false);
+
+	_equip->setWalk();
 }
 
 void Player::setJump()

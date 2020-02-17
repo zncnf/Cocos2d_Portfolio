@@ -7,24 +7,26 @@ private:
 	struct Weapon {
 		Sprite *icon, *iconRaw;
 		Sprite* sprite;
-		String name;
+		String name, code;
 		float atk;
 	};
 	struct Armor {
 		Sprite *icon, *iconRaw;
 		Sprite *body, *arm;
-		String name;
+		String name, code;
 		float life;
 	};
 	struct Shoes {
 		Sprite *icon, *iconRaw;
 		Sprite* sprite;
-		String name;
+		String name, code;
 		float speed;
 	};
 
 	SpriteFrameCache* _cache;
 	
+	Layer* _layer;
+
 	vector<Weapon*> _myWeapon;
 	vector<Armor*> _myArmor;
 	vector<Shoes*> _myShoes;
@@ -34,11 +36,17 @@ private:
 	Shoes* _mountShoes;
 
 public:
-	Equip();
+	Equip(Layer* layer);
 
 	void setWeapon(String name);
 	void setArmor(String name);
 	void setShoes(String name);
+
+	void setStand();
+	void setWalk();
+	void setJump();
+	void setAttack();
+	void setDead();
 
 	void mountWeapon(int id);
 	void mountArmor(int id);
