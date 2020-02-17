@@ -18,6 +18,7 @@ private:
 	string _name;
 	int _lv, _exp, _expm, _gold;
 	vector<Item*> _item;
+	Equip* _equip;
 
 	int _isStand, _isLeft, _isRight, _isJump;
 	bool _isDead, _isFoot, _isRange, _isAttack;

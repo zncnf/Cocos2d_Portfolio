@@ -32,9 +32,6 @@ bool TopScene::init()
 
 	this->schedule(schedule_selector(TopScene::tick));
 
-	//log("%d", Player::getInstance()->getItem()->getBuyGold());
-	//this->runAction(Player::getInstance())
-
 	return true;
 }
 
@@ -54,15 +51,7 @@ void TopScene::tick(float delta)
 	if (Player::getInstance()->getPlayer()->getPositionY() < _map->getPositionY() + 250) {
 		Player::getInstance()->getPlayer()->setPositionY(_map->getPositionY() + 250);
 		Player::getInstance()->setFoot();
-		//log("player : %f, map : %f", Player::getInstance()->getPositionY(), _map->getPositionY());
 	}
-	/*Player::getInstance()->appendJPow(1);
-	Player::getInstance()->getPlayer()->setPositionY(Player::getInstance()->getJPow());
-	if (Player::getInstance()->getPlayer()->getPositionY() > 700 - 214 - (30 / 2)) {
-		Player::getInstance()->getPlayer()->setPositionY(700 - 214 - (30 / 2));
-
-	}*/
-	//Player::getInstance()->getPlayer()->getPositionY() + pow(Player::getInstance()->getJPow(), 2) / 2);
 
 }
 

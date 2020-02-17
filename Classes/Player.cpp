@@ -7,26 +7,28 @@ Player::Player()
 	_cache = SpriteFrameCache::getInstance();
 	_cache->addSpriteFramesWithFile("Player/Player.plist");
 
+	_equip = new Equip();
+
 	//플레이어 생성
 	_player = Layer::create();
 	_player->setPosition(500, 500);
 
 	_body = Sprite::createWithSpriteFrameName("player_stand_0_body.png");
-	_player->addChild(_body);
+	_player->addChild(_body, 5);
 
 	_head = Sprite::createWithSpriteFrameName("player_stand_0_head.png");
-	_player->addChild(_head);
+	_player->addChild(_head, 6);
 
 	_arm = Sprite::createWithSpriteFrameName("player_stand_0_arm.png");
-	_player->addChild(_arm);
+	_player->addChild(_arm, 7);
 
 	_rhand = Sprite::createWithSpriteFrameName("player_jump_0_rhand.png");
 	_rhand->setVisible(false);
-	_player->addChild(_rhand);
+	_player->addChild(_rhand, 8);
 
 	_lhand = Sprite::createWithSpriteFrameName("player_jump_0_lhand.png");
 	_lhand->setVisible(false);
-	_player->addChild(_lhand);
+	_player->addChild(_lhand, 9);
 
 
 	Vector<SpriteFrame*> frame[5];
@@ -97,6 +99,9 @@ void Player::setStand()
 
 	auto action3 = RepeatForever::create(_stand.at(2));
 	_arm->runAction(action3);
+
+	_rhand->setVisible(false);
+	_lhand->setVisible(false);
 }
 
 void Player::setFoot()
@@ -107,7 +112,10 @@ void Player::setFoot()
 		_jPow = 0;
 		_isFoot = true;
 	}	
-	if (!_isAttack && (_isLeft == 2 || _isRight == 2)) setWalk();
+	if (!_isAttack && (_isLeft == 2 || _isRight == 2)) {
+		setWalk();
+	}
+		
 }
 
 void Player::setWalk()
@@ -121,6 +129,9 @@ void Player::setWalk()
 
 	auto action3 = RepeatForever::create(_walk.at(2));
 	_arm->runAction(action3);
+
+	_rhand->setVisible(false);
+	_lhand->setVisible(false);
 }
 
 void Player::setJump()
@@ -129,6 +140,9 @@ void Player::setJump()
 	_body->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_jump_0_body.png")));
 	_head->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_jump_0_head.png")));
 	_arm->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_jump_0_arm.png")));
+
+	_rhand->setVisible(true);
+	_lhand->setVisible(true);
 }
 
 void Player::setAttack()
@@ -145,6 +159,9 @@ void Player::setAttack()
 		nullptr
 	));
 	_player->runAction(action);
+
+	_rhand->setVisible(false);
+	_lhand->setVisible(false);
 }
 
 void Player::setAttack_Frame(int frame)
@@ -164,10 +181,14 @@ void Player::setAttack_Frame(int frame)
 
 void Player::setHit()
 {
+	_rhand->setVisible(false);
+	_lhand->setVisible(false);
 }
 
 void Player::setDead()
 {
+	_rhand->setVisible(false);
+	_lhand->setVisible(false);
 }
 
 void Player::setWay(bool way)
