@@ -1,12 +1,15 @@
 #pragma once
-#include "cocos_framework.h"
+#include "Cuey.h"
 #include "Player.h"
+#include "Monster.h"
 
 class TopScene : public Scene
 {
 private:
 	Layer* _layer;
 	Sprite *_bg, *_map;
+
+	Vector<Monster*> _monster;
 
 	int _gold, _time;
 

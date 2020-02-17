@@ -1,5 +1,5 @@
 #pragma once
-#include "cocos_framework.h"
+#include "Cuey.h"
 #include "Player.h"
 
 class MainScene : public Scene

@@ -10,7 +10,7 @@ bool ShopScene::init()
 	if (!Scene::init()) {
 		return false;
 	}
-	log("%d", Player::getInstance()->getItem()->getBuyGold());
+	log("%d", player->getItem()->getBuyGold());
 
 	return true;
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "cocos_framework.h"
+#include "Cuey.h"
 
 class Equip : public Scene
 {
@@ -45,12 +45,13 @@ public:
 	void setStand();
 	void setWalk();
 	void setJump();
-	void setAttack();
+	void setAttack(int frame);
 	void setDead();
+	void setWay(bool way);
 
-	void mountWeapon(int id);
-	void mountArmor(int id);
-	void mountShoes(int id);
+	void mountWeapon(int n);
+	void mountArmor(int n);
+	void mountShoes(int n);
 
 	int getMyWeaponSize() { return _myWeapon.size(); }
 	Sprite* getMyWeaponIcon(int n) { return _myWeapon.at(n)->icon; }

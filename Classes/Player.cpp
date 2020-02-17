@@ -7,8 +7,6 @@ Player::Player()
 	_cache = SpriteFrameCache::getInstance();
 	_cache->addSpriteFramesWithFile("Player/Player.plist");
 
-	
-
 	//«√∑π¿ÃæÓ ª˝º∫
 	_player = Layer::create();
 	_player->setPosition(500, 500);
@@ -86,7 +84,7 @@ Player * Player::getInstance()
 
 void Player::setLayer(Layer * layer)
 {
-	layer->addChild(_player);
+	layer->addChild(_player, 50);
 }
 
 void Player::setStand()
@@ -135,7 +133,7 @@ void Player::setWalk()
 
 	_rhand->setVisible(false);
 	_lhand->setVisible(false);
-
+ 
 	_equip->setWalk();
 }
 
@@ -148,6 +146,8 @@ void Player::setJump()
 
 	_rhand->setVisible(true);
 	_lhand->setVisible(true);
+
+	_equip->setJump();
 }
 
 void Player::setAttack()
@@ -177,10 +177,12 @@ void Player::setAttack_Frame(int frame)
 		else if (_isRight == 2) _isRight = 1;
 		_isAttack = false;
 	}
-	else {
+	else if(_isAttack) {
 		_body->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_swing_%d_body.png", frame)));
 		_head->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_swing_%d_head.png", frame)));
 		_arm->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_swing_%d_arm.png", frame)));
+
+		_equip->setAttack(frame);
 	};
 }
 
@@ -201,6 +203,8 @@ void Player::setWay(bool way)
 	_body->setFlippedX(way);
 	_head->setFlippedX(way);
 	_arm->setFlippedX(way);
+
+	_equip->setWay(way);
 }
 
 void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
@@ -226,6 +230,20 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 			else {
 				_isJump = 1;
 			}
+			break;
+		case EventKeyboard::KeyCode::KEY_Q:
+			_equip->setWeapon("∆©∫Í");
+			log("∆©∫Í»πµÊ");
+			break;
+		case EventKeyboard::KeyCode::KEY_W:
+			for (int i = 0; i < _equip->getMyWeaponSize(); i++) {
+				log("%d : %s", i, _equip->getMyWeaponName(i).getCString());
+			}
+			break;
+		case EventKeyboard::KeyCode::KEY_E:
+			_equip->mountWeapon(0);
+			setStand();
+			setAttack_Frame(3);
 			break;
 		}
 	}
@@ -258,7 +276,7 @@ void Player::tick()
 		if (_isLeft == 1) {
 			if (_isRight == 0) {
 				_isLeft = 2;
-				setWay(false);	
+				if (!_isAttack) setWay(false);
 			}
 			if (_isFoot && !_isAttack && _isRight != 1 && _isStand != 2) {
 				_isStand = 1;
@@ -268,7 +286,7 @@ void Player::tick()
 		if (_isRight == 1) {
 			if (_isLeft == 0) {
 				_isRight = 2;
-				setWay(true);	
+				if (!_isAttack) setWay(true);
 			}
 			if (_isFoot && !_isAttack && _isLeft != 1 && _isStand != 2) {
 				_isStand = 1;
@@ -298,12 +316,25 @@ void Player::tick()
 			_player->setPositionY(_player->getPositionY() - _jPow);
 		}
 	}
-	/*system("cls");
-	log("stand : %d, left : %d, right : %d, jump : %d, foot : %d, attack : %d, range : %d", _isStand, _isLeft, _isRight, _isJump, _isFoot, _isAttack, _isRange);*/
+
 	if (_player->getPositionX() > 20) {
 		if (_isLeft == 2) _player->setPositionX(_player->getPositionX() - 2);
 	}
 	if(_player->getPositionX() < 1960) {
 		if (_isRight == 2) _player->setPositionX(_player->getPositionX() + 2);
+	}
+
+	if (_player->getPositionX() > 640 && _player->getPositionX() < 1340) {
+		if (getIsLeft()) {
+			_player->getParent()->setPositionX(_player->getParent()->getPositionX() + 2);
+		}
+		if (getIsRight()) {
+			_player->getParent()->setPositionX(_player->getParent()->getPositionX() - 2);
+		}
+	}
+
+	if (_player->getPositionY() < 250) {
+		_player->setPositionY(250);
+		setFoot();
 	}
 }

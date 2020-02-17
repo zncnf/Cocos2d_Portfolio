@@ -10,25 +10,25 @@ Equip::Equip(Layer* layer)
 
 	_layer = layer;
 
-	/*_myWeapon.push_back(new Weapon({
-		Sprite::createWithSpriteFrameName("stick_icon.png"),
-		Sprite::createWithSpriteFrameName("stick_iconRaw.png"),
-		Sprite::createWithSpriteFrameName("stick_stand_0_0.png"),
-		"∏˘µ’¿Ã",
-		10.0f }));*/
-
 	setWeapon("∏˘µ’¿Ã");
 	setArmor("ªÁ∑…∞¸ Ω¥∆Æ");
 	setShoes("æﬂ±§ Ω≈πﬂ");
+
+	_mountWeapon = new Weapon({ 0 });
+	_mountArmor = new Armor({ 0 });
+	_mountShoes = new Shoes({ 0 });
+
+	_mountWeapon->sprite = _myWeapon.back()->sprite;
+	_mountArmor->body = _myArmor.back()->body;
+	_mountArmor->arm = _myArmor.back()->arm;
+	_mountShoes->sprite = _myShoes.back()->sprite;
+
 	mountWeapon(0);
 	mountArmor(0);
 	mountShoes(0);
-	_mountWeapon->sprite->setTag(13);
-	_mountArmor->body->setTag(11);
-	_mountArmor->arm->setTag(16);
-	_mountShoes->sprite->setTag(12);
-	_layer->addChild(_mountArmor->body, 11);
-	_layer->addChild(_mountShoes->sprite, 12);
+
+	_layer->addChild(_mountArmor->body, 12);
+	_layer->addChild(_mountShoes->sprite, 13);
 	_layer->addChild(_mountWeapon->sprite, 13);
 	_layer->addChild(_mountArmor->arm, 16);	
 
@@ -84,10 +84,8 @@ void Equip::setShoes(String name)
 
 void Equip::setStand()
 {
-	_mountWeapon->sprite->cleanup();
 	Vector<SpriteFrame*> frame[4];
 
-	//∏ÿ√„
 	for (int i = 0; i < 3; i++) {
 		frame[0].pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_stand_%d_0.png", _mountWeapon->code.getCString(), i)));
 		frame[1].pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_stand_%d_body.png", _mountArmor->code.getCString(), i)));
@@ -105,23 +103,19 @@ void Equip::setStand()
 
 void Equip::setWalk()
 {
-	_mountWeapon->sprite->cleanup();
-	_mountArmor->body->cleanup();
-	_mountArmor->arm->cleanup();
-	_mountShoes->sprite->cleanup();
 	Vector<SpriteFrame*> frame[4];
 
 	//∏ÿ√„
-	for (int i = 0; i < 3; i++) {
-		frame[0].pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_stand_%d_0.png", _mountWeapon->code.getCString(), i)));
-		frame[1].pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_stand_%d_body.png", _mountArmor->code.getCString(), i)));
-		frame[2].pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_stand_%d_arm.png", _mountArmor->code.getCString(), i)));
-		frame[3].pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_stand_%d_0.png", _mountShoes->code.getCString(), i)));
+	for (int i = 0; i < 4; i++) {
+		frame[0].pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_walk_%d_0.png", _mountWeapon->code.getCString(), i)));
+		frame[1].pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_walk_%d_body.png", _mountArmor->code.getCString(), i)));
+		frame[2].pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_walk_%d_arm.png", _mountArmor->code.getCString(), i)));
+		frame[3].pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_walk_%d_0.png", _mountShoes->code.getCString(), i)));
 	}
-	_mountWeapon->sprite->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[0], 0.5f))));
-	_mountArmor->body->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[1], 0.5f))));
-	_mountArmor->arm->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[2], 0.5f))));
-	_mountShoes->sprite->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[3], 0.5f))));
+	_mountWeapon->sprite->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[0], 0.18f))));
+	_mountArmor->body->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[1], 0.18f))));
+	_mountArmor->arm->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[2], 0.18f))));
+	_mountShoes->sprite->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[3], 0.18f))));
 	for (int i = 0; i < 4; i++) {
 		frame[i].clear();
 	}
@@ -129,27 +123,79 @@ void Equip::setWalk()
 
 void Equip::setJump()
 {
-}
+	_mountWeapon->sprite->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_jump_0_0.png", _mountWeapon->code.getCString())));
+	_mountArmor->body->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_jump_0_body.png", _mountArmor->code.getCString())));
+	_mountArmor->arm->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_jump_0_arm.png", _mountArmor->code.getCString())));
+	_mountShoes->sprite->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_jump_0_0.png", _mountShoes->code.getCString())));
+}	
 
-void Equip::setAttack()
+void Equip::setAttack(int frame)
 {
+	_mountWeapon->sprite->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_swing_%d_0.png", _mountWeapon->code.getCString(), frame)));
+	_mountArmor->body->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_swing_%d_body.png", _mountArmor->code.getCString(), frame)));
+	_mountArmor->arm->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_swing_%d_arm.png", _mountArmor->code.getCString(), frame)));
+	_mountShoes->sprite->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_swing_%d_0.png", _mountShoes->code.getCString(), frame)));
+	if (frame == 0) {
+		_mountWeapon->sprite->setZOrder(3);	
+	}
+	else if (frame == 2) {
+		_mountWeapon->sprite->setZOrder(13);
+	}
 }
 
 void Equip::setDead()
 {
 }
 
-void Equip::mountWeapon(int id)
+void Equip::setWay(bool way)
 {
-	swap(_mountWeapon, _myWeapon[id]);
+	_mountWeapon->sprite->setFlippedX(way);
+	_mountArmor->body->setFlippedX(way);
+	_mountArmor->arm->setFlippedX(way);
+	_mountShoes->sprite->setFlippedX(way);
 }
 
-void Equip::mountArmor(int id)
-{
-	swap(_mountArmor, _myArmor[id]);
+void Equip::mountWeapon(int n)
+{	
+	if (n < _myWeapon.size()) {
+		String temp = _mountWeapon->name;
+		_mountWeapon->atk = _myWeapon[n]->atk;
+		_mountWeapon->code = _myWeapon[n]->code;
+		_mountWeapon->icon = _myWeapon[n]->icon;
+		_mountWeapon->iconRaw = _myWeapon[n]->iconRaw;
+		_mountWeapon->name = _myWeapon[n]->name;
+
+		_myWeapon.erase(_myWeapon.begin() + n);
+		if (temp.getCString() != "") setWeapon(temp);
+	}
 }
 
-void Equip::mountShoes(int id)
+void Equip::mountArmor(int n)
 {
-	swap(_mountShoes, _myShoes[id]);
+	if (n < _myArmor.size()) {
+		String temp = _mountArmor->name;
+		_mountArmor->life = _myArmor[n]->life;
+		_mountArmor->code = _myArmor[n]->code;
+		_mountArmor->icon = _myArmor[n]->icon;
+		_mountArmor->iconRaw = _myArmor[n]->iconRaw;
+		_mountArmor->name = _myArmor[n]->name;
+
+		_myArmor.erase(_myArmor.begin() + n);
+		if (temp.getCString() != "") setArmor(temp);
+	}
+}
+
+void Equip::mountShoes(int n)
+{
+	if (n < _myShoes.size()) {
+		String temp = _mountShoes->name;
+		_mountShoes->speed = _myShoes[n]->speed;
+		_mountShoes->code = _myShoes[n]->code;
+		_mountShoes->icon = _myShoes[n]->icon;
+		_mountShoes->iconRaw = _myShoes[n]->iconRaw;
+		_mountShoes->name = _myShoes[n]->name;
+
+		_myShoes.erase(_myShoes.begin() + n);
+		if (temp.getCString() != "") setShoes(temp);
+	}
 }

@@ -75,14 +75,8 @@
     <ClCompile Include="..\Classes\EndingScene.cpp">
       <Filter>src\Ending</Filter>
     </ClCompile>
-    <ClCompile Include="..\Classes\MonsterScene.cpp">
-      <Filter>src\Monster</Filter>
-    </ClCompile>
     <ClCompile Include="..\Classes\TopScene.cpp">
       <Filter>src\Top</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Classes\PetScene.cpp">
-      <Filter>src\Pet</Filter>
     </ClCompile>
     <ClCompile Include="..\Classes\Player.cpp">
       <Filter>src\Player</Filter>
@@ -93,6 +87,15 @@
     <ClCompile Include="..\Classes\Equip.cpp">
       <Filter>src\Equip</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Monster.cpp">
+      <Filter>src\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Pet.cpp">
+      <Filter>src\Pet</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\Cuey.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -102,9 +105,6 @@
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\TrainingPhysics.h">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\cocos_framework.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\IntroScene.h">
@@ -125,14 +125,8 @@
     <ClInclude Include="..\Classes\EndingScene.h">
       <Filter>src\Ending</Filter>
     </ClInclude>
-    <ClInclude Include="..\Classes\MonsterScene.h">
-      <Filter>src\Monster</Filter>
-    </ClInclude>
     <ClInclude Include="..\Classes\TopScene.h">
       <Filter>src\Top</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Classes\PetScene.h">
-      <Filter>src\Pet</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\Player.h">
       <Filter>src\Player</Filter>
@@ -142,6 +136,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Equip.h">
       <Filter>src\Equip</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Monster.h">
+      <Filter>src\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Pet.h">
+      <Filter>src\Pet</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Cuey.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -151,13 +151,14 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   <ItemGroup>
     <ClCompile Include="..\Classes\AppDelegate.cpp" />
     <ClCompile Include="..\Classes\CharacterSelectScene.cpp" />
+    <ClCompile Include="..\Classes\Cuey.cpp" />
     <ClCompile Include="..\Classes\EndingScene.cpp" />
     <ClCompile Include="..\Classes\Equip.cpp" />
     <ClCompile Include="..\Classes\IntroScene.cpp" />
     <ClCompile Include="..\Classes\Item.cpp" />
     <ClCompile Include="..\Classes\MainScene.cpp" />
-    <ClCompile Include="..\Classes\MonsterScene.cpp" />
-    <ClCompile Include="..\Classes\PetScene.cpp" />
+    <ClCompile Include="..\Classes\Monster.cpp" />
+    <ClCompile Include="..\Classes\Pet.cpp" />
     <ClCompile Include="..\Classes\Player.cpp" />
     <ClCompile Include="..\Classes\ShopScene.cpp" />
     <ClCompile Include="..\Classes\SmeltScene.cpp" />
@@ -168,14 +169,14 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
   <ItemGroup>
     <ClInclude Include="..\Classes\AppDelegate.h" />
     <ClInclude Include="..\Classes\CharacterSelectScene.h" />
-    <ClInclude Include="..\Classes\cocos_framework.h" />
+    <ClInclude Include="..\Classes\Cuey.h" />
     <ClInclude Include="..\Classes\EndingScene.h" />
     <ClInclude Include="..\Classes\Equip.h" />
     <ClInclude Include="..\Classes\IntroScene.h" />
     <ClInclude Include="..\Classes\Item.h" />
     <ClInclude Include="..\Classes\MainScene.h" />
-    <ClInclude Include="..\Classes\MonsterScene.h" />
-    <ClInclude Include="..\Classes\PetScene.h" />
+    <ClInclude Include="..\Classes\Monster.h" />
+    <ClInclude Include="..\Classes\Pet.h" />
     <ClInclude Include="..\Classes\Player.h" />
     <ClInclude Include="..\Classes\ShopScene.h" />
     <ClInclude Include="..\Classes\SmeltScene.h" />

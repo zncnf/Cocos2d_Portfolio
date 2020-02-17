@@ -1,7 +1,9 @@
 #pragma once
-#include "cocos_framework.h"
+#include "Cuey.h"
 #include "Item.h"
 #include "Equip.h"
+
+#define player Player::getInstance()
 
 class Player : public Scene
 {

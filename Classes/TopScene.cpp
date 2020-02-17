@@ -22,7 +22,7 @@ bool TopScene::init()
 	_map->setAnchorPoint(Vec2(0, 0));
 	_layer->addChild(_map);
 
-	Player::getInstance()->setLayer(_layer);
+	player->setLayer(_layer);
 
 	//키보드 조작
 	auto K_listner = EventListenerKeyboard::create();
@@ -37,30 +37,31 @@ bool TopScene::init()
 
 void TopScene::tick(float delta)
 {
-	Player::getInstance()->tick();
+	player->tick();
+	_monster.pushBack(new Monster(_layer));
+	for (int i = 0; i < _monster.size(); i++) {
+		_monster.at(i)->tick();
+		if (_monster.at(i)->getMonster()->getPositionY() < 100) {
+			delete _monster.at(i);
+			_monster.erase(_monster.begin() + i);
+		}
+	}
 	//1280, 720
-	if (Player::getInstance()->getPlayer()->getPositionX() > 640 && Player::getInstance()->getPlayer()->getPositionX() < 1980 - 640) {
-		if (Player::getInstance()->getIsLeft()) {
-			_layer->setPositionX(_layer->getPositionX() + 2);
-		}
-		if (Player::getInstance()->getIsRight()) {
-			_layer->setPositionX(_layer->getPositionX() - 2);
-		}
-	}
-
-	if (Player::getInstance()->getPlayer()->getPositionY() < _map->getPositionY() + 250) {
-		Player::getInstance()->getPlayer()->setPositionY(_map->getPositionY() + 250);
-		Player::getInstance()->setFoot();
-	}
+	
 
 }
 
 void TopScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 {
-	Player::getInstance()->onKeyPressed(keyCode, event);
+	player->onKeyPressed(keyCode, event);
+	switch (keyCode) {
+	case EventKeyboard::KeyCode::KEY_M:
+		_monster.pushBack(new Monster(_layer));
+		break;
+	}
 }
 
 void TopScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event * event)
 {
-	Player::getInstance()->onKeyReleased(keyCode, event);
+	player->onKeyReleased(keyCode, event);
 }
