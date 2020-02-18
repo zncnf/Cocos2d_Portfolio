@@ -14,11 +14,13 @@ bool TopScene::init()
 	_layer = Layer::create();
 	this->addChild(_layer);
 
-	_map = Sprite::create("Map/배경.png");
-	_map->setAnchorPoint(Vec2(0, 0));
-	_layer->addChild(_map);
+	_bg = Sprite::create("Map/배경.png");
+	_bg->setPosition(0, -45);
+	_bg->setAnchorPoint(Vec2(0, 0));
+	_layer->addChild(_bg);
 
 	_map = Sprite::create("Map/헤네사냥터.png");
+	_map->setPosition(0, -45);
 	_map->setAnchorPoint(Vec2(0, 0));
 	_layer->addChild(_map);
 
@@ -30,41 +32,22 @@ bool TopScene::init()
 	K_listner->onKeyReleased = CC_CALLBACK_2(TopScene::onKeyReleased, this);
 	instance->getEventDispatcher()->addEventListenerWithSceneGraphPriority(K_listner, this);
 
-	//---월드 생성---
 
+	b2Vec2 gravity = b2Vec2(0.0f, -9.8f);
 
-
-	//중력의 작용 방향
-	b2Vec2 gravity = b2Vec2(0.0f, -20.0f);
-
-	//월드 생성
 	_world = new b2World(gravity);
 
-	//아무 것도 안 하고 있을 때 바디들의 처리
-	_world->SetAllowSleeping(true);
-
-	//물리연산을 계속해서 수행할 건지의 여부
-	_world->SetContinuousPhysics(true);
-
-
-
-	//바디 정보
 	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0, 0);
+	groundBodyDef.position.Set(0, -0);
 
-	//groundBodyDef의 정보를 가져와 바디를 만든다
 	b2Body* groundBody = _world->CreateBody(&groundBodyDef);
 
-	//추후 테두리를 그릴 오브젝트 만들기
 	b2EdgeShape groundEdge;
 	b2FixtureDef boxShapeDef;
 	boxShapeDef.shape = &groundEdge;
 
-	//ground 객체에 Set으로 선을 생성
-	//이후 바디(groundBody)에 모양(groundEdge)을 접목시켜 고정
-
 	//아랫쪽
-	groundEdge.Set(b2Vec2(0, 0), b2Vec2(2000 / PTM_RATIO, 0));
+	groundEdge.Set(b2Vec2(0, 170 / PTM_RATIO), b2Vec2(2000 / PTM_RATIO, 170 / PTM_RATIO));
 	groundBody->CreateFixture(&boxShapeDef);
 
 	//윗쪽
@@ -73,14 +56,13 @@ bool TopScene::init()
 	groundBody->CreateFixture(&boxShapeDef);
 
 	//왼쪽
-	groundEdge.Set(b2Vec2(0, 0), b2Vec2(0, 800 / PTM_RATIO));
+	groundEdge.Set(b2Vec2(0, 170 / PTM_RATIO), b2Vec2(0, 800 / PTM_RATIO));
 	groundBody->CreateFixture(&boxShapeDef);
 
 	//오른쪽
 	groundEdge.Set(b2Vec2(2000 / PTM_RATIO, 800 / PTM_RATIO),
-		b2Vec2(2000 / PTM_RATIO, 0));
+		b2Vec2(2000 / PTM_RATIO, 170 / PTM_RATIO));
 	groundBody->CreateFixture(&boxShapeDef);
-
 
 	this->schedule(schedule_selector(TopScene::tick));
 
@@ -100,7 +82,6 @@ void TopScene::tick(float delta)
 		}*/
 	}
 	
-
 	//Box2D 매뉴얼 상의 권장수치
 	int velocityIterations = 8;
 	int positionIterations = 3;

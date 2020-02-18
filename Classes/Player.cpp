@@ -333,8 +333,8 @@ void Player::tick()
 		}
 	}
 
-	if (_player->getPositionY() < 250) {
-		_player->setPositionY(250);
+	if (_player->getPositionY() < 205) {
+		_player->setPositionY(205);
 		setFoot();
 	}
 }
