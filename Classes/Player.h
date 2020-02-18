@@ -22,8 +22,8 @@ private:
 	vector<Item*> _item;
 	Equip* _equip;
 
-	int _isStand, _isLeft, _isRight, _isJump;
-	bool _isDead, _isFoot, _isRange, _isAttack;
+	int _isStand, _isLeft, _isRight, _isJump, _isRange;
+	bool _isDead, _isFoot, _isAttack;
 	float _jPow;
 	
 
@@ -38,6 +38,7 @@ public:
 	void setJump();
 	void setAttack();
 	void setAttack_Frame(int frame);
+	void setRange(int n);
 	void setHit();
 	void setDead();
 	void setWay(bool way);

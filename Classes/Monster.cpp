@@ -36,7 +36,6 @@ Monster::Monster(Layer* layer, b2World* world) {
 	fixtureDef.restitution = 0.25f;
 
 	_body->CreateFixture(&fixtureDef);
-	
 }
 
 Monster::~Monster()
@@ -48,6 +47,9 @@ Monster::~Monster()
 
 void Monster::tick()
 {
+	if (player->getPlayer()->boundingBox().intersectsRect(_monster->boundingBox())) {
+		
+	}
 	//_monster->setPositionY(_monster->getPositionY() - 5);
 
 	/*_jPow += 0.1f;

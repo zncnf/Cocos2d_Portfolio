@@ -15,12 +15,12 @@ bool TopScene::init()
 	this->addChild(_layer);
 
 	_bg = Sprite::create("Map/배경.png");
-	_bg->setPosition(0, -45);
+	_bg->setPosition(0, -43);
 	_bg->setAnchorPoint(Vec2(0, 0));
 	_layer->addChild(_bg);
 
 	_map = Sprite::create("Map/헤네사냥터.png");
-	_map->setPosition(0, -45);
+	_map->setPosition(0, -43);
 	_map->setAnchorPoint(Vec2(0, 0));
 	_layer->addChild(_map);
 
@@ -72,10 +72,23 @@ bool TopScene::init()
 void TopScene::tick(float delta)
 {
 	player->tick();
+	/*system("cls");
+	log("%f\n%f\n%f\n%f\n%f\n%f", player->getPlayer()->boundingBox().getMaxX(),
+		player->getPlayer()->boundingBox().getMaxY(),
+		player->getPlayer()->boundingBox().getMidX(),
+		player->getPlayer()->boundingBox().getMidY(),
+		player->getPlayer()->boundingBox().getMinX(),
+		player->getPlayer()->boundingBox().getMinY());*/
 	if(cuey->rand(0,5) == 0) 
 	_monster.pushBack(new Monster(_layer, _world));
 	for (int i = 0; i < _monster.size(); i++) {
 		_monster.at(i)->tick();
+		//log("%f, %f", _monster.back()->getPositionX(), _monster.back()->getPositionY());
+
+		if (player->getPlayer()->boundingBox().intersectsRect(_monster.at(i)->getMonster()->boundingBox())) {
+			//player->setRange(i);
+			//log("%f / %f", player->getPlayer()->boundingBox().getMaxX(), _monster.at(i)->getMonster()->boundingBox());
+		}
 		/*if (_monster.at(i)->getMonster()->getPositionY() < 100) {
 			delete _monster.at(i);
 			_monster.erase(_monster.begin() + i);
@@ -99,6 +112,14 @@ void TopScene::tick(float delta)
 			spriteData->setPosition(
 				Vec2(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO));
 			spriteData->setRotation(-1 * CC_RADIANS_TO_DEGREES(b->GetAngle()));
+
+			/*log("%f\n%f\n%f\n%f\n%f\n%f", spriteData->boundingBox().getMaxX(),
+				spriteData->boundingBox().getMaxY(),
+				spriteData->boundingBox().getMidX(),
+				spriteData->boundingBox().getMidY(),
+				spriteData->boundingBox().getMinX(),
+				spriteData->boundingBox().getMinY());*/
+			
 		}
 	}
 	

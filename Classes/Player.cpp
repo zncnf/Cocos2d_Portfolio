@@ -9,6 +9,7 @@ Player::Player()
 
 	//플레이어 생성
 	_player = Layer::create();
+	_player->setAnchorPoint(Vec2(0, 0));
 	_player->setPosition(500, 500);
 
 	_body = Sprite::createWithSpriteFrameName("player_stand_0_body.png");
@@ -27,7 +28,6 @@ Player::Player()
 	_lhand = Sprite::createWithSpriteFrameName("player_jump_0_lhand.png");
 	_lhand->setVisible(false);
 	_player->addChild(_lhand, 25);
-	
 	_equip = new Equip(_player);
 
 	Vector<SpriteFrame*> frame[4];
@@ -67,8 +67,8 @@ Player::Player()
 	_isLeft = 0;
 	_isRight = 0;
 	_isJump = 0;
+	_isRange = -1;
 	_isAttack = false;
-	_isRange = false;
 	_isFoot = false;
 	_isDead = false;
 	_jPow = 0;
@@ -176,6 +176,7 @@ void Player::setAttack_Frame(int frame)
 		else if (_isLeft == 2) _isLeft = 1;
 		else if (_isRight == 2) _isRight = 1;
 		_isAttack = false;
+		_isRange = -1;
 	}
 	else if(_isAttack) {
 		_body->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_swing_%d_body.png", frame)));
@@ -184,6 +185,11 @@ void Player::setAttack_Frame(int frame)
 
 		_equip->setAttack(frame);
 	};
+}
+
+void Player::setRange(int n)
+{
+	_isRange = n;
 }
 
 void Player::setHit()
@@ -220,7 +226,7 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 			if (_isLeft == 2) _isLeft = 1;
 			break;
 		case EventKeyboard::KeyCode::KEY_CTRL:
-			_isRange = !_isRange;
+			_isRange = _isRange == -1 ? 0 : -1;
 			break;
 		case EventKeyboard::KeyCode::KEY_ALT:
 			if (_isFoot) {
@@ -301,7 +307,7 @@ void Player::tick()
 			}
 		}
 		if (!_isAttack) {
-			if (_isRange) {
+			if (_isRange != -1) {
 				_isStand = 1;
 				if (_isJump == 2) _isJump = 1;
 				_isAttack = true;
@@ -312,7 +318,7 @@ void Player::tick()
 			}
 		} 
 		if (!_isFoot) {
-			_jPow += 0.5f;
+			_jPow += 0.4f;
 			_player->setPositionY(_player->getPositionY() - _jPow);
 		}
 	}
@@ -333,8 +339,8 @@ void Player::tick()
 		}
 	}
 
-	if (_player->getPositionY() < 205) {
-		_player->setPositionY(205);
+	if (_player->getPositionY() < 207) {
+		_player->setPositionY(207);
 		setFoot();
 	}
 }

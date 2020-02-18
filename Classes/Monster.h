@@ -1,5 +1,6 @@
 #pragma once
 #include "Cuey.h"
+#include "Player.h"
 
 #define PTM_RATIO 32
 
