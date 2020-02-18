@@ -1,11 +1,14 @@
 #pragma once
 #include "Cuey.h"
 
+#define PTM_RATIO 32
+
 class Monster : public Scene {
 private:
-	
-	SpriteFrameCache* _cache;
 
+	b2World* _world;
+
+	b2Body* body;
 	Layer* _layer;
 
 	Sprite* _monster;
@@ -14,7 +17,7 @@ private:
 	float _jPow;
 
 public:
-	Monster(Layer* layer);
+	Monster(Layer* layer, b2World* world);
 	~Monster();
 	
 	Sprite* getMonster() { return _monster; }

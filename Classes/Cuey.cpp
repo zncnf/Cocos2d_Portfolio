@@ -2,6 +2,11 @@
 
 Cuey* Cuey::Instance = nullptr;
 
+Cuey::Cuey()
+{
+	_cache = SpriteFrameCache::getInstance();
+}
+
 Cuey * Cuey::getInstance()
 {
 	if (Instance == nullptr) {

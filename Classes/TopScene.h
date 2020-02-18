@@ -3,6 +3,8 @@
 #include "Player.h"
 #include "Monster.h"
 
+#define PTM_RATIO 32
+
 class TopScene : public Scene
 {
 private:
@@ -10,6 +12,8 @@ private:
 	Sprite *_bg, *_map;
 
 	Vector<Monster*> _monster;
+
+	b2World* _world;
 
 	int _gold, _time;
 
