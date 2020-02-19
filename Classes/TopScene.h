@@ -13,8 +13,6 @@ private:
 
 	Vector<Monster*> _monster;
 
-	b2World* _world;
-
 	int _gold, _time;
 
 public:

@@ -7,17 +7,18 @@
 class Monster : public Scene {
 private:
 
-	b2World* _world;
-
-	b2Body* _body;
 	Layer* _layer;
 
 	Sprite* _monster;
+	Action* _rotate;
+
+	int _phase;
 
 	float _atk, _hp, _hpm, _delay;
+	float _jPow;
 
 public:
-	Monster(Layer* layer, b2World* world);
+	Monster(Layer* layer);
 	~Monster();
 	
 	Sprite* getMonster() { return _monster; }

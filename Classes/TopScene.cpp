@@ -32,38 +32,6 @@ bool TopScene::init()
 	K_listner->onKeyReleased = CC_CALLBACK_2(TopScene::onKeyReleased, this);
 	instance->getEventDispatcher()->addEventListenerWithSceneGraphPriority(K_listner, this);
 
-
-	b2Vec2 gravity = b2Vec2(0.0f, -9.8f);
-
-	_world = new b2World(gravity);
-
-	b2BodyDef groundBodyDef;
-	groundBodyDef.position.Set(0, -0);
-
-	b2Body* groundBody = _world->CreateBody(&groundBodyDef);
-
-	b2EdgeShape groundEdge;
-	b2FixtureDef boxShapeDef;
-	boxShapeDef.shape = &groundEdge;
-
-	//아랫쪽
-	groundEdge.Set(b2Vec2(0, 170 / PTM_RATIO), b2Vec2(2000 / PTM_RATIO, 170 / PTM_RATIO));
-	groundBody->CreateFixture(&boxShapeDef);
-
-	//윗쪽
-	groundEdge.Set(b2Vec2(0, 800 / PTM_RATIO),
-		b2Vec2(2000 / PTM_RATIO, 800 / PTM_RATIO));
-	groundBody->CreateFixture(&boxShapeDef);
-
-	//왼쪽
-	groundEdge.Set(b2Vec2(0, 170 / PTM_RATIO), b2Vec2(0, 800 / PTM_RATIO));
-	groundBody->CreateFixture(&boxShapeDef);
-
-	//오른쪽
-	groundEdge.Set(b2Vec2(2000 / PTM_RATIO, 800 / PTM_RATIO),
-		b2Vec2(2000 / PTM_RATIO, 170 / PTM_RATIO));
-	groundBody->CreateFixture(&boxShapeDef);
-
 	this->schedule(schedule_selector(TopScene::tick));
 
 	return true;
@@ -72,55 +40,14 @@ bool TopScene::init()
 void TopScene::tick(float delta)
 {
 	player->tick();
-	/*system("cls");
-	log("%f\n%f\n%f\n%f\n%f\n%f", player->getPlayer()->boundingBox().getMaxX(),
-		player->getPlayer()->boundingBox().getMaxY(),
-		player->getPlayer()->boundingBox().getMidX(),
-		player->getPlayer()->boundingBox().getMidY(),
-		player->getPlayer()->boundingBox().getMinX(),
-		player->getPlayer()->boundingBox().getMinY());*/
 	if(cuey->rand(0,5) == 0) 
-	_monster.pushBack(new Monster(_layer, _world));
+	_monster.pushBack(new Monster(_layer));
 	for (int i = 0; i < _monster.size(); i++) {
 		_monster.at(i)->tick();
-		//log("%f, %f", _monster.back()->getPositionX(), _monster.back()->getPositionY());
-
-		if (player->getPlayer()->boundingBox().intersectsRect(_monster.at(i)->getMonster()->boundingBox())) {
-			//player->setRange(i);
-			//log("%f / %f", player->getPlayer()->boundingBox().getMaxX(), _monster.at(i)->getMonster()->boundingBox());
-		}
 		/*if (_monster.at(i)->getMonster()->getPositionY() < 100) {
 			delete _monster.at(i);
 			_monster.erase(_monster.begin() + i);
 		}*/
-	}
-	
-	//Box2D 매뉴얼 상의 권장수치
-	int velocityIterations = 8;
-	int positionIterations = 3;
-
-	//Step : 물리 세계를 시뮬레이션한다.
-	_world->Step(delta, velocityIterations, positionIterations);
-
-	//모든 물리 객체들은 링크드 리스트에 저장되어 참조해볼 수 있도록 구현되어 있다.
-	//만들어진 객체만큼 루프를 돌리면서 바디에 붙인 스프라이트를 여기서 제어한다.
-	for (b2Body* b = _world->GetBodyList(); b; b = b->GetNext())
-	{
-		if (b->GetUserData() != nullptr)
-		{
-			Sprite* spriteData = (Sprite*)b->GetUserData();
-			spriteData->setPosition(
-				Vec2(b->GetPosition().x * PTM_RATIO, b->GetPosition().y * PTM_RATIO));
-			spriteData->setRotation(-1 * CC_RADIANS_TO_DEGREES(b->GetAngle()));
-
-			/*log("%f\n%f\n%f\n%f\n%f\n%f", spriteData->boundingBox().getMaxX(),
-				spriteData->boundingBox().getMaxY(),
-				spriteData->boundingBox().getMidX(),
-				spriteData->boundingBox().getMidY(),
-				spriteData->boundingBox().getMinX(),
-				spriteData->boundingBox().getMinY());*/
-			
-		}
 	}
 	
 
@@ -131,7 +58,7 @@ void TopScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 	player->onKeyPressed(keyCode, event);
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_M:
-		_monster.pushBack(new Monster(_layer, _world));
+		_monster.pushBack(new Monster(_layer));
 		break;
 	}
 }
