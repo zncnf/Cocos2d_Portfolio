@@ -40,7 +40,7 @@ bool TopScene::init()
 void TopScene::tick(float delta)
 {
 	player->tick();
-	if(cuey->rand(0,5) == 0) 
+	if(cuey->rand(0,50) == 0) 
 	_monster.pushBack(new Monster(_layer));
 	for (int i = 0; i < _monster.size(); i++) {
 		_monster.at(i)->tick();
