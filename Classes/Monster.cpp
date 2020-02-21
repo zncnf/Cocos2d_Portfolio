@@ -7,7 +7,7 @@ Monster::Monster(Layer* layer) {
 	_layer = layer;
 
 	_monster = Sprite::createWithSpriteFrameName("grinSnail_stand_0.png");
-	_monster->setPosition(cuey->rand(10, 1960), 720);
+	_monster->setPosition(cuey->rand(100, 1890), 720);
 	//_monster->setAnchorPoint(Vec2(0, 0));
 	_layer->addChild(_monster);
 
@@ -54,7 +54,7 @@ void Monster::tick()
 		break;
 	case 3:
 		_monster->cleanup();
-		switch (cuey->rand(0, 3)) {
+		switch (cuey->rand(0, 1)) {
 		case 0:
 			_monster->setSpriteFrame("grinSnail_stand_0.png");
 			_state = STAND;
@@ -67,17 +67,30 @@ void Monster::tick()
 			}
 			_monster->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame, 0.2f))));
 			_state = MOVE;
+			if (cuey->rand(0, 1000) < 500) {
+				_way = LEFT;
+				_monster->setFlippedX(false);
+			}
+			else {
+				_way = RIGHT;
+				_monster->setFlippedX(true);
+			}
 			break;
 		}
 		setPhase(-1);
-		this->runAction(Sequence::create(
-			DelayTime::create(1),
+		_monster->runAction(Sequence::create(
+			DelayTime::create(2),
 			CallFunc::create(CC_CALLBACK_0(Monster::setPhase, this, 3)),
 			nullptr));
 		break;
 	}
+	
 	if (_state == MOVE) {
-		if (_way == LEFT) _monster->setPositionX(_monster->getPositionX() - 1);
-		else _monster->setPositionX(_monster->getPositionX() + 1);
+		if (_monster->getPositionX() > 20) {
+			if (_way == LEFT) _monster->setPositionX(_monster->getPositionX() - 1);
+		}
+		if (_monster->getPositionX() < 1960) {
+			if (_way == RIGHT) _monster->setPositionX(_monster->getPositionX() + 1);
+		}
 	}
 }
