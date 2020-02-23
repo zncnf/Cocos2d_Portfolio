@@ -26,6 +26,8 @@ private:
 	float _atk, _hp, _hpm, _delay;
 	float _jPow;
 
+	bool _isFollow;
+
 	WAY _way;
 	STATE _state;
 

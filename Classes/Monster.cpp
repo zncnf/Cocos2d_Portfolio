@@ -14,6 +14,8 @@ Monster::Monster(Layer* layer) {
 	_jPow = 0;
 	_phase = 0;
 
+	_isFollow = false;
+
 	_way = LEFT;
 	_state = STAND;
 }
