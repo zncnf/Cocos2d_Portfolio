@@ -27,6 +27,8 @@ private:
 	
 	Layer* _layer;
 
+	Action *action1, *action2, *action3, *action4;
+
 	vector<Weapon*> _myWeapon;
 	vector<Armor*> _myArmor;
 	vector<Shoes*> _myShoes;
@@ -52,6 +54,8 @@ public:
 	void mountWeapon(int n);
 	void mountArmor(int n);
 	void mountShoes(int n);
+
+	void clean();
 
 	int getMyWeaponSize() { return _myWeapon.size(); }
 	Sprite* getMyWeaponIcon(int n) { return _myWeapon.at(n)->icon; }

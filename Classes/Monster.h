@@ -19,6 +19,7 @@ private:
 	Layer* _layer;
 
 	Sprite* _monster;
+	Sprite* _rect;
 	Action* _rotate;
 
 	int _phase;
@@ -36,10 +37,19 @@ public:
 	~Monster();
 	
 	Sprite* getMonster() { return _monster; }
+	Rect getRect() { return Rect(_monster->getPositionX() - _monster->getContentSize().width/2, _monster->getPositionY() - _monster->getContentSize().height/2,
+								_monster->getContentSize().width, _monster->getContentSize().height); }
+	bool getIsFollow() { return _isFollow; }
+
+	void setFollow() { _isFollow = true; }
+
+	void viewRect(bool view) { _rect->setVisible(view); }
 	
 	void tick();
 
 private:
 
 	void setPhase(int n) { _phase = n; }
+	void setWay(bool way);
+	
 };

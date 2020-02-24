@@ -10,6 +10,15 @@ Equip::Equip(Layer* layer)
 
 	_layer = layer;
 
+	action1 = new Action;
+	action1->setFlags(10);
+	action2 = new Action;
+	action2->setFlags(10);
+	action3 = new Action;
+	action3->setFlags(10);
+	action4 = new Action;
+	action4->setFlags(10);
+
 	setWeapon("¸ùµÕÀÌ");
 	setArmor("»ç·É°ü ½´Æ®");
 	setShoes("¾ß±¤ ½Å¹ß");
@@ -84,6 +93,8 @@ void Equip::setShoes(String name)
 
 void Equip::setStand()
 {
+	clean();
+
 	Vector<SpriteFrame*> frame[4];
 
 	for (int i = 0; i < 3; i++) {
@@ -92,10 +103,18 @@ void Equip::setStand()
 		frame[2].pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_stand_%d_arm.png", _mountArmor->code.getCString(), i)));
 		frame[3].pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_stand_%d_0.png", _mountShoes->code.getCString(), i)));
 	}
-	_mountWeapon->sprite->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[0], 0.5f))));
-	_mountArmor->body->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[1], 0.5f))));
-	_mountArmor->arm->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[2], 0.5f))));
-	_mountShoes->sprite->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[3], 0.5f))));
+	action1 = RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[0], 0.5f)));
+	_mountWeapon->sprite->runAction(action1);
+
+	action2 = RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[1], 0.5f)));
+	_mountArmor->body->runAction(action2);
+
+	action3 = RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[2], 0.5f)));
+	_mountArmor->arm->runAction(action3);
+
+	action4 = RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[3], 0.5f)));
+	_mountShoes->sprite->runAction(action4);
+	
 	for (int i = 0; i < 4; i++) {
 		frame[i].clear();
 	}
@@ -103,6 +122,8 @@ void Equip::setStand()
 
 void Equip::setWalk()
 {
+	clean();
+	
 	Vector<SpriteFrame*> frame[4];
 
 	//¸ØÃã
@@ -112,10 +133,18 @@ void Equip::setWalk()
 		frame[2].pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_walk_%d_arm.png", _mountArmor->code.getCString(), i)));
 		frame[3].pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_walk_%d_0.png", _mountShoes->code.getCString(), i)));
 	}
-	_mountWeapon->sprite->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[0], 0.18f))));
-	_mountArmor->body->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[1], 0.18f))));
-	_mountArmor->arm->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[2], 0.18f))));
-	_mountShoes->sprite->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[3], 0.18f))));
+	action1 = RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[0], 0.18f)));
+	_mountWeapon->sprite->runAction(action1);
+
+	action2 = RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[1], 0.18f)));
+	_mountArmor->body->runAction(action2);
+
+	action3 = RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[2], 0.18f)));
+	_mountArmor->arm->runAction(action3);
+
+	action4 = RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[3], 0.18f)));
+	_mountShoes->sprite->runAction(action4);
+
 	for (int i = 0; i < 4; i++) {
 		frame[i].clear();
 	}
@@ -123,6 +152,8 @@ void Equip::setWalk()
 
 void Equip::setJump()
 {
+	clean();
+
 	_mountWeapon->sprite->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_jump_0_0.png", _mountWeapon->code.getCString())));
 	_mountArmor->body->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_jump_0_body.png", _mountArmor->code.getCString())));
 	_mountArmor->arm->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_jump_0_arm.png", _mountArmor->code.getCString())));
@@ -131,6 +162,8 @@ void Equip::setJump()
 
 void Equip::setAttack(int frame)
 {
+	clean();
+
 	_mountWeapon->sprite->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_swing_%d_0.png", _mountWeapon->code.getCString(), frame)));
 	_mountArmor->body->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_swing_%d_body.png", _mountArmor->code.getCString(), frame)));
 	_mountArmor->arm->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_swing_%d_arm.png", _mountArmor->code.getCString(), frame)));
@@ -198,4 +231,12 @@ void Equip::mountShoes(int n)
 		_myShoes.erase(_myShoes.begin() + n);
 		if (temp.getCString() != "") setShoes(temp);
 	}
+}
+
+void Equip::clean()
+{
+	_mountWeapon->sprite->cleanup();
+	_mountArmor->body->cleanup();
+	_mountArmor->arm->cleanup();
+	_mountShoes->sprite->cleanup();
 }

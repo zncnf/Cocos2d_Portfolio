@@ -10,7 +10,6 @@ Player::Player()
 	//ÇÃ·¹ÀÌ¾î »ý¼º
 	_player = Layer::create();
 	_player->setAnchorPoint(Vec2(0, 0));
-
 	_player->setPosition(500, 500);
 
 	_body = Sprite::createWithSpriteFrameName("player_stand_0_body.png");
@@ -31,13 +30,17 @@ Player::Player()
 	_player->addChild(_lhand, 25);
 	_equip = new Equip(_player);
 
-	Sprite* ads = Sprite::createWithTexture(nullptr,_body->getTextureRect());
-	_player->addChild(ads);
+	_rect = Sprite::createWithTexture(nullptr, {0,0,30,72});
+	_player->addChild(_rect);
+	_rect->setPosition(0, -13);
+	_rect->setTag(15);
+	_rect->setColor(Color3B::RED);
+	_rect->setOpacity(100);
+	_rect->setVisible(false);
 
-	Label* myLabel = Label::create("123", "fonts/arial.ttf", 25);
+	/*Label* myLabel = Label::create("123", "fonts/arial.ttf", 25);
 	myLabel->enableOutline(Color4B::WHITE, 1);
-	//myLabel->setPosition(_player->getPosition());
-	_player->addChild(myLabel, 50);
+	_player->addChild(myLabel, 50);*/
 
 	Vector<SpriteFrame*> frame[4];
 
@@ -77,9 +80,11 @@ Player::Player()
 	_isRight = 0;
 	_isJump = 0;
 	_isRange = -1;
+	_isHit = 0;
 	_isAttack = false;
 	_isFoot = false;
 	_isDead = false;
+	_way = false;
 	_jPow = 0;
 }
 
@@ -98,20 +103,29 @@ void Player::setLayer(Layer * layer)
 
 void Player::setStand()
 {
-	_player->cleanup();
-	auto action1 = RepeatForever::create(_stand.at(0));
-	_body->runAction(action1);
+	if (_isHit != 1) {
+		for (int i = 0; i < _player->getChildrenCount(); i++) {
+			_player->getChildren().at(i)->stopActionsByFlags(10);
+		}
+		_player->stopActionsByFlags(10);
 
-	auto action2 = RepeatForever::create(_stand.at(1));
-	_head->runAction(action2);
+		auto action1 = RepeatForever::create(_stand.at(0));
+		action1->setFlags(10);
+		_body->runAction(action1);
 
-	auto action3 = RepeatForever::create(_stand.at(2));
-	_arm->runAction(action3);
+		auto action2 = RepeatForever::create(_stand.at(1));
+		action2->setFlags(10);
+		_head->runAction(action2);
 
-	_rhand->setVisible(false);
-	_lhand->setVisible(false);
+		auto action3 = RepeatForever::create(_stand.at(2));
+		action3->setFlags(10);
+		_arm->runAction(action3);
 
-	_equip->setStand();
+		_rhand->setVisible(false);
+		_lhand->setVisible(false);
+
+		_equip->setStand();
+	}
 }
 
 void Player::setFoot()
@@ -130,52 +144,74 @@ void Player::setFoot()
 
 void Player::setWalk()
 {
-	_player->cleanup();
-	auto action1 = RepeatForever::create(_walk.at(0));
-	_body->runAction(action1);
+	if (_isHit != 1) {
+		for (int i = 0; i < _player->getChildrenCount(); i++) {
+			_player->getChildren().at(i)->stopActionsByFlags(10);
+		}
+		_player->stopActionsByFlags(10);
 
-	auto action2 = RepeatForever::create(_walk.at(1));
-	_head->runAction(action2);
+		auto action1 = RepeatForever::create(_walk.at(0));
+		action1->setFlags(10);
+		_body->runAction(action1);
 
-	auto action3 = RepeatForever::create(_walk.at(2));
-	_arm->runAction(action3);
+		auto action2 = RepeatForever::create(_walk.at(1));
+		action2->setFlags(10);
+		_head->runAction(action2);
 
-	_rhand->setVisible(false);
-	_lhand->setVisible(false);
- 
-	_equip->setWalk();
+		auto action3 = RepeatForever::create(_walk.at(2));
+		action3->setFlags(10);
+		_arm->runAction(action3);
+
+		_rhand->setVisible(false);
+		_lhand->setVisible(false);
+
+		_equip->setWalk();
+	}
 }
 
 void Player::setJump()
 {
-	_player->cleanup();
-	_body->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_jump_0_body.png")));
-	_head->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_jump_0_head.png")));
-	_arm->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_jump_0_arm.png")));
+	if (_isHit != 1) {
+		for (int i = 0; i < _player->getChildrenCount(); i++) {
+			_player->getChildren().at(i)->stopActionsByFlags(10);
+		}
+		_player->stopActionsByFlags(10);
 
-	_rhand->setVisible(true);
-	_lhand->setVisible(true);
+		_body->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_jump_0_body.png")));
+		_head->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_jump_0_head.png")));
+		_arm->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_jump_0_arm.png")));
 
-	_equip->setJump();
+		_rhand->setVisible(true);
+		_lhand->setVisible(true);
+
+		_equip->setJump();
+	}
 }
 
 void Player::setAttack()
 {
-	_player->cleanup();
-	auto action = RepeatForever::create(Sequence::create(
-		CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 0)),
-		DelayTime::create(0.35f),
-		CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 1)),
-		DelayTime::create(0.15f),
-		CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 2)),
-		DelayTime::create(0.35f),
-		CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 3)),
-		nullptr
-	));
-	_player->runAction(action);
+	if (_isHit != 1) {
+		for (int i = 0; i < _player->getChildrenCount(); i++) {
+			_player->getChildren().at(i)->stopActionsByFlags(10);
+		}
+		_player->stopActionsByFlags(10);
 
-	_rhand->setVisible(false);
-	_lhand->setVisible(false);
+		auto action = RepeatForever::create(Sequence::create(
+			CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 0)),
+			DelayTime::create(0.35f),
+			CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 1)),
+			DelayTime::create(0.15f),
+			CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 2)),
+			DelayTime::create(0.35f),
+			CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 3)),
+			nullptr
+		));
+		action->setFlags(10);
+		_player->runAction(action);
+
+		_rhand->setVisible(false);
+		_lhand->setVisible(false);
+	}
 }
 
 void Player::setAttack_Frame(int frame)
@@ -203,8 +239,29 @@ void Player::setRange(int n)
 
 void Player::setHit()
 {
-	_rhand->setVisible(false);
-	_lhand->setVisible(false);
+	if (_isHit == 0) {
+		_isHit = 1;
+		for (int i = 0; i < _player->getChildrenCount(); i++) {
+			if(_player->getChildren().at(i)->getTag() != 15) _player->getChildren().at(i)->setOpacity(150);
+		}
+		auto action = Sequence::create(
+			JumpBy::create(0.2f, Vec2(_way ? -15 : 15, 0), 10, 1),
+			CallFunc::create(CC_CALLBACK_0(Player::setHitCount, this, 2)),
+			DelayTime::create(2.0f),
+			CallFunc::create(CC_CALLBACK_0(Player::setHitCount, this, 0)),
+			nullptr);
+		_player->runAction(action);
+	}
+}
+
+void Player::setHitCount(int n)
+{
+	_isHit = n;
+	if (_isHit == 0) {
+		for (int i = 0; i < _player->getChildrenCount(); i++) {
+			if (_player->getChildren().at(i)->getTag() != 15) _player->getChildren().at(i)->setOpacity(255);
+		}
+	}
 }
 
 void Player::setDead()
@@ -218,6 +275,9 @@ void Player::setWay(bool way)
 	_body->setFlippedX(way);
 	_head->setFlippedX(way);
 	_arm->setFlippedX(way);
+	_rhand->setFlippedX(way);
+	_lhand->setFlippedX(way);
+	_way = way;
 
 	_equip->setWay(way);
 }
@@ -247,7 +307,7 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 			}
 			break;
 		case EventKeyboard::KeyCode::KEY_Q:
-			_equip->setWeapon("Æ©ºê");
+			//_equip->setWeapon("Æ©ºê");
 			log("Æ©ºêÈ¹µæ");
 			break;
 		case EventKeyboard::KeyCode::KEY_W:
@@ -256,7 +316,7 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 			}
 			break;
 		case EventKeyboard::KeyCode::KEY_E:
-			_equip->mountWeapon(0);
+			//_equip->mountWeapon(0);
 			setStand();
 			setAttack_Frame(3);
 			break;
@@ -281,7 +341,7 @@ void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event * event)
 
 void Player::tick()
 {
-	if (!_isDead) {
+	if (!_isDead && _isHit != 1) {
 		if (_isStand == 1) { //¸ØÃã 0, ´ë±â 1, Àû¿ë 2
 			if (_isLeft != 2 && _isRight != 2 && !_isAttack && _isFoot) {
 				setStand();

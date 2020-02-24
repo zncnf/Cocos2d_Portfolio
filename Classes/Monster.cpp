@@ -8,14 +8,20 @@ Monster::Monster(Layer* layer) {
 
 	_monster = Sprite::createWithSpriteFrameName("grinSnail_stand_0.png");
 	_monster->setPosition(cuey->rand(100, 1890), 720);
-	//_monster->setAnchorPoint(Vec2(0, 0));
+	
+	_rect = Sprite::createWithTexture(nullptr, _monster->boundingBox());
+	_monster->addChild(_rect, -1);
+	_rect->setAnchorPoint(Vec2(0, 0));
+	_rect->setColor(Color3B::RED);
+	_rect->setOpacity(100);
+	_rect->setVisible(false);
+
 	_layer->addChild(_monster);
 
 	_jPow = 0;
 	_phase = 0;
 
 	_isFollow = false;
-
 	_way = LEFT;
 	_state = STAND;
 }
@@ -64,12 +70,10 @@ void Monster::tick()
 			_monster->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame, 0.2f))));
 			_state = MOVE;
 			if (player->getPlayer()->getPositionX() < _monster->getPositionX()) {
-				_way = LEFT;
-				_monster->setFlippedX(false);
+				setWay(false);
 			}
 			else {
-				_way = RIGHT;
-				_monster->setFlippedX(true);
+				setWay(true);
 			}
 		}
 		else {
@@ -85,12 +89,10 @@ void Monster::tick()
 				_monster->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame, 0.2f))));
 				_state = MOVE;
 				if (cuey->rand(0, 1000) < 500) {
-					_way = LEFT;
-					_monster->setFlippedX(false);
+					setWay(false);
 				}
 				else {
-					_way = RIGHT;
-					_monster->setFlippedX(true);
+					setWay(true);
 				}
 				break;
 			}
@@ -111,4 +113,11 @@ void Monster::tick()
 			if (_way == RIGHT) _monster->setPositionX(_monster->getPositionX() + 1);
 		}
 	}
+}
+
+void Monster::setWay(bool way)
+{
+	_way = (WAY)way;
+	_monster->setFlippedX(way);
+	_rect->setFlippedX(way);
 }

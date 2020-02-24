@@ -15,6 +15,8 @@ private:
 
 	int _gold, _time;
 
+	bool _isViewRect;
+
 public:
 	static Scene* createScene();
 	virtual bool init();

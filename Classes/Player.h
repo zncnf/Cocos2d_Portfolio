@@ -14,6 +14,7 @@ private:
 	SpriteFrameCache* _cache;
 
 	Layer* _player;
+	Sprite* _rect;
 	Sprite *_body, *_head, *_arm, *_rhand, *_lhand;
 	Vector<Animate*> _stand, _walk;
 
@@ -22,8 +23,8 @@ private:
 	vector<Item*> _item;
 	Equip* _equip;
 
-	int _isStand, _isLeft, _isRight, _isJump, _isRange;
-	bool _isDead, _isFoot, _isAttack;
+	int _isStand, _isLeft, _isRight, _isJump, _isRange, _isHit;
+	bool _isDead, _isFoot, _isAttack, _way;
 	float _jPow;
 	
 
@@ -40,8 +41,11 @@ public:
 	void setAttack_Frame(int frame);
 	void setRange(int n);
 	void setHit();
+	void setHitCount(int n);
 	void setDead();
 	void setWay(bool way);
+
+	void viewRect(bool view) { _rect->setVisible(view); }
 
 	void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
 	void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
@@ -51,6 +55,8 @@ public:
 	Layer* getPlayer() { return _player; }
 	bool getIsLeft() { return _isLeft == 2 ? true : false; }
 	bool getIsRight() { return _isRight == 2 ? true : false; }
+	Rect getRect() { return Rect(_player->getPositionX() - 15, _player->getPositionY() - 36, 30, 72); }
+	bool getIsHit() { return _isHit; }
 
 	Item* getItem() { return _item.back(); }
 };
