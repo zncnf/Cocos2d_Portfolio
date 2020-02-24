@@ -10,6 +10,7 @@ Player::Player()
 	//플레이어 생성
 	_player = Layer::create();
 	_player->setAnchorPoint(Vec2(0, 0));
+
 	_player->setPosition(500, 500);
 
 	_body = Sprite::createWithSpriteFrameName("player_stand_0_body.png");
@@ -29,6 +30,14 @@ Player::Player()
 	_lhand->setVisible(false);
 	_player->addChild(_lhand, 25);
 	_equip = new Equip(_player);
+
+	Sprite* ads = Sprite::createWithTexture(nullptr,_body->getTextureRect());
+	_player->addChild(ads);
+
+	Label* myLabel = Label::create("123", "fonts/arial.ttf", 25);
+	myLabel->enableOutline(Color4B::WHITE, 1);
+	//myLabel->setPosition(_player->getPosition());
+	_player->addChild(myLabel, 50);
 
 	Vector<SpriteFrame*> frame[4];
 

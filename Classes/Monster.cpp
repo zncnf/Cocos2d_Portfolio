@@ -56,20 +56,14 @@ void Monster::tick()
 		break;
 	case 3:
 		_monster->cleanup();
-		switch (cuey->rand(0, 1)) {
-		case 0:
-			_monster->setSpriteFrame("grinSnail_stand_0.png");
-			_state = STAND;
-			break;
-		case 1:
-			Vector<SpriteFrame*> frame;
-
+		Vector<SpriteFrame*> frame;
+		if (_isFollow) {
 			for (int i = 0; i < 5; i++) {
 				frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("grinSnail_move_%d.png", i)));
 			}
 			_monster->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame, 0.2f))));
 			_state = MOVE;
-			if (cuey->rand(0, 1000) < 500) {
+			if (player->getPlayer()->getPositionX() < _monster->getPositionX()) {
 				_way = LEFT;
 				_monster->setFlippedX(false);
 			}
@@ -77,7 +71,29 @@ void Monster::tick()
 				_way = RIGHT;
 				_monster->setFlippedX(true);
 			}
-			break;
+		}
+		else {
+			switch (cuey->rand(0, 1)) {
+			case 0:
+				_monster->setSpriteFrame("grinSnail_stand_0.png");
+				_state = STAND;
+				break;
+			case 1:
+				for (int i = 0; i < 5; i++) {
+					frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("grinSnail_move_%d.png", i)));
+				}
+				_monster->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame, 0.2f))));
+				_state = MOVE;
+				if (cuey->rand(0, 1000) < 500) {
+					_way = LEFT;
+					_monster->setFlippedX(false);
+				}
+				else {
+					_way = RIGHT;
+					_monster->setFlippedX(true);
+				}
+				break;
+			}
 		}
 		setPhase(-1);
 		_monster->runAction(Sequence::create(
