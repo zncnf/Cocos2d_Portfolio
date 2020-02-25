@@ -37,7 +37,7 @@ public:
 	~Monster();
 	
 	Sprite* getMonster() { return _monster; }
-	Rect getRect() { return Rect(_monster->getPositionX() - _monster->getContentSize().width/2, _monster->getPositionY() - _monster->getContentSize().height/2,
+	Rect getRect() { return Rect(_monster->boundingBox().getMinX(), _monster->boundingBox().getMidY(),
 								_monster->getContentSize().width, _monster->getContentSize().height); }
 	bool getIsFollow() { return _isFollow; }
 

@@ -9,11 +9,13 @@ class TopScene : public Scene
 {
 private:
 	Layer* _layer;
-	Sprite *_bg, *_map;
+	Sprite *_bg, *_map, *_expBar;
+	Label *_goldLabel, *_timeLabel;
 
 	Vector<Monster*> _monster;
 
-	int _gold, _time;
+	int _gold;
+	float _time;
 
 	bool _isViewRect;
 

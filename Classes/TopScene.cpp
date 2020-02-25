@@ -28,6 +28,43 @@ bool TopScene::init()
 
 	player->setLayer(_layer);
 
+	_gold = 1000;
+	_time = 0;
+
+	_goldLabel = Label::create("123", "fonts/야놀자 야체Rehular.ttf", 35);
+	_goldLabel->setPosition(instance->getWinSize().width - 100, instance->getWinSize().height - 30);
+	_goldLabel->setColor(Color3B::YELLOW);
+	_goldLabel->enableOutline(Color4B(192, 128, 64, 255), 1);
+	this->addChild(_goldLabel, 50);
+
+	_timeLabel = Label::create(StringUtils::format("TIME   %02d : %02d", (int)_time / 60, (int)_time % 60), "fonts/야놀자 야체Rehular.ttf", 35);
+	_timeLabel->setPosition(instance->getWinSize().width - 400, instance->getWinSize().height - 30);
+	_timeLabel->setAnchorPoint(Vec2(0, 0.5));
+	//_timeLabel->setHorizontalAlignment(TextHAlignment::LEFT);
+	_timeLabel->setColor(Color3B(0, 255, 255));
+	_timeLabel->enableOutline(Color4B::BLUE, 1);
+	this->addChild(_timeLabel, 50);
+
+	{
+		auto _expLayer = Layer::create();
+		_expLayer->setPosition(640, 5);
+		this->addChild(_expLayer);
+
+		auto _expBar_back = Sprite::create("Map/exp_back.png");
+		_expLayer->addChild(_expBar_back, 1);
+
+		auto _expBar_back2 = Sprite::create("Map/exp_back2.png");
+		_expBar_back2->setScaleX(1.004);
+		_expBar_back2->setPositionX(7);
+		_expLayer->addChild(_expBar_back2, 3);
+
+		_expBar = Sprite::create("Map/exp.png");
+		_expBar->setScaleX(0);
+		_expBar->setPosition(-625, 0);
+		_expBar->setAnchorPoint(Vec2(0, 0.5f));
+		_expLayer->addChild(_expBar, 2);
+	}
+
 	//키보드 조작
 	auto K_listner = EventListenerKeyboard::create();
 	K_listner->onKeyPressed = CC_CALLBACK_2(TopScene::onKeyPressed, this);
@@ -41,6 +78,8 @@ bool TopScene::init()
 
 void TopScene::tick(float delta)
 {
+	_time += delta;
+	_timeLabel->setString(StringUtils::format("TIME   %02d : %02d", (int)_time / 60, (int)_time % 60));
 	player->tick();
 	if (cuey->rand(0, 500) == 0) {
 		_monster.pushBack(new Monster(_layer));

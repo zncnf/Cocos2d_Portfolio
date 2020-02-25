@@ -38,10 +38,6 @@ Player::Player()
 	_rect->setOpacity(100);
 	_rect->setVisible(false);
 
-	/*Label* myLabel = Label::create("123", "fonts/arial.ttf", 25);
-	myLabel->enableOutline(Color4B::WHITE, 1);
-	_player->addChild(myLabel, 50);*/
-
 	Vector<SpriteFrame*> frame[4];
 
 	//∏ÿ√„
