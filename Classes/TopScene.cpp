@@ -28,11 +28,12 @@ bool TopScene::init()
 
 	player->setLayer(_layer);
 
-	_gold = 1000;
+	_gold = 0;
 	_time = 0;
 
-	_goldLabel = Label::create("123", "fonts/具愁磊 具眉Rehular.ttf", 35);
+	_goldLabel = Label::create(StringUtils::format("%d", _gold), "fonts/具愁磊 具眉Rehular.ttf", 35);
 	_goldLabel->setPosition(instance->getWinSize().width - 100, instance->getWinSize().height - 30);
+	_goldLabel->setAnchorPoint(Vec2(0, 0.5));
 	_goldLabel->setColor(Color3B::YELLOW);
 	_goldLabel->enableOutline(Color4B(192, 128, 64, 255), 1);
 	this->addChild(_goldLabel, 50);
@@ -40,7 +41,6 @@ bool TopScene::init()
 	_timeLabel = Label::create(StringUtils::format("TIME   %02d : %02d", (int)_time / 60, (int)_time % 60), "fonts/具愁磊 具眉Rehular.ttf", 35);
 	_timeLabel->setPosition(instance->getWinSize().width - 400, instance->getWinSize().height - 30);
 	_timeLabel->setAnchorPoint(Vec2(0, 0.5));
-	//_timeLabel->setHorizontalAlignment(TextHAlignment::LEFT);
 	_timeLabel->setColor(Color3B(0, 255, 255));
 	_timeLabel->enableOutline(Color4B::BLUE, 1);
 	this->addChild(_timeLabel, 50);

@@ -46,6 +46,9 @@
     <Filter Include="src\Equip">
       <UniqueIdentifier>{1195ba1c-a938-4e73-aa20-1c0e4b69f36d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Skill">
+      <UniqueIdentifier>{cea75389-d699-49e0-bd93-40a35f276118}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -96,6 +99,9 @@
     <ClCompile Include="..\Classes\Cuey.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Skill.cpp">
+      <Filter>src\Skill</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -145,6 +151,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Cuey.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Skill.h">
+      <Filter>src\Skill</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

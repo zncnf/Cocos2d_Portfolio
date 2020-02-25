@@ -161,6 +161,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Pet.cpp" />
     <ClCompile Include="..\Classes\Player.cpp" />
     <ClCompile Include="..\Classes\ShopScene.cpp" />
+    <ClCompile Include="..\Classes\Skill.cpp" />
     <ClCompile Include="..\Classes\SmeltScene.cpp" />
     <ClCompile Include="..\Classes\TopScene.cpp" />
     <ClCompile Include="..\Classes\TrainingPhysics.cpp" />
@@ -179,6 +180,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Pet.h" />
     <ClInclude Include="..\Classes\Player.h" />
     <ClInclude Include="..\Classes\ShopScene.h" />
+    <ClInclude Include="..\Classes\Skill.h" />
     <ClInclude Include="..\Classes\SmeltScene.h" />
     <ClInclude Include="..\Classes\TopScene.h" />
     <ClInclude Include="..\Classes\TrainingPhysics.h" />
