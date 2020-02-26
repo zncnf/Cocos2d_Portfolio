@@ -4,8 +4,7 @@ Player* Player::Instance = nullptr;
 
 Player::Player()
 {
-	_cache = SpriteFrameCache::getInstance();
-	_cache->addSpriteFramesWithFile("Player/Player.plist");
+	cache->addSpriteFramesWithFile("Player/Player.plist");
 
 	//플레이어 생성
 	_player = Layer::create();
@@ -28,7 +27,10 @@ Player::Player()
 	_lhand = Sprite::createWithSpriteFrameName("player_jump_0_lhand.png");
 	_lhand->setVisible(false);
 	_player->addChild(_lhand, 25);
+
 	_equip = new Equip(_player);
+
+	_skill = new Skill(_player);
 
 	_rect = Sprite::createWithTexture(nullptr, {0,0,30,72});
 	_player->addChild(_rect);
@@ -191,7 +193,7 @@ void Player::setAttack()
 			_player->getChildren().at(i)->stopActionsByFlags(10);
 		}
 		_player->stopActionsByFlags(10);
-
+		_skill->playNormal();
 		auto action = RepeatForever::create(Sequence::create(
 			CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 0)),
 			DelayTime::create(0.35f),

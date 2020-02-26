@@ -22,8 +22,6 @@ private:
 		String name, code;
 		float speed;
 	};
-
-	SpriteFrameCache* _cache;
 	
 	Layer* _layer;
 

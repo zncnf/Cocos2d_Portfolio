@@ -35,13 +35,13 @@ using namespace experimental;
 
 #define cuey Cuey::getInstance()
 #define instance Director::getInstance()
+#define cache SpriteFrameCache::getInstance()
 
 class Cuey
 {
 private:
 	Cuey();
 	static Cuey* Instance;
-	SpriteFrameCache* _cache;
 	
 public:
 	static Cuey* getInstance();
@@ -49,5 +49,4 @@ public:
 	int rand(int min, int max);
 	Size winsize() { return instance->getWinSize(); }
 	Texture2D* texture(char* name) { return instance->getTextureCache()->addImage(name); }
-	SpriteFrameCache* cache() { return _cache; }
 };

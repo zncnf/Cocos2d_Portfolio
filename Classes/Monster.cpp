@@ -2,7 +2,7 @@
 
 Monster::Monster(Layer* layer) {
 
-	cuey->cache()->addSpriteFramesWithFile("Monster/grinSnail.plist");
+	cache->addSpriteFramesWithFile("Monster/grinSnail.plist");
 
 	_layer = layer;
 

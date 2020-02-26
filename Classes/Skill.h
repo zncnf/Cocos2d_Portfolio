@@ -5,44 +5,51 @@ class Skill : public Scene
 {
 private:
 	struct Normal {
-		Sprite *icon, *iconRaw;
-		Sprite* sprite;
+		Sprite *icon;
+		Sprite *attack, *hit;
 		String name, code;
-		float atk;
-	};
-	struct Special {
-		Sprite *icon, *iconRaw;
-		Sprite *body, *arm;
-		String name, code;
-		float life;
-	};
-	struct Passive {
-		Sprite *icon, *iconRaw;
-		Sprite* sprite;
-		String name, code;
-		float speed;
+		float atkf;
+		int count, atkCount, hitCount;
 	};
 
-	SpriteFrameCache* _cache;
+	enum SPECIALKIND {
+		ATTACK = 0,
+		BUF
+	};
+
+	struct Special {
+		SPECIALKIND kind;
+		Sprite *icon;
+		Sprite *sprite, *Hit;
+		String name, code;
+		float statsf, delay;
+	};
+
+	struct Passive {
+		Sprite *icon;
+		Sprite* sprite;
+		String name, code;
+		float statsf;
+	};
 
 	Layer* _layer;
 
 	Action *action1, *action2, *action3, *action4;
 
-	vector<Normal*> _myWeapon;
-	vector<Special*> _myArmor;
-	vector<Passive*> _myShoes;
+	vector<Normal*> _myNormal;
+	vector<Special*> _mySpecial;
+	vector<Passive*> _myPassive;
 
-	Normal* _mountWeapon;
-	Special* _mountArmor;
-	Passive* _mountShoes;
+	Normal* _mountNormal;
+	Special* _mountSpecial;
+	Passive* _mountPassive;
 
 public:
-	//Skill(Layer* layer);
+	Skill(Layer* layer);
 
-	void setWeapon(String name);
-	void setArmor(String name);
-	void setShoes(String name);
+	void setNormal(String name);
+	void setSpecial(String name);
+	void setPassive(String name);
 
 	void setStand();
 	void setWalk();
@@ -51,27 +58,26 @@ public:
 	void setDead();
 	void setWay(bool way);
 
-	void mountWeapon(int n);
-	void mountArmor(int n);
-	void mountShoes(int n);
+	void mountNormal(int n);
+	void mountSpecial(int n);
+	void mountPassive(int n);
+
+	void playNormal();
 
 	void clean();
 
-	int getMyWeaponSize() { return _myWeapon.size(); }
-	Sprite* getMyWeaponIcon(int n) { return _myWeapon.at(n)->icon; }
-	Sprite* getMyWeaponIconRaw(int n) { return _myWeapon.at(n)->iconRaw; }
-	String getMyWeaponName(int n) { return _myWeapon.at(n)->name; }
-	float getMyWeaponAtk(int n) { return _myWeapon.at(n)->atk; }
+	int getMyNormalSize() { return _myNormal.size(); }
+	Sprite* getMyNormalIcon(int n) { return _myNormal.at(n)->icon; }
+	String getMyNormalName(int n) { return _myNormal.at(n)->name; }
+	float getMyNormalAtkf(int n) { return _myNormal.at(n)->atkf; }
 
-	int getMyArmorSize() { return _myArmor.size(); }
-	Sprite* getMyArmorIcon(int n) { return _myArmor.at(n)->icon; }
-	Sprite* getMyArmorIconRaw(int n) { return _myArmor.at(n)->iconRaw; }
-	String getMyArmorName(int n) { return _myArmor.at(n)->name; }
-	float getMyArmorAtk(int n) { return _myArmor.at(n)->life; }
+	int getMySpecialSize() { return _mySpecial.size(); }
+	Sprite* getMySpecialIcon(int n) { return _mySpecial.at(n)->icon; }
+	String getMySpecialName(int n) { return _mySpecial.at(n)->name; }
+	/*float getMySpecialAtk(int n) { return _mySpecial.at(n)->life; }*/
 
-	int getMyShoesSize() { return _myShoes.size(); }
-	Sprite* getMyShoesIcon(int n) { return _myShoes.at(n)->icon; }
-	Sprite* getMyShoesIconRaw(int n) { return _myShoes.at(n)->iconRaw; }
-	String getMyShoesName(int n) { return _myShoes.at(n)->name; }
-	float getMyShoesAtk(int n) { return _myShoes.at(n)->speed; }
+	int getMyPassiveSize() { return _myPassive.size(); }
+	Sprite* getMyPassiveIcon(int n) { return _myPassive.at(n)->icon; }
+	String getMyPassiveName(int n) { return _myPassive.at(n)->name; }
+	/*float getMyPassiveAtk(int n) { return _myPassive.at(n)->speed; }*/
 };

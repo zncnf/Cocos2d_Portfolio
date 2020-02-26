@@ -2,6 +2,7 @@
 #include "Cuey.h"
 #include "Item.h"
 #include "Equip.h"
+#include "Skill.h"
 
 #define player Player::getInstance()
 
@@ -10,8 +11,6 @@ class Player : public Scene
 private:
 	static Player* Instance;
 	Player();
-
-	SpriteFrameCache* _cache;
 
 	Layer* _player;
 	Sprite* _rect;
@@ -22,11 +21,11 @@ private:
 	int _lv, _exp, _expm, _gold;
 	vector<Item*> _item;
 	Equip* _equip;
+	Skill* _skill;
 
 	int _isStand, _isLeft, _isRight, _isJump, _isRange, _isHit;
 	bool _isDead, _isFoot, _isAttack, _way;
 	float _jPow;
-	
 
 public:
 	static Player* getInstance();

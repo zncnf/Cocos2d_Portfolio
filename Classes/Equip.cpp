@@ -2,11 +2,10 @@
 
 Equip::Equip(Layer* layer)
 {
-	_cache = SpriteFrameCache::getInstance(); 
-	_cache->addSpriteFramesWithFile("Equip/Weapon/stick.plist");
-	_cache->addSpriteFramesWithFile("Equip/Weapon/tube.plist");
-	_cache->addSpriteFramesWithFile("Equip/Armor/commander.plist");
-	_cache->addSpriteFramesWithFile("Equip/Shoes/luminous.plist");
+	cache->addSpriteFramesWithFile("Equip/Weapon/stick.plist");
+	cache->addSpriteFramesWithFile("Equip/Weapon/tube.plist");
+	cache->addSpriteFramesWithFile("Equip/Armor/commander.plist");
+	cache->addSpriteFramesWithFile("Equip/Shoes/luminous.plist");
 
 	_layer = layer;
 

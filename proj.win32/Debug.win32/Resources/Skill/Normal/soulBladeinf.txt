@@ -1,0 +1,5 @@
+soulBlade_icon.png
+soulBlade_iconMouseOver.png
+soulBlade_iconDisabled.png
+soulBlade_attack_0.png	0~11
+soulBlade_hit_0.png		0~3
