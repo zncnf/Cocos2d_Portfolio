@@ -1,10 +1,10 @@
 #include "Skill.h"
 
-Skill::Skill(Layer * layer)
+Skill::Skill(Layer* player)
 {
-	cache->addSpriteFramesWithFile("Skill/Normal/soulBlade.plist");
+	_player = player;
 
-	_layer = layer;
+	cache->addSpriteFramesWithFile("Skill/Normal/soulBlade.plist");
 
 	setNormal("소울 블레이드");
 
@@ -14,7 +14,21 @@ Skill::Skill(Layer * layer)
 
 	mountNormal(0);
 
+	_mountNormal->rect = Sprite::createWithTexture(nullptr, _mountNormal->attack->boundingBox());
+	_mountNormal->rect->setAnchorPoint(Vec2(0, 0));
+	_mountNormal->rect->setColor(Color3B::RED);
+	_mountNormal->rect->setOpacity(100);
+//	_mountNormal->rect->setVisible(false);
+	_mountNormal->attack->addChild(_mountNormal->rect, -1);
+
+	_isWay = false;
+}
+
+void Skill::setLayer(Layer* layer)
+{
+	_layer = layer;
 	_layer->addChild(_mountNormal->attack);
+	_mountNormal->attack->setPosition(_player->getPosition());
 }
 
 void Skill::setNormal(String name)
@@ -24,10 +38,18 @@ void Skill::setNormal(String name)
 		Sprite::createWithSpriteFrameName("soulBlade_icon.png"),
 		Sprite::createWithSpriteFrameName("soulBlade_attack_0.png"),
 		Sprite::createWithSpriteFrameName("soulBlade_hit_0.png"),
+		nullptr,
 		"소울 블레이드",
 		"soulBlade",
 		1.0f, 1, 11, 3}));
 	}
+}
+
+void Skill::setWay(bool way)
+{
+	_mountNormal->attack->setFlippedX(way);
+	_mountNormal->attack->setPositionX(-_mountNormal->attack->getPositionX());
+	_isWay = way;
 }
 
 void Skill::mountNormal(int n)
@@ -51,11 +73,23 @@ void Skill::mountNormal(int n)
 
 void Skill::playNormal()
 {
+	_mountNormal->rect->setVisible(true);
 	Vector<SpriteFrame*> frame;
 
 	for (int i = 0; i <= _mountNormal->atkCount; i++) {
 		frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_attack_%d.png", _mountNormal->code.getCString(), i)));
 	}
-	action1 = Animate::create(Animation::createWithSpriteFrames(frame, 0.1f));
+	action1 = Sequence::create(
+		Animate::create(Animation::createWithSpriteFrames(frame, 0.1f)),
+		CallFunc::create(CC_CALLBACK_0(Skill::playNormalClean, this)),
+		nullptr);
 	_mountNormal->attack->runAction(action1);
+	_mountNormal->attack->setPositionX(_player->getPositionX() + (_mountNormal->attack->boundingBox().size.width / 2 * (_isWay ? 1 : -1)));
+	_mountNormal->attack->setPositionY(_player->getPositionY() + _mountNormal->attack->boundingBox().size.height / 4);
+}
+
+void Skill::playNormalClean()
+{
+	_mountNormal->attack->setSpriteFrame(StringUtils::format("%s_attack_0.png", _mountNormal->code.getCString()));
+	_mountNormal->rect->setVisible(false);
 }

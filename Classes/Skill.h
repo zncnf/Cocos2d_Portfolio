@@ -6,7 +6,7 @@ class Skill : public Scene
 private:
 	struct Normal {
 		Sprite *icon;
-		Sprite *attack, *hit;
+		Sprite *attack, *hit, *rect;
 		String name, code;
 		float atkf;
 		int count, atkCount, hitCount;
@@ -33,6 +33,9 @@ private:
 	};
 
 	Layer* _layer;
+	Layer* _player;
+
+	bool _isWay;
 
 	Action *action1, *action2, *action3, *action4;
 
@@ -45,17 +48,14 @@ private:
 	Passive* _mountPassive;
 
 public:
-	Skill(Layer* layer);
+	Skill(Layer* player);
+
+	void setLayer(Layer* layer);
 
 	void setNormal(String name);
 	void setSpecial(String name);
 	void setPassive(String name);
 
-	void setStand();
-	void setWalk();
-	void setJump();
-	void setAttack(int frame);
-	void setDead();
 	void setWay(bool way);
 
 	void mountNormal(int n);
@@ -63,6 +63,7 @@ public:
 	void mountPassive(int n);
 
 	void playNormal();
+	void playNormalClean();
 
 	void clean();
 
@@ -80,4 +81,9 @@ public:
 	Sprite* getMyPassiveIcon(int n) { return _myPassive.at(n)->icon; }
 	String getMyPassiveName(int n) { return _myPassive.at(n)->name; }
 	/*float getMyPassiveAtk(int n) { return _myPassive.at(n)->speed; }*/
+
+	Rect getNormalRect() {
+		return Rect(_mountNormal->attack->boundingBox().getMinX(), _mountNormal->attack->boundingBox().getMidY(),
+			_mountNormal->attack->getContentSize().width, _mountNormal->attack->getContentSize().height);
+	}
 };

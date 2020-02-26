@@ -96,7 +96,9 @@ Player * Player::getInstance()
 
 void Player::setLayer(Layer * layer)
 {
+	_layer = layer;
 	layer->addChild(_player, 50);
+	_skill->setLayer(layer);
 }
 
 void Player::setStand()
@@ -278,6 +280,7 @@ void Player::setWay(bool way)
 	_way = way;
 
 	_equip->setWay(way);
+	_skill->setWay(way);
 }
 
 void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)

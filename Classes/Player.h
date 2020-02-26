@@ -12,6 +12,7 @@ private:
 	static Player* Instance;
 	Player();
 
+	Layer* _layer;
 	Layer* _player;
 	Sprite* _rect;
 	Sprite *_body, *_head, *_arm, *_rhand, *_lhand;
