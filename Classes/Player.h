@@ -24,7 +24,9 @@ private:
 	Equip* _equip;
 	Skill* _skill;
 
-	int _isStand, _isLeft, _isRight, _isJump, _isRange, _isHit;
+	vector<int> _mobInRange;
+
+	int _isStand, _isLeft, _isRight, _isJump, _isHit;
 	bool _isDead, _isFoot, _isAttack, _way;
 	float _jPow;
 
@@ -45,7 +47,10 @@ public:
 	void setDead();
 	void setWay(bool way);
 
-	void viewRect(bool view) { _rect->setVisible(view); }
+	void viewRect(bool view) { 
+		_rect->setVisible(view);
+		_skill->viewRect(view);
+	}
 
 	void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
 	void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
@@ -56,6 +61,8 @@ public:
 	bool getIsLeft() { return _isLeft == 2 ? true : false; }
 	bool getIsRight() { return _isRight == 2 ? true : false; }
 	Rect getRect() { return Rect(_player->getPositionX() - 15, _player->getPositionY() - 36, 30, 72); }
+	Skill* getSkill() { return _skill; }
+	bool getIsAttack() { return _isAttack; }
 	bool getIsHit() { return _isHit; }
 
 	Item* getItem() { return _item.back(); }

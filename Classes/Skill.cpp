@@ -15,11 +15,13 @@ Skill::Skill(Layer* player)
 	mountNormal(0);
 
 	_mountNormal->rect = Sprite::createWithTexture(nullptr, _mountNormal->attack->boundingBox());
-	_mountNormal->rect->setAnchorPoint(Vec2(0, 0));
+	_mountNormal->rect->setPositionX((-_mountNormal->attack->boundingBox().size.width / 2));
 	_mountNormal->rect->setColor(Color3B::RED);
 	_mountNormal->rect->setOpacity(100);
-//	_mountNormal->rect->setVisible(false);
-	_mountNormal->attack->addChild(_mountNormal->rect, -1);
+	_mountNormal->rect->setTag(15);
+	_mountNormal->rect->setVisible(false);
+	//_mountNormal->attack->addChild(_mountNormal->rect, -1);
+	_player->addChild(_mountNormal->rect, -1);
 
 	_isWay = false;
 }
@@ -49,6 +51,7 @@ void Skill::setWay(bool way)
 {
 	_mountNormal->attack->setFlippedX(way);
 	_mountNormal->attack->setPositionX(-_mountNormal->attack->getPositionX());
+	_mountNormal->rect->setPositionX((_mountNormal->attack->boundingBox().size.width / 2 * (way ? 1 : -1)));
 	_isWay = way;
 }
 
@@ -73,7 +76,6 @@ void Skill::mountNormal(int n)
 
 void Skill::playNormal()
 {
-	_mountNormal->rect->setVisible(true);
 	Vector<SpriteFrame*> frame;
 
 	for (int i = 0; i <= _mountNormal->atkCount; i++) {
@@ -85,11 +87,10 @@ void Skill::playNormal()
 		nullptr);
 	_mountNormal->attack->runAction(action1);
 	_mountNormal->attack->setPositionX(_player->getPositionX() + (_mountNormal->attack->boundingBox().size.width / 2 * (_isWay ? 1 : -1)));
-	_mountNormal->attack->setPositionY(_player->getPositionY() + _mountNormal->attack->boundingBox().size.height / 4);
+	_mountNormal->attack->setPositionY(_player->getPositionY() + _mountNormal->attack->boundingBox().size.height / 5);
 }
 
 void Skill::playNormalClean()
 {
 	_mountNormal->attack->setSpriteFrame(StringUtils::format("%s_attack_0.png", _mountNormal->code.getCString()));
-	_mountNormal->rect->setVisible(false);
 }

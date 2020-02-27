@@ -88,8 +88,11 @@ void TopScene::tick(float delta)
 	for (int i = 0; i < _monster.size(); i++) {
 		_monster.at(i)->tick();
 		_monster.at(i)->getRect();
-		if (player->getRect().intersectsRect(_monster.at(i)->getRect()) && !_monster.at(i)->getIsFollow()) {
+		if (player->getRect().intersectsRect(_monster.at(i)->getRect()) /*&& !_monster.at(i)->getIsFollow()*/) {
 			player->setHit();
+		}
+		if (player->getSkill()->getNormalRect().intersectsRect(_monster.at(i)->getRect()) && !player->getIsAttack()) {
+			player->setRange(i);
 		}
 		/*if (_monster.at(i)->getMonster()->getPositionY() < 100) {
 			delete _monster.at(i);

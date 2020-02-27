@@ -65,7 +65,9 @@ public:
 	void playNormal();
 	void playNormalClean();
 
-	void clean();
+	void viewRect(bool view) { 
+		_mountNormal->rect->setVisible(view);
+	}
 
 	int getMyNormalSize() { return _myNormal.size(); }
 	Sprite* getMyNormalIcon(int n) { return _myNormal.at(n)->icon; }
@@ -83,7 +85,7 @@ public:
 	/*float getMyPassiveAtk(int n) { return _myPassive.at(n)->speed; }*/
 
 	Rect getNormalRect() {
-		return Rect(_mountNormal->attack->boundingBox().getMinX(), _mountNormal->attack->boundingBox().getMidY(),
-			_mountNormal->attack->getContentSize().width, _mountNormal->attack->getContentSize().height);
+		return Rect(_player->getPositionX() + _mountNormal->rect->boundingBox().getMinX(), _player->getPositionY() + _mountNormal->rect->boundingBox().getMinY(),
+			_mountNormal->rect->getContentSize().width, _mountNormal->rect->getContentSize().height);
 	}
 };

@@ -42,6 +42,10 @@ public:
 	bool getIsFollow() { return _isFollow; }
 
 	void setFollow() { _isFollow = true; }
+	void setHit(float damage) { 
+		_hp -= damage;
+		setPhase(3);
+	}
 
 	void viewRect(bool view) { _rect->setVisible(view); }
 	
