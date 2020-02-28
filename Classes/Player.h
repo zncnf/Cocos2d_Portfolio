@@ -65,6 +65,7 @@ public:
 	bool getIsAttack() { return _isAttack; }
 	bool getIsHit() { return _isHit; }
 	bool getWay() { return _way; }
+	int getMobRangeSize() { return _mobInRange.size(); }
 
 	Item* getItem() { return _item.back(); }
 };

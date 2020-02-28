@@ -85,20 +85,30 @@ void TopScene::tick(float delta)
 		_monster.pushBack(new Monster(_layer));
 		_monster.back()->viewRect(_isViewRect);
 	}
+	char str[1048] = "";
 	for (int i = 0; i < _monster.size(); i++) {
 		_monster.at(i)->tick();
 		_monster.at(i)->getRect();
-		if (player->getRect().intersectsRect(_monster.at(i)->getRect()) /*&& !_monster.at(i)->getIsFollow()*/) {
-			player->setHit();
+		if (!_monster.at(i)->getIsDead()) {
+			if (player->getRect().intersectsRect(_monster.at(i)->getRect())) {
+				player->setHit();
+			}
+			if (player->getSkill()->getNormalRect().intersectsRect(_monster.at(i)->getRect()) &&
+				!player->getIsAttack() && !player->getSkill()->getIsNormal() && player->getSkill()->getNormalCount() > player->getMobRangeSize() &&
+				_monster.at(i)->getIsHitTrue()) {
+				player->setRange(i);
+				_monster.at(i)->setHit(5);
+				sprintf(str, "%s%d : %d/%d, ", str, i, (int)_monster.at(i)->getHp(), (int)_monster.at(i)->getHpm());
+			}
 		}
-		if (player->getSkill()->getNormalRect().intersectsRect(_monster.at(i)->getRect()) && !player->getIsAttack() && _monster.at(i)->getIsHitTrue()) {
-			player->setRange(i);
-			_monster.at(i)->setHit(0);
-		}
-		/*if (_monster.at(i)->getMonster()->getPositionY() < 100) {
+		if (_monster.at(i)->getIsRemove()) {
 			delete _monster.at(i);
 			_monster.erase(_monster.begin() + i);
-		}*/
+			i--;
+		}
+	}
+	if (strcmp(str, "") != 0) {
+		log("%s", str);
 	}
 }
 

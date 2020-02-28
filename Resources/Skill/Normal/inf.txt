@@ -1,0 +1,13 @@
+소울 블레이드
+soulBlade_icon.png
+soulBlade_iconMouseOver.png
+soulBlade_iconDisabled.png
+soulBlade_attack_0.png	0~11
+soulBlade_hit_0.png	0~3
+
+디바이드
+divide_icon.png
+divide_iconMouseOver.png
+divide_iconDisabled.png
+divide_attack_0.png	0~9
+divide_hit_0.png		0~5

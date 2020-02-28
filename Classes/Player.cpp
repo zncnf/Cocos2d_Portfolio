@@ -201,7 +201,7 @@ void Player::setAttack()
 			CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 1)),
 			DelayTime::create(0.15f),
 			CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 2)),
-			DelayTime::create(0.35f),
+			DelayTime::create(_skill->getNormalDelay()),
 			CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 3)),
 			nullptr
 		);
