@@ -64,6 +64,7 @@ public:
 	Skill* getSkill() { return _skill; }
 	bool getIsAttack() { return _isAttack; }
 	bool getIsHit() { return _isHit; }
+	bool getWay() { return _way; }
 
 	Item* getItem() { return _item.back(); }
 };

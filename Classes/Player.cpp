@@ -195,7 +195,7 @@ void Player::setAttack()
 		}
 		_player->stopActionsByFlags(10);
 		_skill->playNormal();
-		auto action = RepeatForever::create(Sequence::create(
+		auto action = Sequence::create(
 			CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 0)),
 			DelayTime::create(0.35f),
 			CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 1)),
@@ -204,7 +204,7 @@ void Player::setAttack()
 			DelayTime::create(0.35f),
 			CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 3)),
 			nullptr
-		));
+		);
 		action->setFlags(10);
 		_player->runAction(action);
 
@@ -346,23 +346,24 @@ void Player::tick()
 			}
 		}
 		if (_isLeft == 1) {
-			if (_isRight == 0) {
-				_isLeft = 2;
-				if (!_isAttack) setWay(false);
-			}
 			if (_isFoot && !_isAttack && _isRight != 1 && _isStand != 2) {
 				_isStand = 1;
 				setWalk();
 			}
+			if (_isRight == 0) {
+				_isLeft = 2;
+				if (!_isAttack) setWay(false);
+			}
+			
 		} 
 		if (_isRight == 1) {
-			if (_isLeft == 0) {
-				_isRight = 2;
-				if (!_isAttack) setWay(true);
-			}
 			if (_isFoot && !_isAttack && _isLeft != 1 && _isStand != 2) {
 				_isStand = 1;
 				setWalk();
+			}
+			if (_isLeft == 0) {
+				_isRight = 2;
+				if (!_isAttack) setWay(true);
 			}
 		}
 		if (_isJump == 2) {
@@ -372,7 +373,7 @@ void Player::tick()
 				_isFoot = false;
 			}
 		}
-		if (!_isAttack) {
+		if (!_isAttack && !_skill->getIsNormal()) {
 			if (!_mobInRange.empty()) {
 				_isStand = 1;
 				if (_isJump == 2) _isJump = 1;

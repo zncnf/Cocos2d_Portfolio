@@ -6,7 +6,9 @@ Monster::Monster(Layer* layer) {
 
 	_layer = layer;
 
-	_monster = Sprite::createWithSpriteFrameName("grinSnail_stand_0.png");
+	_code = "grinSnail";
+
+	_monster = Sprite::createWithSpriteFrameName(StringUtils::format("%s_stand_0.png", _code));
 	_monster->setPosition(cuey->rand(100, 1890), 720);
 	
 	_rect = Sprite::createWithTexture(nullptr, _monster->boundingBox());
@@ -19,9 +21,10 @@ Monster::Monster(Layer* layer) {
 	_layer->addChild(_monster);
 
 	_jPow = 0;
-	_phase = 0;
+	_phase = 회전;
 
 	_isFollow = false;
+	_isHitTrue = false;
 	_way = LEFT;
 	_state = STAND;
 }
@@ -33,21 +36,22 @@ Monster::~Monster()
 
 void Monster::tick()
 {
+	Vector<SpriteFrame*> frame;
 	switch (_phase) {
-	case 0:
+	case 회전:
 		_rotate = RepeatForever::create(RotateBy::create(0.5, Vec3(0, 0, cuey->rand(180, 720))));
 		_monster->runAction(_rotate);
-		setPhase(1);
+		setPhase(낙하);
 		break;
-	case 1:
+	case 낙하:
 		_jPow += 0.1f;
 		_monster->setPositionY(_monster->getPositionY() - _jPow);
 		if (_monster->getPositionY() < 170) {
 			_monster->setPositionY(170);
-			setPhase(2);
+			setPhase(착지);
 		}
 		break;
-	case 2:
+	case 착지:
 		_monster->cleanup();
 		_monster->setRotation3D(Vec3(0, 0, (int)_monster->getRotation3D().z % 360));
 		_monster->runAction(Spawn::create(
@@ -55,53 +59,69 @@ void Monster::tick()
 			JumpBy::create(0.5, Vec2(cuey->rand(-70, 70), 0), 70, 1),
 			Sequence::create(
 				DelayTime::create(1),
-				CallFunc::create(CC_CALLBACK_0(Monster::setPhase, this, 3)),
+				CallFunc::create(CC_CALLBACK_0(Monster::setPhase, this, 모션)),
 				nullptr),
 			nullptr));
-		setPhase(-1);
+		setPhase(대기);
 		break;
-	case 3:
+	case 모션:
+		_isHitTrue = true;
 		_monster->cleanup();
-		Vector<SpriteFrame*> frame;
-		if (_isFollow) {
-			for (int i = 0; i < 5; i++) {
-				frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("grinSnail_move_%d.png", i)));
-			}
-			_monster->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame, 0.2f))));
+		switch (_state) {
+		case HIT:
+			_isFollow = true;
+			_state = HITEND;
+			_monster->runAction(Spawn::create(
+				RotateTo::create(0.4, Vec3(0, 0, player->getWay() ? 720 : -720)),
+				JumpBy::create(0.5, Vec2(player->getWay() ? 40 : -40, 0), 40, 1),
+				nullptr));
+			setPhase(대기);
+			break;
+		case HITEND:
 			_state = MOVE;
-			if (player->getPlayer()->getPositionX() < _monster->getPositionX()) {
-				setWay(false);
-			}
-			else {
-				setWay(true);
-			}
-		}
-		else {
-			switch (cuey->rand(0, 1)) {
-			case 0:
-				_monster->setSpriteFrame("grinSnail_stand_0.png");
-				_state = STAND;
-				break;
-			case 1:
+			setPhase(모션);
+			break;
+		default:
+			if (_isFollow) {
 				for (int i = 0; i < 5; i++) {
-					frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("grinSnail_move_%d.png", i)));
+					frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_move_%d.png", _code, i)));
 				}
 				_monster->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame, 0.2f))));
 				_state = MOVE;
-				if (cuey->rand(0, 1000) < 500) {
+				if (player->getPlayer()->getPositionX() < _monster->getPositionX()) {
 					setWay(false);
 				}
 				else {
 					setWay(true);
 				}
-				break;
 			}
+			else {
+				switch (cuey->rand(0, 1)) {
+				case 0:
+					_monster->setSpriteFrame(StringUtils::format("%s_stand_0.png", _code));
+					_state = STAND;
+					break;
+				case 1:
+					for (int i = 0; i < 5; i++) {
+						frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_move_%d.png", _code, i)));
+					}
+					_monster->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame, 0.2f))));
+					_state = MOVE;
+					if (cuey->rand(0, 1000) < 500) {
+						setWay(false);
+					}
+					else {
+						setWay(true);
+					}
+					break;
+				}
+			}
+			setPhase(대기);
+			_monster->runAction(Sequence::create(
+				DelayTime::create(2),
+				CallFunc::create(CC_CALLBACK_0(Monster::setPhase, this, 모션)),
+				nullptr));
 		}
-		setPhase(-1);
-		_monster->runAction(Sequence::create(
-			DelayTime::create(2),
-			CallFunc::create(CC_CALLBACK_0(Monster::setPhase, this, 3)),
-			nullptr));
 		break;
 	}
 	

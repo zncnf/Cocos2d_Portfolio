@@ -24,6 +24,7 @@ Skill::Skill(Layer* player)
 	_player->addChild(_mountNormal->rect, -1);
 
 	_isWay = false;
+	_isNormal = false;
 }
 
 void Skill::setLayer(Layer* layer)
@@ -76,6 +77,7 @@ void Skill::mountNormal(int n)
 
 void Skill::playNormal()
 {
+	_isNormal = true;
 	Vector<SpriteFrame*> frame;
 
 	for (int i = 0; i <= _mountNormal->atkCount; i++) {
@@ -93,4 +95,5 @@ void Skill::playNormal()
 void Skill::playNormalClean()
 {
 	_mountNormal->attack->setSpriteFrame(StringUtils::format("%s_attack_0.png", _mountNormal->code.getCString()));
+	_isNormal = false;
 }

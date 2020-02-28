@@ -36,6 +36,7 @@ private:
 	Layer* _player;
 
 	bool _isWay;
+	bool _isNormal;
 
 	Action *action1, *action2, *action3, *action4;
 
@@ -68,6 +69,8 @@ public:
 	void viewRect(bool view) { 
 		_mountNormal->rect->setVisible(view);
 	}
+
+	bool getIsNormal() { return _isNormal; }
 
 	int getMyNormalSize() { return _myNormal.size(); }
 	Sprite* getMyNormalIcon(int n) { return _myNormal.at(n)->icon; }
