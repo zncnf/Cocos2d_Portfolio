@@ -4,4 +4,9 @@ grinSnail_move_0.png	0~4
 grinSnail_hit_0.png		0
 grinSnail_die_0.png		0~9
 
-
+pig
+pig_stand_0.png		0~2
+pig_move_0.png		0~2
+pig_jump_0.png		0
+pig_hit_0.png		0
+pig_die_0.png		0~11
