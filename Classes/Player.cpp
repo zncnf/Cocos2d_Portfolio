@@ -241,18 +241,24 @@ void Player::setRange(int n)
 
 void Player::setHit()
 {
-	if (_isHit == 0) {
-		_isHit = 1;
-		for (int i = 0; i < _player->getChildrenCount(); i++) {
-			if (_player->getChildren().at(i)->getTag() != 15) _player->getChildren().at(i)->setOpacity(150);
+	if (_isHit == 0 && !_isDead) {
+		_life--;
+		if (_life == 0) {
+			setDead();
 		}
-		auto action = Sequence::create(
-			JumpBy::create(0.2f, Vec2(_way ? -15 : 15, 0), 10, 1),
-			CallFunc::create(CC_CALLBACK_0(Player::setHitCount, this, 2)),
-			DelayTime::create(2.0f),
-			CallFunc::create(CC_CALLBACK_0(Player::setHitCount, this, 0)),
-			nullptr);
-		_player->runAction(action);
+		else {
+			_isHit = 1;
+			for (int i = 0; i < _player->getChildrenCount(); i++) {
+				if (_player->getChildren().at(i)->getTag() != 15) _player->getChildren().at(i)->setOpacity(150);
+			}
+			auto action = Sequence::create(
+				JumpBy::create(0.2f, Vec2(_way ? -15 : 15, 0), 10, 1),
+				CallFunc::create(CC_CALLBACK_0(Player::setHitCount, this, 2)),
+				DelayTime::create(2.0f),
+				CallFunc::create(CC_CALLBACK_0(Player::setHitCount, this, 0)),
+				nullptr);
+			_player->runAction(action);
+		}
 	}
 }
 
@@ -268,6 +274,35 @@ void Player::setHitCount(int n)
 
 void Player::setDead()
 {
+	_isDead = true;
+	for (int i = 0; i < _player->getChildrenCount(); i++) {
+		_player->getChildren().at(i)->stopActionsByFlags(10);
+	}
+	_player->stopActionsByFlags(10);
+
+	_player->runAction(Sequence::create(
+		MoveTo::create(0.3f, Vec2(_player->getPositionX(), 210)),
+		Repeat::create(
+			Sequence::create(
+				MoveBy::create(0.2f, Vec2(3.0f, -1.0f)),
+				MoveBy::create(0.2f, Vec2(1.0f, -3.0f)),
+				MoveBy::create(0.2f, Vec2(-1.0f, -3.0f)),
+				MoveBy::create(0.2f, Vec2(-3.0f, -1.0f)),
+				MoveBy::create(0.2f, Vec2(-3.0f, 1.0f)),
+				MoveBy::create(0.2f, Vec2(-1.0f, 3.0f)),
+				MoveBy::create(0.2f, Vec2(1.0f, 3.0f)),
+				MoveBy::create(0.2f, Vec2(3.0f, 1.0f)),
+				nullptr
+			) , 99999
+		),
+		nullptr));
+		
+
+	_body->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_dead_0_body.png")));
+	_head->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_dead_0_head.png")));
+	_arm->setVisible(false);
+
+	_equip->setDead();
 	_rhand->setVisible(false);
 	_lhand->setVisible(false);
 }
@@ -355,7 +390,7 @@ void Player::tick()
 			}
 			if (_isRight == 0) {
 				_isLeft = 2;
-				if (!_isAttack) setWay(false);
+				if (!_isAttack && _mobInRange.empty()) setWay(false);
 			}
 			
 		} 
@@ -366,7 +401,7 @@ void Player::tick()
 			}
 			if (_isLeft == 0) {
 				_isRight = 2;
-				if (!_isAttack) setWay(true);
+				if (!_isAttack&& _mobInRange.empty()) setWay(true);
 			}
 		}
 		if (_isJump == 2) {

@@ -62,6 +62,7 @@ public:
 	Layer* getPlayer() { return _player; }
 	bool getIsLeft() { return _isLeft == 2 ? true : false; }
 	bool getIsRight() { return _isRight == 2 ? true : false; }
+	bool getIsDead() { return _isDead; }
 	Rect getRect() { return Rect(_player->getPositionX() - 15, _player->getPositionY() - 36, 30, 72); }
 	Equip* getEquip() { return _equip; }
 	Skill* getSkill() { return _skill; }

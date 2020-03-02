@@ -78,14 +78,14 @@ bool TopScene::init()
 
 void TopScene::tick(float delta)
 {
-	_time += delta;
+	if(!player->getIsDead()) _time += delta;
 	_timeLabel->setString(StringUtils::format("TIME   %02d : %02d", (int)_time / 60, (int)_time % 60));
 	player->tick();
-	int mobRezen = 1200 / _time + 50;
-	if (cuey->rand(0, mobRezen) == 0) {
+	int mobRezen = 600 / pow(_time,0.6f) + 30;
+	if (cuey->rand(0, mobRezen) == 0 && !player->getIsDead()) {
 		_monster.pushBack(new Monster(_layer));
 		_monster.back()->viewRect(_isViewRect);
-		//log("%d", mobRezen);
+		log("%d", mobRezen);
 	}
 	char str[1048] = "";
 	for (int i = 0; i < _monster.size(); i++) {

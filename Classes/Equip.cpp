@@ -177,6 +177,12 @@ void Equip::setAttack(int frame)
 
 void Equip::setDead()
 {
+	clean();
+
+	_mountWeapon->sprite->setVisible(false);
+	_mountArmor->body->setVisible(false);
+	_mountArmor->arm->setVisible(false);
+	_mountShoes->sprite->setVisible(false);
 }
 
 void Equip::setWay(bool way)

@@ -56,7 +56,7 @@ void Skill::setNormal(String name)
 		nullptr,
 		"디바이드",
 		"divide",
-		1.5f, 0.7f, 3, 9, 5 }));
+		1.5f, 0.7f, 6, 9, 5 }));
 	}
 }
 

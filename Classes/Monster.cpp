@@ -14,7 +14,7 @@ Monster::Monster(Layer* layer) {
 		_hitCount = 0;
 		_dieCount = 9;
 		_atk = 10;
-		_hp = _hpm = 10;
+		_hp = _hpm = 20;
 		_delay = 0;
 		_speed = 1;
 		break;
@@ -123,7 +123,7 @@ void Monster::tick()
 				frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_die_%d.png", _code, i)));
 			}
 			_monster->runAction(Sequence::create(
-				Animate::create(Animation::createWithSpriteFrames(frame, 0.1f)),
+				Animate::create(Animation::createWithSpriteFrames(frame, 0.06f)),
 				CallFunc::create(CC_CALLBACK_0(Monster::setRemove, this)),
 				nullptr));
 			setPhase(´ë±â);
