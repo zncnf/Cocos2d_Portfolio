@@ -20,6 +20,7 @@ private:
 
 	string _name;
 	int _lv, _exp, _expm, _gold;
+	float _atk, _life, _speed;
 	vector<Item*> _item;
 	Equip* _equip;
 	Skill* _skill;
@@ -47,6 +48,7 @@ public:
 	void setDead();
 	void setWay(bool way);
 
+
 	void viewRect(bool view) { 
 		_rect->setVisible(view);
 		_skill->viewRect(view);
@@ -61,11 +63,17 @@ public:
 	bool getIsLeft() { return _isLeft == 2 ? true : false; }
 	bool getIsRight() { return _isRight == 2 ? true : false; }
 	Rect getRect() { return Rect(_player->getPositionX() - 15, _player->getPositionY() - 36, 30, 72); }
+	Equip* getEquip() { return _equip; }
 	Skill* getSkill() { return _skill; }
 	bool getIsAttack() { return _isAttack; }
 	bool getIsHit() { return _isHit; }
 	bool getWay() { return _way; }
 	int getMobRangeSize() { return _mobInRange.size(); }
+
+	float getNormalDamage() { return (_atk + _equip->getMountWeaponAtk()) * _skill->getNormalAtkf(); }
+	float getBaseAtk() { return _atk; }
+	float getBaseLife() { return _life; }
+	float getBaseSpeed() { return _speed; }
 
 	Item* getItem() { return _item.back(); }
 };

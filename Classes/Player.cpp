@@ -72,6 +72,9 @@ Player::Player()
 	_exp = 1;
 	_expm = 1;
 	_gold = 1;
+	_atk = 5;
+	_life = 3;
+	_speed = 2;
 	_item.push_back(new Item());
 	_isStand = 1;
 	_isLeft = 0;
@@ -241,7 +244,7 @@ void Player::setHit()
 	if (_isHit == 0) {
 		_isHit = 1;
 		for (int i = 0; i < _player->getChildrenCount(); i++) {
-			if(_player->getChildren().at(i)->getTag() != 15) _player->getChildren().at(i)->setOpacity(150);
+			if (_player->getChildren().at(i)->getTag() != 15) _player->getChildren().at(i)->setOpacity(150);
 		}
 		auto action = Sequence::create(
 			JumpBy::create(0.2f, Vec2(_way ? -15 : 15, 0), 10, 1),
@@ -391,19 +394,15 @@ void Player::tick()
 	}
 
 	if (_player->getPositionX() > 20) {
-		if (_isLeft == 2) _player->setPositionX(_player->getPositionX() - 2);
+		if (_isLeft == 2) _player->setPositionX(_player->getPositionX() - _speed);
 	}
 	if(_player->getPositionX() < 1960) {
-		if (_isRight == 2) _player->setPositionX(_player->getPositionX() + 2);
+		if (_isRight == 2) _player->setPositionX(_player->getPositionX() + _speed);
 	}
+	
 
-	if (_player->getPositionX() > 640 && _player->getPositionX() < 1340) {
-		if (getIsLeft()) {
-			_player->getParent()->setPositionX(_player->getParent()->getPositionX() + 2);
-		}
-		if (getIsRight()) {
-			_player->getParent()->setPositionX(_player->getParent()->getPositionX() - 2);
-		}
+	if (_player->getPositionX() > instance->getWinSize().width / 2 && _player->getPositionX() < 1980 - instance->getWinSize().width / 2) {
+		_player->getParent()->setPositionX(instance->getWinSize().width / 2 - _player->getPositionX());
 	}
 
 	if (_player->getPositionY() < 207) {

@@ -81,9 +81,11 @@ void TopScene::tick(float delta)
 	_time += delta;
 	_timeLabel->setString(StringUtils::format("TIME   %02d : %02d", (int)_time / 60, (int)_time % 60));
 	player->tick();
-	if (cuey->rand(0, 500) == 0) {
+	int mobRezen = 1200 / _time + 50;
+	if (cuey->rand(0, mobRezen) == 0) {
 		_monster.pushBack(new Monster(_layer));
 		_monster.back()->viewRect(_isViewRect);
+		//log("%d", mobRezen);
 	}
 	char str[1048] = "";
 	for (int i = 0; i < _monster.size(); i++) {
@@ -97,8 +99,9 @@ void TopScene::tick(float delta)
 				!player->getIsAttack() && !player->getSkill()->getIsNormal() && player->getSkill()->getNormalCount() > player->getMobRangeSize() &&
 				_monster.at(i)->getIsHitTrue()) {
 				player->setRange(i);
-				_monster.at(i)->setHit(5);
-				sprintf(str, "%s%d : %d/%d, ", str, i, (int)_monster.at(i)->getHp(), (int)_monster.at(i)->getHpm());
+				_monster.at(i)->setHit(player->getNormalDamage());
+				log("%f", player->getNormalDamage());
+				//sprintf(str, "%s%d : %d/%d, ", str, i, (int)_monster.at(i)->getHp(), (int)_monster.at(i)->getHpm());
 			}
 		}
 		if (_monster.at(i)->getIsRemove()) {

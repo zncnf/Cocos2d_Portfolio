@@ -94,6 +94,7 @@ public:
 		return Rect(_player->getPositionX() + _mountNormal->rect->boundingBox().getMinX(), _player->getPositionY() + _mountNormal->rect->boundingBox().getMinY(),
 			_mountNormal->rect->getContentSize().width, _mountNormal->rect->getContentSize().height);
 	}
+	float getNormalAtkf() { return _mountNormal->atkf; }
 	int getNormalCount() { return _mountNormal->count; }
 	int getNormalAtkCount() { return _mountNormal->atkCount; }
 	float getNormalDelay() { return _mountNormal->delay; }

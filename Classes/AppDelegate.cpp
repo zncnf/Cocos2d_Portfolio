@@ -1,5 +1,4 @@
 #include "AppDelegate.h"
-#include "TrainingPhysics.h"
 #include "TopScene.h"
 #include "MainScene.h"
 

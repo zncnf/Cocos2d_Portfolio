@@ -171,16 +171,16 @@ void Monster::tick()
 		}
 		break;
 	}
+
+	if (_state == MOVE) {
+		if (_way == LEFT) _monster->setPositionX(_monster->getPositionX() - _speed);
+		if (_way == RIGHT) _monster->setPositionX(_monster->getPositionX() + _speed);
+	}
 	if (_monster->getPositionX() < 20) {
 		_monster->setPositionX(20);
 	}
 	if (_monster->getPositionX() > 1960) {
 		_monster->setPositionX(1960);
-	}
-
-	if (_state == MOVE) {
-		if (_way == LEFT) _monster->setPositionX(_monster->getPositionX() - _speed);
-		if (_way == RIGHT) _monster->setPositionX(_monster->getPositionX() + _speed);
 	}
 }
 

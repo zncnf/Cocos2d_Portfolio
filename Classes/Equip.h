@@ -72,4 +72,21 @@ public:
 	Sprite* getMyShoesIconRaw(int n) { return _myShoes.at(n)->iconRaw; }
 	String getMyShoesName(int n) { return _myShoes.at(n)->name; }
 	float getMyShoesAtk(int n) { return _myShoes.at(n)->speed; }
+
+
+	Sprite* getMountWeaponIcon() { return _mountWeapon->icon; }
+	Sprite* getMountWeaponIconRaw() { return _mountWeapon->iconRaw; }
+	String getMountWeaponName() { return _mountWeapon->name; }
+	float getMountWeaponAtk() { return _mountWeapon->atk; }
+
+	Sprite* getMountArmorIcon() { return _mountArmor->icon; }
+	Sprite* getMountArmorIconRaw() { return _mountArmor->iconRaw; }
+	String getMountArmorName() { return _mountArmor->name; }
+	float getMountArmorAtk() { return _mountArmor->life; }
+
+	Sprite* getMountShoesIcon() { return _mountShoes->icon; }
+	Sprite* getMountShoesIconRaw() { return _mountShoes->iconRaw; }
+	String getMountShoesName() { return _mountShoes->name; }
+	float getMountShoesAtk() { return _mountShoes->speed; }
+
 };
