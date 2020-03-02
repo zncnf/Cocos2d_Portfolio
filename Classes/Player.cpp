@@ -376,63 +376,65 @@ void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event * event)
 
 void Player::tick()
 {
-	if (!_isDead && _isHit != 1) {
-		if (_isStand == 1) { //¸ØÃã 0, ´ë±â 1, Àû¿ë 2
-			if (_isLeft != 2 && _isRight != 2 && !_isAttack && _isFoot) {
-				setStand();
-				_isStand = 0;
+	if (!_isDead) {
+		if (_isHit != 1) {
+			if (_isStand == 1) { //¸ØÃã 0, ´ë±â 1, Àû¿ë 2
+				if (_isLeft != 2 && _isRight != 2 && !_isAttack && _isFoot) {
+					setStand();
+					_isStand = 0;
+				}
 			}
-		}
-		if (_isLeft == 1) {
-			if (_isFoot && !_isAttack && _isRight != 1 && _isStand != 2) {
-				_isStand = 1;
-				setWalk();
-			}
-			if (_isRight == 0) {
-				_isLeft = 2;
-				if (!_isAttack && _mobInRange.empty()) setWay(false);
-			}
-			
-		} 
-		if (_isRight == 1) {
-			if (_isFoot && !_isAttack && _isLeft != 1 && _isStand != 2) {
-				_isStand = 1;
-				setWalk();
-			}
-			if (_isLeft == 0) {
-				_isRight = 2;
-				if (!_isAttack&& _mobInRange.empty()) setWay(true);
-			}
-		}
-		if (_isJump == 2) {
-			_isStand = 1;
-			if (_isFoot) {
-				_isJump = 3;
-				_isFoot = false;
-			}
-		}
-		if (!_isAttack && !_skill->getIsNormal()) {
-			if (!_mobInRange.empty()) {
-				_isStand = 1;
-				if (_isJump == 2) _isJump = 1;
-				_isAttack = true;
-				setAttack();
-			}
-			else if(!_isFoot) {
-				setJump();
-			}
-		} 
-		if (!_isFoot) {
-			_jPow += 0.4f;
-			_player->setPositionY(_player->getPositionY() - _jPow);
-		}
-	}
+			if (_isLeft == 1) {
+				if (_isFoot && !_isAttack && _isRight != 1 && _isStand != 2) {
+					_isStand = 1;
+					setWalk();
+				}
+				if (_isRight == 0) {
+					_isLeft = 2;
+					if (!_isAttack && _mobInRange.empty()) setWay(false);
+				}
 
-	if (_player->getPositionX() > 20) {
-		if (_isLeft == 2) _player->setPositionX(_player->getPositionX() - _speed);
-	}
-	if(_player->getPositionX() < 1960) {
-		if (_isRight == 2) _player->setPositionX(_player->getPositionX() + _speed);
+			}
+			if (_isRight == 1) {
+				if (_isFoot && !_isAttack && _isLeft != 1 && _isStand != 2) {
+					_isStand = 1;
+					setWalk();
+				}
+				if (_isLeft == 0) {
+					_isRight = 2;
+					if (!_isAttack&& _mobInRange.empty()) setWay(true);
+				}
+			}
+			if (_isJump == 2) {
+				_isStand = 1;
+				if (_isFoot) {
+					_isJump = 3;
+					_isFoot = false;
+				}
+			}
+			if (!_isAttack && !_skill->getIsNormal()) {
+				if (!_mobInRange.empty()) {
+					_isStand = 1;
+					if (_isJump == 2) _isJump = 1;
+					_isAttack = true;
+					setAttack();
+				}
+				else if (!_isFoot) {
+					setJump();
+				}
+			}
+			if (!_isFoot) {
+				_jPow += 0.4f;
+				_player->setPositionY(_player->getPositionY() - _jPow);
+			}
+		}
+
+		if (_player->getPositionX() > 20) {
+			if (_isLeft == 2) _player->setPositionX(_player->getPositionX() - _speed);
+		}
+		if (_player->getPositionX() < 1960) {
+			if (_isRight == 2) _player->setPositionX(_player->getPositionX() + _speed);
+		}
 	}
 	
 

@@ -17,6 +17,8 @@ Monster::Monster(Layer* layer) {
 		_hp = _hpm = 20;
 		_delay = 0;
 		_speed = 1;
+		_gold = 5;
+		_exp = 3;
 		break;
 	}
 
@@ -33,6 +35,9 @@ Monster::Monster(Layer* layer) {
 
 	_layer->addChild(_monster);
 
+	_damageNumber = Label::createWithCharMap("damage_effect.png", 36, 46, '0');
+	_layer->addChild(_damageNumber);
+
 	_jPow = 0;
 	_phase = È¸Àü;
 
@@ -41,6 +46,8 @@ Monster::Monster(Layer* layer) {
 	_isRemove = false;
 	_way = LEFT;
 	_state = STAND;
+
+	_hitDamage = 0;
 }
 
 Monster::~Monster()
@@ -92,7 +99,7 @@ void Monster::tick()
 				Animate::create(Animation::createWithSpriteFrames(frame, 0.2f)),
 				Sequence::create(
 					DelayTime::create(0.6f),
-					CallFunc::create(CC_CALLBACK_0(Monster::setHitEffect, this)),
+					CallFunc::create(CC_CALLBACK_0(Monster::setHitEffect, this, )),
 					CallFunc::create(CC_CALLBACK_0(Monster::setState, this, HITEND)),
 					Spawn::create(
 						RotateTo::create(0.4, Vec3(0, 0, player->getWay() ? 720 : -720)),
