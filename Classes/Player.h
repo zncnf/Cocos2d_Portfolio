@@ -16,10 +16,11 @@ private:
 	Layer* _player;
 	Sprite* _rect;
 	Sprite *_body, *_head, *_arm, *_rhand, *_lhand;
+	Sprite* _expBar;
 	Vector<Animate*> _stand, _walk;
 
 	string _name;
-	int _lv, _exp, _expm, _gold;
+	float _lv, _exp, _expm, _gold;
 	float _atk, _life, _speed;
 	vector<Item*> _item;
 	Equip* _equip;
@@ -48,6 +49,17 @@ public:
 	void setDead();
 	void setWay(bool way);
 
+	void appendExp(int exp) {
+		_exp += exp;
+		_expBar->cleanup();
+		_expBar->runAction(ScaleBy::create(1.5f, _exp/_expm, 1));
+		//_expBar->setScaleX(player->getExp() / player->getExpm());
+		if (_exp >= _expm) {
+			levelUp();
+		}
+	}
+	void levelUp();
+
 
 	void viewRect(bool view) { 
 		_rect->setVisible(view);
@@ -70,6 +82,10 @@ public:
 	bool getIsHit() { return _isHit; }
 	bool getWay() { return _way; }
 	int getMobRangeSize() { return _mobInRange.size(); }
+	float getLv() { return _lv; }
+	float getExp() { return _exp; }
+	float getExpm() { return _expm; }
+	float getGold() { return _gold; }
 
 	float getNormalDamage() { return (_atk + _equip->getMountWeaponAtk()) * _skill->getNormalAtkf(); }
 	float getBaseAtk() { return _atk; }

@@ -3,7 +3,10 @@
 Monster::Monster(Layer* layer) {
 	_layer = layer;
 
-	_mob = ÃÊ·Ï´ÞÆØÀÌ;
+	switch (cuey->rand(0, 1)) {
+	case 0:_mob = ÃÊ·Ï´ÞÆØÀÌ; break;
+	case 1:_mob = µÅÁö; break;
+	}
 
 	switch (_mob) {
 	case ÃÊ·Ï´ÞÆØÀÌ:
@@ -20,10 +23,24 @@ Monster::Monster(Layer* layer) {
 		_gold = 5;
 		_exp = 3;
 		break;
+	case µÅÁö:
+		cache->addSpriteFramesWithFile("Monster/pig.plist");
+		_code = "pig";
+		_standCount = 2;
+		_moveCount = 2;
+		_hitCount = 0;
+		_dieCount = 11;
+		_atk = 10;
+		_hp = _hpm = 30;
+		_delay = 0;
+		_speed = 2;
+		_gold = 10;
+		_exp = 6;
+		break;
 	}
 
 
-	_monster = Sprite::createWithSpriteFrameName(StringUtils::format("%s_stand_0.png", _code));
+	_monster = Sprite::createWithSpriteFrameName(StringUtils::format("%s_move_0.png", _code));
 	_monster->setPosition(cuey->rand(100, 1890), 720);
 	
 	_rect = Sprite::createWithTexture(nullptr, _monster->boundingBox());
@@ -34,6 +51,13 @@ Monster::Monster(Layer* layer) {
 	_rect->setVisible(false);
 
 	_layer->addChild(_monster);
+
+	Vector<SpriteFrame*> frame;
+
+	for (int i = 0; i <= _standCount; i++) {
+		frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_stand_%d.png", _code, i)));
+	}
+	_monster->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame, 0.2f))));
 
 	_damageNumber = Label::createWithCharMap("damage_effect.png", 36, 46, '0');
 	_layer->addChild(_damageNumber);
@@ -67,8 +91,8 @@ void Monster::tick()
 	case ³«ÇÏ:
 		_jPow += 0.1f;
 		_monster->setPositionY(_monster->getPositionY() - _jPow);
-		if (_monster->getPositionY() < 170) {
-			_monster->setPositionY(170);
+		if (_monster->getPositionY() - _monster->getContentSize().height/2 < 160) {
+			_monster->setPositionY(160 + _monster->getContentSize().height / 2);
 			setPhase(ÂøÁö);
 		}
 		break;
@@ -123,6 +147,7 @@ void Monster::tick()
 		case DEAD:
 			switch (_mob) {
 			case ÃÊ·Ï´ÞÆØÀÌ:
+			case µÅÁö:
 				_monster->setPositionY(_monster->getPositionY() + 4);
 				break;
 			}
@@ -134,6 +159,7 @@ void Monster::tick()
 				CallFunc::create(CC_CALLBACK_0(Monster::setRemove, this)),
 				nullptr));
 			setPhase(´ë±â);
+			player->appendExp(_exp);
 			break;
 		default:
 			if (_isFollow) {
@@ -152,7 +178,11 @@ void Monster::tick()
 			else {
 				switch (cuey->rand(0, 1)) {
 				case 0:
-					_monster->setSpriteFrame(StringUtils::format("%s_stand_0.png", _code));
+					//_monster->setSpriteFrame(StringUtils::format("%s_stand_0.png", _code));
+					for (int i = 0; i <= _standCount; i++) {
+						frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_stand_%d.png", _code, i)));
+					}
+					_monster->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame, 0.2f))));
 					_state = STAND;
 					break;
 				case 1:

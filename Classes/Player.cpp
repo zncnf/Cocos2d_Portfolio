@@ -69,9 +69,9 @@ Player::Player()
 	}
 
 	_lv = 1;
-	_exp = 1;
-	_expm = 1;
-	_gold = 1;
+	_exp = 0;
+	_expm = 25;
+	_gold = 0;
 	_atk = 5;
 	_life = 3;
 	_speed = 2;
@@ -101,6 +101,24 @@ void Player::setLayer(Layer * layer)
 	_layer = layer;
 	layer->addChild(_player, 50);
 	_skill->setLayer(layer);
+
+	auto _expLayer = Layer::create();
+	_expLayer->setPosition(640, 5);
+	_layer->getParent()->addChild(_expLayer);
+
+	auto _expBar_back = Sprite::create("Map/exp_back.png");
+	_expLayer->addChild(_expBar_back, 1);
+
+	auto _expBar_back2 = Sprite::create("Map/exp_back2.png");
+	_expBar_back2->setScaleX(1.004);
+	_expBar_back2->setPositionX(7);
+	_expLayer->addChild(_expBar_back2, 3);
+
+	_expBar = Sprite::create("Map/exp.png");
+	_expBar->setScaleX(0);
+	_expBar->setPosition(-625, 0);
+	_expBar->setAnchorPoint(Vec2(0, 0.5f));
+	_expLayer->addChild(_expBar, 2);
 }
 
 void Player::setStand()
@@ -318,6 +336,17 @@ void Player::setWay(bool way)
 
 	_equip->setWay(way);
 	_skill->setWay(way);
+}
+
+void Player::levelUp()
+{
+	_exp -= _expm;
+	_lv++;
+	_expm = _lv * 25;
+	log("Level UP! : lv%d", _lv);
+	if (_exp >= _expm) {
+		levelUp();
+	}
 }
 
 void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)

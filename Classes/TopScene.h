@@ -9,7 +9,7 @@ class TopScene : public Scene
 {
 private:
 	Layer* _layer;
-	Sprite *_bg, *_map, *_expBar;
+	Sprite *_bg, *_map;
 	Label *_goldLabel, *_timeLabel;
 
 	Vector<Monster*> _monster;

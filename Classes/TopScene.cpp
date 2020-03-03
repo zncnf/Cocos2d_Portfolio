@@ -45,26 +45,6 @@ bool TopScene::init()
 	_timeLabel->enableOutline(Color4B::BLUE, 1);
 	this->addChild(_timeLabel, 50);
 
-	{
-		auto _expLayer = Layer::create();
-		_expLayer->setPosition(640, 5);
-		this->addChild(_expLayer);
-
-		auto _expBar_back = Sprite::create("Map/exp_back.png");
-		_expLayer->addChild(_expBar_back, 1);
-
-		auto _expBar_back2 = Sprite::create("Map/exp_back2.png");
-		_expBar_back2->setScaleX(1.004);
-		_expBar_back2->setPositionX(7);
-		_expLayer->addChild(_expBar_back2, 3);
-
-		_expBar = Sprite::create("Map/exp.png");
-		_expBar->setScaleX(0);
-		_expBar->setPosition(-625, 0);
-		_expBar->setAnchorPoint(Vec2(0, 0.5f));
-		_expLayer->addChild(_expBar, 2);
-	}
-
 	//키보드 조작
 	auto K_listner = EventListenerKeyboard::create();
 	K_listner->onKeyPressed = CC_CALLBACK_2(TopScene::onKeyPressed, this);
@@ -85,7 +65,6 @@ void TopScene::tick(float delta)
 	if (cuey->rand(0, mobRezen) == 0 && !player->getIsDead()) {
 		_monster.pushBack(new Monster(_layer));
 		_monster.back()->viewRect(_isViewRect);
-		log("%d", mobRezen);
 	}
 	char str[1048] = "";
 	for (int i = 0; i < _monster.size(); i++) {
@@ -100,7 +79,6 @@ void TopScene::tick(float delta)
 				_monster.at(i)->getIsHitTrue()) {
 				player->setRange(i);
 				_monster.at(i)->setHit(player->getNormalDamage());
-				log("%f", player->getNormalDamage());
 				//sprintf(str, "%s%d : %d/%d, ", str, i, (int)_monster.at(i)->getHp(), (int)_monster.at(i)->getHpm());
 			}
 		}

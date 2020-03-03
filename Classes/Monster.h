@@ -9,7 +9,8 @@ public:
 	enum MOB {
 		초록달팽이 = 0,
 		파란달팽이,
-		빨간달팽이
+		빨간달팽이,
+		돼지
 	};
 private:
 	enum PHASE {
