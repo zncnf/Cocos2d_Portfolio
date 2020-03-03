@@ -115,3 +115,13 @@ void TopScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event * event)
 {
 	player->onKeyReleased(keyCode, event);
 }
+
+void TopScene::onMouseDown(Event * event)
+{
+	cuey->glview()->setCursor("Cursor_down.png");
+}
+
+void TopScene::onMouseUp(Event * event)
+{
+	cuey->glview()->setCursor("Cursor_up.png");
+}

@@ -343,7 +343,9 @@ void Player::levelUp()
 	_exp -= _expm;
 	_lv++;
 	_expm = _lv * 25;
-	log("Level UP! : lv%d", _lv);
+	_expBar->cleanup();
+	_expBar->setScaleX(_exp / _expm);
+	log("Level UP! : lv%d", (int)_lv);
 	if (_exp >= _expm) {
 		levelUp();
 	}

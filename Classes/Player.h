@@ -52,7 +52,7 @@ public:
 	void appendExp(int exp) {
 		_exp += exp;
 		_expBar->cleanup();
-		_expBar->runAction(ScaleBy::create(1.5f, _exp/_expm, 1));
+		_expBar->runAction(ScaleTo::create(0.5f, _exp/_expm, 1));
 		//_expBar->setScaleX(player->getExp() / player->getExpm());
 		if (_exp >= _expm) {
 			levelUp();

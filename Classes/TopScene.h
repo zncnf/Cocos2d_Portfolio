@@ -28,4 +28,7 @@ private:
 	void tick(float delta);
 	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
 	virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
+
+	void onMouseDown(Event *event);
+	void onMouseUp(Event *event);
 };

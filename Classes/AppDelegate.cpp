@@ -68,6 +68,8 @@ bool AppDelegate::applicationDidFinishLaunching() {
 		director->setOpenGLView(glview);
 	}
 
+	glview->setCursor("Cursor_up.png");
+
 	// turn on display FPS
 	director->setDisplayStats(true);
 
@@ -78,7 +80,7 @@ bool AppDelegate::applicationDidFinishLaunching() {
 	glview->setDesignResolutionSize(1280, 720, ResolutionPolicy::EXACT_FIT);
 
 	// create a scene. it's an autorelease object
-	auto scene = TopScene::createScene();
+	auto scene = IntroScene::createScene();
 
 	// run
 	director->runWithScene(scene);
