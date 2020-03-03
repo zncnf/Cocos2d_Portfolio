@@ -37,7 +37,7 @@ using namespace experimental;
 #define instance Director::getInstance()
 #define cache SpriteFrameCache::getInstance()
 
-class Cuey
+class Cuey : public Node
 {
 private:
 	Cuey();
@@ -47,6 +47,7 @@ public:
 	static Cuey* getInstance();
 
 	int rand(int min, int max);
+	float rand(float min, float max);
 	Size winsize() { return instance->getWinSize();	}
 	GLView* glview() { return instance->getOpenGLView(); }
 	Texture2D* texture(char* name) { return instance->getTextureCache()->addImage(name); }

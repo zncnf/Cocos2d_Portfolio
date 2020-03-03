@@ -29,6 +29,15 @@ private:
 	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
 	virtual void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
 
-	void onMouseDown(Event *event);
-	void onMouseUp(Event *event);
+	virtual void onEnter();
+
+	virtual void onExit();
+
+	virtual bool onTouchBegan(Touch* touch, Event* event);
+
+	virtual void onTouchMoved(Touch* touch, Event* event);
+
+	virtual void onTouchEnded(Touch* touch, Event* event);
+
+	virtual void onTouchCancelled(Touch* touch, Event* event);
 };

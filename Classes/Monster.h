@@ -45,7 +45,7 @@ private:
 	MOB _mob;
 	int _standCount, _moveCount, _hitCount, _dieCount;
 	char* _code;
-	float _atk, _hp, _hpm, _delay, _speed, _gold, _exp;
+	float _atk, _def, _hp, _hpm, _delay, _speed, _gold, _exp;
 	float _jPow;
 	float _hitDamage;
 
@@ -77,8 +77,8 @@ public:
 	void setState(STATE n) { _state = n; }
 	void setFollow() { _isFollow = true; }
 	void setHit(int damage) { 
-		_hp -= damage;
-		_hitDamage = damage;
+		_hitDamage = damage > _def ? damage - _def : 1;
+		_hp -= _hitDamage;
 		setPhase(¸ð¼Ç);
 		_state = HIT;
 	}

@@ -21,7 +21,7 @@ private:
 
 	string _name;
 	float _lv, _exp, _expm, _gold;
-	float _atk, _life, _speed;
+	float _atk, _life, _lifem, _speed;
 	vector<Item*> _item;
 	Equip* _equip;
 	Skill* _skill;
@@ -87,7 +87,10 @@ public:
 	float getExpm() { return _expm; }
 	float getGold() { return _gold; }
 
-	float getNormalDamage() { return (_atk + _equip->getMountWeaponAtk()) * _skill->getNormalAtkf(); }
+	float getNormalDamage() { 
+		float damage = (_atk + _equip->getMountWeaponAtk()) * _skill->getNormalAtkf();
+		return damage * cuey->rand(0.8f, 1.0f);
+	}
 	float getBaseAtk() { return _atk; }
 	float getBaseLife() { return _life; }
 	float getBaseSpeed() { return _speed; }

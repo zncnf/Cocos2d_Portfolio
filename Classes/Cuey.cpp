@@ -26,3 +26,14 @@ int Cuey::rand(int min, int max)
 	return generator();
 }
 
+float Cuey::rand(float min, float max)
+{
+	auto cur_time = chrono::system_clock::now();
+	auto duration = cur_time.time_since_epoch();
+	auto millis = chrono::duration_cast<chrono::milliseconds>(duration).count();
+
+	mt19937 engine(millis);
+	uniform_real_distribution<float> distribution(min, max);
+	auto generator = bind(distribution, engine);
+	return generator();
+}

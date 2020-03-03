@@ -116,12 +116,44 @@ void TopScene::onKeyReleased(EventKeyboard::KeyCode keyCode, Event * event)
 	player->onKeyReleased(keyCode, event);
 }
 
-void TopScene::onMouseDown(Event * event)
+void TopScene::onEnter()
 {
-	cuey->glview()->setCursor("Cursor_down.png");
+	Scene::onEnter();
+
+	auto listener = EventListenerTouchOneByOne::create();
+	listener->setSwallowTouches(true);
+	listener->onTouchBegan = CC_CALLBACK_2(TopScene::onTouchBegan, this);
+	listener->onTouchMoved = CC_CALLBACK_2(TopScene::onTouchMoved, this);
+	listener->onTouchEnded = CC_CALLBACK_2(TopScene::onTouchEnded, this);
+
+	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
 
-void TopScene::onMouseUp(Event * event)
+void TopScene::onExit()
+{
+	_eventDispatcher->removeAllEventListeners();
+
+	Scene::onExit();
+}
+
+bool TopScene::onTouchBegan(Touch * touch, Event * event)
+{
+	//auto touchPoint = touch->getLocation();
+	cuey->glview()->setCursor("Cursor_down.png");
+
+	return true;
+}
+
+void TopScene::onTouchMoved(Touch * touch, Event * event)
+{
+	
+}
+
+void TopScene::onTouchEnded(Touch * touch, Event * event)
 {
 	cuey->glview()->setCursor("Cursor_up.png");
+}
+
+void TopScene::onTouchCancelled(Touch * touch, Event * event)
+{
 }

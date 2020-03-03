@@ -73,7 +73,7 @@ Player::Player()
 	_expm = 25;
 	_gold = 0;
 	_atk = 5;
-	_life = 3;
+	_lifem = _life = 3;
 	_speed = 2;
 	_item.push_back(new Item());
 	_isStand = 1;
@@ -237,9 +237,14 @@ void Player::setAttack()
 void Player::setAttack_Frame(int frame)
 {
 	if (frame == 3) {
-		if (_isJump == 1) _isJump = 2;
-		else if (_isLeft == 2) _isLeft = 1;
-		else if (_isRight == 2) _isRight = 1;
+		
+		if (_isJump == 1) {
+			_isJump = 2;
+		} else {
+			setWalk();
+			if (_isLeft == 2) _isLeft = 1;
+			else if (_isRight == 2) _isRight = 1;
+		}
 		_isAttack = false;
 		_mobInRange.clear();
 	}
@@ -343,6 +348,8 @@ void Player::levelUp()
 	_exp -= _expm;
 	_lv++;
 	_expm = _lv * 25;
+	_atk = pow(_lv, 1.5) + 5;
+	_lifem = _lv / 5 + 3;
 	_expBar->cleanup();
 	_expBar->setScaleX(_exp / _expm);
 	log("Level UP! : lv%d", (int)_lv);

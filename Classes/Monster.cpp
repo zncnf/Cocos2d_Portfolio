@@ -17,6 +17,7 @@ Monster::Monster(Layer* layer) {
 		_hitCount = 0;
 		_dieCount = 9;
 		_atk = 10;
+		_def = 1;
 		_hp = _hpm = 20;
 		_delay = 0;
 		_speed = 1;
@@ -31,9 +32,10 @@ Monster::Monster(Layer* layer) {
 		_hitCount = 0;
 		_dieCount = 11;
 		_atk = 10;
+		_def = 3;
 		_hp = _hpm = 30;
 		_delay = 0;
-		_speed = 2;
+		_speed = 1.5;
 		_gold = 10;
 		_exp = 6;
 		break;
