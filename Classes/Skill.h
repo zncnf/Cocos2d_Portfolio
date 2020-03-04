@@ -53,7 +53,7 @@ public:
 	Skill(Layer* player);
 
 	void setLayer(Layer* layer);
-
+	void releaseLayer();
 	void setNormal(String name);
 	void setSpecial(String name);
 	void setPassive(String name);

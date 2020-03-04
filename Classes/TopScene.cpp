@@ -56,6 +56,10 @@ bool TopScene::init()
 	return true;
 }
 
+TopScene::~TopScene()
+{
+}
+
 void TopScene::tick(float delta)
 {
 	if(!player->getIsDead()) _time += delta;
@@ -95,11 +99,20 @@ void TopScene::tick(float delta)
 
 void TopScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 {
+	auto scene = IntroScene::createScene();
 	player->onKeyPressed(keyCode, event);
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_M:
 		_monster.pushBack(new Monster(_layer));
 		_monster.back()->viewRect(_isViewRect);
+		break;
+	case EventKeyboard::KeyCode::KEY_R:
+		for (int i = 0; i < _layer->getChildren().size(); i++) {
+			_layer->getChildren().at(i)->removeAllChildrenWithCleanup(true);
+		}
+		_layer->removeAllChildrenWithCleanup(true);
+		//this->removeAllChildrenWithCleanup(true);
+		instance->replaceScene(scene);
 		break;
 	case EventKeyboard::KeyCode::KEY_F1:
 		_isViewRect = !_isViewRect;
@@ -108,6 +121,7 @@ void TopScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 			_monster.at(i)->viewRect(_isViewRect);
 		}
 		break;
+
 	}
 }
 
@@ -139,6 +153,7 @@ void TopScene::onExit()
 bool TopScene::onTouchBegan(Touch * touch, Event * event)
 {
 	//auto touchPoint = touch->getLocation();
+
 	cuey->glview()->setCursor("Cursor_down.png");
 
 	return true;

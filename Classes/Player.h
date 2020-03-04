@@ -34,8 +34,9 @@ private:
 
 public:
 	static Player* getInstance();
-	
+
 	void setLayer(Layer* layer);
+	void releaseLayer();
 
 	void setStand();
 	void setFoot();

@@ -33,6 +33,10 @@ void Skill::setLayer(Layer* layer)
 	_mountNormal->attack->setPosition(_player->getPosition());
 }
 
+void Skill::releaseLayer()
+{
+}
+
 void Skill::setNormal(String name)
 {
 	if (name.compare("소울 블레이드") == 0) {

@@ -102,6 +102,8 @@ void Player::setLayer(Layer * layer)
 	layer->addChild(_player, 50);
 	_skill->setLayer(layer);
 
+	_life = _lifem;
+
 	auto _expLayer = Layer::create();
 	_expLayer->setPosition(640, 5);
 	_layer->getParent()->addChild(_expLayer);
@@ -119,6 +121,10 @@ void Player::setLayer(Layer * layer)
 	_expBar->setPosition(-625, 0);
 	_expBar->setAnchorPoint(Vec2(0, 0.5f));
 	_expLayer->addChild(_expBar, 2);
+}
+
+void Player::releaseLayer()
+{
 }
 
 void Player::setStand()
