@@ -104,7 +104,7 @@ void Player::setLayer(Layer * layer)
 
 	_life = _lifem;
 
-	auto _expLayer = Layer::create();
+	_expLayer = Layer::create();
 	_expLayer->setPosition(640, 5);
 	_layer->getParent()->addChild(_expLayer);
 
@@ -125,6 +125,7 @@ void Player::setLayer(Layer * layer)
 
 void Player::releaseLayer()
 {
+
 }
 
 void Player::setStand()

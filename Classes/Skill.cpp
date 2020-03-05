@@ -4,7 +4,7 @@ Skill::Skill(Layer* player)
 {
 	_player = player;
 
-	setNormal("소울 블레이드");
+	setNormal("디바이드");
 
 	_mountNormal = new Normal({ 0 });
 

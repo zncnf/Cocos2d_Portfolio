@@ -14,12 +14,12 @@ bool TopScene::init()
 	_layer = Layer::create();
 	this->addChild(_layer);
 
-	_bg = Sprite::create("Map/배경.png");
+	_bg = Sprite::create("Map/헤네시스bg.png");
 	_bg->setPosition(0, -43);
 	_bg->setAnchorPoint(Vec2(0, 0));
 	_layer->addChild(_bg);
 
-	_map = Sprite::create("Map/헤네사냥터.png");
+	_map = Sprite::create("Map/헤네시스.png");
 	_map->setPosition(0, -43);
 	_map->setAnchorPoint(Vec2(0, 0));
 	_layer->addChild(_map);
@@ -107,10 +107,14 @@ void TopScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 		_monster.back()->viewRect(_isViewRect);
 		break;
 	case EventKeyboard::KeyCode::KEY_R:
-		for (int i = 0; i < _layer->getChildren().size(); i++) {
+		/*for (int i = 0; i < _layer->getChildren().size(); i++) {
+			for (int j = 0; j < _layer->getChildren().at(i)->getChildren().size(); j++) {
+				_layer->getChildren().at(i)->getChildren().at(j)->removeAllChildrenWithCleanup(true);
+			}
 			_layer->getChildren().at(i)->removeAllChildrenWithCleanup(true);
-		}
-		_layer->removeAllChildrenWithCleanup(true);
+		}*/
+		this->removeChild(_layer);
+		//_layer->removeAllChildrenWithCleanup(true);
 		//this->removeAllChildrenWithCleanup(true);
 		instance->replaceScene(scene);
 		break;

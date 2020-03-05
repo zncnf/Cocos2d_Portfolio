@@ -42,7 +42,7 @@ void IntroScene::allUserFadeIn()
 	grade2->runAction(FadeIn::create(3));
 	message->runAction(FadeIn::create(3));
 	this->runAction(Sequence::create(
-		DelayTime::create(4),
+		DelayTime::create(1),//4
 		CallFunc::create(CC_CALLBACK_0(IntroScene::allUserFadeOut, this)),
 		nullptr
 	));
@@ -54,7 +54,7 @@ void IntroScene::allUserFadeOut()
 	grade2->runAction(FadeOut::create(1));
 	message->runAction(FadeOut::create(1));
 	this->runAction(Sequence::create(
-		DelayTime::create(1),
+		DelayTime::create(0.5),//1
 		CallFunc::create(CC_CALLBACK_0(IntroScene::gotoTopScene, this)),
 		nullptr
 	));

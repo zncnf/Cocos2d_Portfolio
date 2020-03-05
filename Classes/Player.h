@@ -14,6 +14,7 @@ private:
 
 	Layer* _layer;
 	Layer* _player;
+	Layer* _expLayer;
 	Sprite* _rect;
 	Sprite *_body, *_head, *_arm, *_rhand, *_lhand;
 	Sprite* _expBar;
