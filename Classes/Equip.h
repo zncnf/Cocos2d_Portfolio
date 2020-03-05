@@ -35,8 +35,14 @@ private:
 	Armor* _mountArmor;
 	Shoes* _mountShoes;
 
+	Weapon* _tempWeapon;
+	Armor* _tempArmor;
+	Shoes* _tempShoes;
+
 public:
-	Equip(Layer* layer);
+	Equip();
+
+	void setLayer(Layer* layer);
 
 	void setWeapon(String name);
 	void setArmor(String name);

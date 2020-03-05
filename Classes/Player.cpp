@@ -9,34 +9,14 @@ Player::Player()
 	_layer = Layer::create();
 
 	//플레이어 생성
-	_player = Layer::create();
-	_player->setAnchorPoint(Vec2(0, 0));
-	_player->setPosition(500, 500);
-	_layer->addChild(_layer);
+	//_player = Layer::create();
 
-	_body = Sprite::createWithSpriteFrameName("player_stand_0_body.png");
-	_player->addChild(_body, 5);
+	_equip = new Equip();
 
-	_head = Sprite::createWithSpriteFrameName("player_stand_0_head.png");
-	_player->addChild(_head, 10);
-
-	_arm = Sprite::createWithSpriteFrameName("player_stand_0_arm.png");
-	_player->addChild(_arm, 15);
-
-	_rhand = Sprite::createWithSpriteFrameName("player_jump_0_rhand.png");
-	_rhand->setVisible(false);
-	_player->addChild(_rhand, 20);
-
-	_lhand = Sprite::createWithSpriteFrameName("player_jump_0_lhand.png");
-	_lhand->setVisible(false);
-	_player->addChild(_lhand, 25);
-
-	_equip = new Equip(_player);
-
-	_skill = new Skill(_player);
+	//_skill = new Skill(_player);
 
 	_rect = Sprite::createWithTexture(nullptr, {0,0,30,72});
-	_player->addChild(_rect);
+	//_player->addChild(_rect);
 	_rect->setPosition(0, -13);
 	_rect->setTag(15);
 	_rect->setColor(Color3B::RED);
@@ -101,34 +81,32 @@ Player * Player::getInstance()
 
 void Player::setLayer(Layer * layer)
 {
-	if (_layer != layer) {
-		log("%f", _player->getPositionX());
-		//_player->release();
-		if (!_isHit) {
-			_layer->removeChild(_player, false);
-			_isHit = true;
-		}
-		
-		//CC_SAFE_DELETE(_player);
-		_layer = layer;
-		_layer->addChild(_player);
-		log("%f", _player->getPositionX());
-		//CCNode * child = static_cast<CCNode*>(obj);
-	}
+	_layer = layer;
 
-	/*bool t = false;
+	_player = Layer::create();
+	_layer->addChild(_player);
+	_player->setAnchorPoint(Vec2(0, 0));
+	_player->setPosition(500, 500);
 
-	for (int i = 0; i < layer->getChildren().size(); i++) {
-		if (layer->getChildren().at(i) == _player) {
-			log("test");
-			t = true;
-		}
-	}
-	if(!t) layer->addChild(_player, 50);*/
+	_body = Sprite::createWithSpriteFrameName("player_stand_0_body.png");
+	_player->addChild(_body, 5);
 
-	/*_player->removeFromParentAndCleanup(true);*/
+	_head = Sprite::createWithSpriteFrameName("player_stand_0_head.png");
+	_player->addChild(_head, 10);
+
+	_arm = Sprite::createWithSpriteFrameName("player_stand_0_arm.png");
+	_player->addChild(_arm, 15);
+
+	_rhand = Sprite::createWithSpriteFrameName("player_jump_0_rhand.png");
+	_rhand->setVisible(false);
+	_player->addChild(_rhand, 20);
+
+	_lhand = Sprite::createWithSpriteFrameName("player_jump_0_lhand.png");
+	_lhand->setVisible(false);
+	_player->addChild(_lhand, 25);
 	
-	//_skill->setLayer(layer);
+	_equip->setLayer(_player);
+	//_skill->setLayer(_layer);
 	_life = _lifem;
 	log("%f", _life);
 	/*_expLayer = Layer::create();
