@@ -6,10 +6,13 @@ Player::Player()
 {
 	cache->addSpriteFramesWithFile("Player/Player.plist");
 
+	_layer = Layer::create();
+
 	//플레이어 생성
 	_player = Layer::create();
 	_player->setAnchorPoint(Vec2(0, 0));
 	_player->setPosition(500, 500);
+	_layer->addChild(_layer);
 
 	_body = Sprite::createWithSpriteFrameName("player_stand_0_body.png");
 	_player->addChild(_body, 5);
@@ -98,13 +101,37 @@ Player * Player::getInstance()
 
 void Player::setLayer(Layer * layer)
 {
-	_layer = layer;
-	layer->addChild(_player, 50);
-	_skill->setLayer(layer);
+	if (_layer != layer) {
+		log("%f", _player->getPositionX());
+		//_player->release();
+		if (!_isHit) {
+			_layer->removeChild(_player, false);
+			_isHit = true;
+		}
+		
+		//CC_SAFE_DELETE(_player);
+		_layer = layer;
+		_layer->addChild(_player);
+		log("%f", _player->getPositionX());
+		//CCNode * child = static_cast<CCNode*>(obj);
+	}
 
+	/*bool t = false;
+
+	for (int i = 0; i < layer->getChildren().size(); i++) {
+		if (layer->getChildren().at(i) == _player) {
+			log("test");
+			t = true;
+		}
+	}
+	if(!t) layer->addChild(_player, 50);*/
+
+	/*_player->removeFromParentAndCleanup(true);*/
+	
+	//_skill->setLayer(layer);
 	_life = _lifem;
-
-	_expLayer = Layer::create();
+	log("%f", _life);
+	/*_expLayer = Layer::create();
 	_expLayer->setPosition(640, 5);
 	_layer->getParent()->addChild(_expLayer);
 
@@ -120,7 +147,7 @@ void Player::setLayer(Layer * layer)
 	_expBar->setScaleX(0);
 	_expBar->setPosition(-625, 0);
 	_expBar->setAnchorPoint(Vec2(0, 0.5f));
-	_expLayer->addChild(_expBar, 2);
+	_expLayer->addChild(_expBar, 2);*/
 }
 
 void Player::releaseLayer()
