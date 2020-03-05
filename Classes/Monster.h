@@ -32,9 +32,11 @@ private:
 		DEAD
 	};
 	Layer* _layer;
+	Layer* _hpBarLayer;
 
 	Sprite* _monster;
 	Sprite* _rect;
+	Sprite* _hpBar;
 	Label* _damageNumber;
 	Action* _rotate;
 	Animate* _moveAnimate;
@@ -79,6 +81,7 @@ public:
 	void setHit(int damage) { 
 		_hitDamage = damage > _def ? damage - _def : 1;
 		_hp -= _hitDamage;
+		_hpBar->setScaleX(_hp < 0 ? 0 :_hp / _hpm);
 		setPhase(¸ð¼Ç);
 		_state = HIT;
 	}
@@ -106,6 +109,7 @@ private:
 				nullptr), 
 			nullptr)
 		);
+		_hpBarLayer->setVisible(true);
 	}
 	
 };

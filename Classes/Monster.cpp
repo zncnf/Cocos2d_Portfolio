@@ -54,6 +54,21 @@ Monster::Monster(Layer* layer) {
 
 	_layer->addChild(_monster);
 
+	_hpBarLayer = Layer::create();
+	_hpBarLayer->setPosition(_monster->getContentSize().width/2, _monster->getContentSize().height+10);
+	_hpBarLayer->setVisible(false);
+	_monster->addChild(_hpBarLayer);
+
+	auto _hpBar_back = Sprite::create("Monster/monster_hpbar_back.png");
+	_hpBar_back->setPositionX(-_hpBar_back->getContentSize().width / 2);
+	_hpBar_back->setAnchorPoint(Vec2(0, 0.5f));
+	_hpBarLayer->addChild(_hpBar_back, 1);
+
+	_hpBar = Sprite::create("Monster/monster_hpbar.png");
+	_hpBar->setPositionX(-_hpBar->getContentSize().width / 2);
+	_hpBar->setAnchorPoint(Vec2(0, 0.5f));
+	_hpBarLayer->addChild(_hpBar, 2);
+
 	Vector<SpriteFrame*> frame;
 
 	for (int i = 0; i <= _standCount; i++) {
@@ -125,7 +140,7 @@ void Monster::tick()
 				Animate::create(Animation::createWithSpriteFrames(frame, 0.2f)),
 				Sequence::create(
 					DelayTime::create(0.6f),
-					CallFunc::create(CC_CALLBACK_0(Monster::setHitEffect, this, )),
+					CallFunc::create(CC_CALLBACK_0(Monster::setHitEffect, this)),
 					CallFunc::create(CC_CALLBACK_0(Monster::setState, this, HITEND)),
 					Spawn::create(
 						RotateTo::create(0.4, Vec3(0, 0, player->getWay() ? 720 : -720)),
@@ -180,7 +195,7 @@ void Monster::tick()
 			else {
 				switch (cuey->rand(0, 1)) {
 				case 0:
-					//_monster->setSpriteFrame(StringUtils::format("%s_stand_0.png", _code));
+					_monster->setSpriteFrame(StringUtils::format("%s_stand_0.png", _code));
 					for (int i = 0; i <= _standCount; i++) {
 						frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_stand_%d.png", _code, i)));
 					}

@@ -15,10 +15,13 @@ private:
 	Layer* _layer;
 	Layer* _player;
 	Layer* _expLayer;
+	Layer* _lifeLayer;
+	Label* _lifeLabel;
 	Sprite* _rect;
 	Sprite *_body, *_head, *_arm, *_rhand, *_lhand;
 	Sprite* _expBar;
 	Vector<Animate*> _stand, _walk;
+	Animate* _levelUP;
 
 	string _name;
 	float _lv, _exp, _expm, _gold;
@@ -30,14 +33,13 @@ private:
 	vector<int> _mobInRange;
 
 	int _isStand, _isLeft, _isRight, _isJump, _isHit;
-	bool _isDead, _isFoot, _isAttack, _way;
+	bool _isDead, _isFoot, _isAttack, _way, _isGame;
 	float _jPow;
 
 public:
 	static Player* getInstance();
 
 	void setLayer(Layer* layer);
-	void releaseLayer();
 
 	void setStand();
 	void setFoot();
@@ -55,13 +57,16 @@ public:
 		_exp += exp;
 		_expBar->cleanup();
 		_expBar->runAction(ScaleTo::create(0.5f, _exp/_expm, 1));
-		//_expBar->setScaleX(player->getExp() / player->getExpm());
 		if (_exp >= _expm) {
 			levelUp();
 		}
 	}
 	void levelUp();
 
+	void offGame() { 
+		_isGame = false;
+		_mobInRange.clear();
+	}
 
 	void viewRect(bool view) { 
 		_rect->setVisible(view);

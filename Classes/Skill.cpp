@@ -1,40 +1,37 @@
 #include "Skill.h"
 
-Skill::Skill(Layer* player)
+Skill::Skill()
 {
-	_player = player;
-
 	setNormal("디바이드");
 
 	_mountNormal = new Normal({ 0 });
 
-	_mountNormal->attack = _myNormal.back()->attack;
-
-	_mountNormal->attack->setVisible(false);
-
 	mountNormal(0);
-
-	_mountNormal->rect = Sprite::createWithTexture(nullptr, _mountNormal->attack->boundingBox());
-	_mountNormal->rect->setPositionX((-_mountNormal->attack->boundingBox().size.width / 2));
-	_mountNormal->rect->setColor(Color3B::RED);
-	_mountNormal->rect->setOpacity(100);
-	_mountNormal->rect->setTag(15);
-	_mountNormal->rect->setVisible(false);
-	_player->addChild(_mountNormal->rect, -1);
-
-	_isWay = false;
-	_isNormal = false;
 }
 
-void Skill::setLayer(Layer* layer)
+void Skill::setLayer(Layer* layer, Layer* player)
 {
-	_layer = layer;
-	_layer->addChild(_mountNormal->attack);
-	_mountNormal->attack->setPosition(_player->getPosition());
-}
+	//if (_isWay) {
+		_layer = layer;
+		_player = player;
 
-void Skill::releaseLayer()
-{
+		_mountNormal->attack = Sprite::createWithSpriteFrameName(StringUtils::format("%s_attack_0.png", _mountNormal->code.getCString()));
+		_mountNormal->attack->setPosition(_player->getPosition());
+		_mountNormal->attack->setVisible(false);
+
+		_layer->addChild(_mountNormal->attack);
+
+		_mountNormal->rect = Sprite::createWithTexture(nullptr, _mountNormal->attack->boundingBox());
+		_mountNormal->rect->setPositionX((-_mountNormal->attack->boundingBox().size.width / 2));
+		_mountNormal->rect->setColor(Color3B::RED);
+		_mountNormal->rect->setOpacity(100);
+		_mountNormal->rect->setTag(15);
+		_mountNormal->rect->setVisible(false);
+		_player->addChild(_mountNormal->rect, -1);
+
+		_isWay = false;
+		_isNormal = false;
+	//}
 }
 
 void Skill::setNormal(String name)

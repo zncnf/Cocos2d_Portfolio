@@ -5,23 +5,14 @@ Player* Player::Instance = nullptr;
 Player::Player()
 {
 	cache->addSpriteFramesWithFile("Player/Player.plist");
+	cache->addSpriteFramesWithFile("Player/LavelUp1.plist");
+	cache->addSpriteFramesWithFile("Player/LavelUp2.plist");
 
 	_layer = Layer::create();
 
-	//ÇÃ·¹ÀÌ¾î »ý¼º
-	//_player = Layer::create();
-
 	_equip = new Equip();
 
-	//_skill = new Skill(_player);
-
-	_rect = Sprite::createWithTexture(nullptr, {0,0,30,72});
-	//_player->addChild(_rect);
-	_rect->setPosition(0, -13);
-	_rect->setTag(15);
-	_rect->setColor(Color3B::RED);
-	_rect->setOpacity(100);
-	_rect->setVisible(false);
+	_skill = new Skill();
 
 	Vector<SpriteFrame*> frame[4];
 
@@ -59,16 +50,7 @@ Player::Player()
 	_lifem = _life = 3;
 	_speed = 2;
 	_item.push_back(new Item());
-	_isStand = 1;
-	_isLeft = 0;
-	_isRight = 0;
-	_isJump = 0;
-	_isHit = 0;
-	_isAttack = false;
-	_isFoot = false;
-	_isDead = false;
-	_way = false;
-	_jPow = 0;
+	_isGame = false;
 }
 
 Player * Player::getInstance()
@@ -82,6 +64,17 @@ Player * Player::getInstance()
 void Player::setLayer(Layer * layer)
 {
 	_layer = layer;
+
+	_isStand = 1;
+	_isLeft = 0;
+	_isRight = 0;
+	_isJump = 0;
+	_isHit = 0;
+	_isAttack = false;
+	_isFoot = false;
+	_isDead = false;
+	_way = false;
+	_jPow = 0;
 
 	_player = Layer::create();
 	_layer->addChild(_player);
@@ -104,12 +97,21 @@ void Player::setLayer(Layer * layer)
 	_lhand = Sprite::createWithSpriteFrameName("player_jump_0_lhand.png");
 	_lhand->setVisible(false);
 	_player->addChild(_lhand, 25);
+
+	_rect = Sprite::createWithTexture(nullptr, { 0,0,30,72 });
+	_player->addChild(_rect);
+	_rect->setPosition(0, -13);
+	_rect->setTag(15);
+	_rect->setColor(Color3B::RED);
+	_rect->setOpacity(100);
+	_rect->setVisible(false);
 	
 	_equip->setLayer(_player);
-	//_skill->setLayer(_layer);
-	_life = _lifem;
-	log("%f", _life);
-	/*_expLayer = Layer::create();
+	_skill->setLayer(_layer, _player);
+
+	_life = (int)_lifem;
+
+	_expLayer = Layer::create();
 	_expLayer->setPosition(640, 5);
 	_layer->getParent()->addChild(_expLayer);
 
@@ -122,15 +124,24 @@ void Player::setLayer(Layer * layer)
 	_expLayer->addChild(_expBar_back2, 3);
 
 	_expBar = Sprite::create("Map/exp.png");
-	_expBar->setScaleX(0);
+	_expBar->setScaleX(_exp / _expm);
 	_expBar->setPosition(-625, 0);
 	_expBar->setAnchorPoint(Vec2(0, 0.5f));
-	_expLayer->addChild(_expBar, 2);*/
-}
+	_expLayer->addChild(_expBar, 2);
+	
+	_lifeLayer = Layer::create();
+	_lifeLayer->setPosition(0, 50);
+	_player->addChild(_lifeLayer);
 
-void Player::releaseLayer()
-{
+	auto _lifeSprite = Sprite::create("Player/life.png");
+	_lifeSprite->setScale(0.1f);
+	_lifeLayer->addChild(_lifeSprite);
 
+	_lifeLabel = Label::create(StringUtils::format("%d", (int)_life), "fonts/¾ß³îÀÚ ¾ßÃ¼Rehular.ttf", 30);
+	_lifeLayer->addChild(_lifeLabel);
+
+	setStand();
+	_isGame = true;
 }
 
 void Player::setStand()
@@ -226,6 +237,7 @@ void Player::setAttack()
 		for (int i = 0; i < _player->getChildrenCount(); i++) {
 			_player->getChildren().at(i)->stopActionsByFlags(10);
 		}
+		levelUp();
 		_player->stopActionsByFlags(10);
 		_skill->playNormal();
 		auto action = Sequence::create(
@@ -278,6 +290,8 @@ void Player::setHit()
 {
 	if (_isHit == 0 && !_isDead) {
 		_life--;
+		_lifeLabel->setString(StringUtils::format("%d", (int)_life));
+		log("%d/ %d", (int)_life, (int)_lifem);
 		if (_life == 0) {
 			setDead();
 		}
@@ -310,6 +324,7 @@ void Player::setHitCount(int n)
 void Player::setDead()
 {
 	_isDead = true;
+	_lifeLayer->setVisible(false);
 	for (int i = 0; i < _player->getChildrenCount(); i++) {
 		_player->getChildren().at(i)->stopActionsByFlags(10);
 	}
@@ -357,14 +372,30 @@ void Player::setWay(bool way)
 
 void Player::levelUp()
 {
+	auto sprite = Sprite::create();
+	sprite->setTag(15);
+	sprite->setPositionY(70);
+	_player->addChild(sprite);
+
+	Vector<SpriteFrame*> frame;
+
+	for (int i = 0; i < 21; i++) {
+		frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("LavelUp_%d.png", i)));
+	}
+	
+	sprite->runAction(Sequence::create(
+		Animate::create(Animation::createWithSpriteFrames(frame, 0.1f)),
+		RemoveSelf::create(true),
+		nullptr));
+
 	_exp -= _expm;
-	_lv++;
+	_lv+= 1;
 	_expm = _lv * 25;
 	_atk = pow(_lv, 1.5) + 5;
 	_lifem = _lv / 5 + 3;
 	_expBar->cleanup();
 	_expBar->setScaleX(_exp / _expm);
-	log("Level UP! : lv%d", (int)_lv);
+	log("Level UP! : lv%f, speed %f, exp %f/%f", _lv, _speed, _exp, _expm);
 	if (_exp >= _expm) {
 		levelUp();
 	}
@@ -426,74 +457,76 @@ void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event * event)
 
 void Player::tick()
 {
-	if (!_isDead) {
-		if (_isHit != 1) {
-			if (_isStand == 1) { //¸ØÃã 0, ´ë±â 1, Àû¿ë 2
-				if (_isLeft != 2 && _isRight != 2 && !_isAttack && _isFoot) {
-					setStand();
-					_isStand = 0;
+	if (_isGame) {
+		if (!_isDead) {
+			if (_isHit != 1) {
+				if (_isStand == 1) { //¸ØÃã 0, ´ë±â 1, Àû¿ë 2
+					if (_isLeft != 2 && _isRight != 2 && !_isAttack && _isFoot) {
+						setStand();
+						_isStand = 0;
+					}
 				}
-			}
-			if (_isLeft == 1) {
-				if (_isFoot && !_isAttack && _isRight != 1 && _isStand != 2) {
-					_isStand = 1;
-					setWalk();
-				}
-				if (_isRight == 0) {
-					_isLeft = 2;
-					if (!_isAttack && _mobInRange.empty()) setWay(false);
-				}
+				if (_isLeft == 1) {
+					if (_isFoot && !_isAttack && _isRight != 1 && _isStand != 2) {
+						_isStand = 1;
+						setWalk();
+					}
+					if (_isRight == 0) {
+						_isLeft = 2;
+						if (!_isAttack && _mobInRange.empty()) setWay(false);
+					}
 
-			}
-			if (_isRight == 1) {
-				if (_isFoot && !_isAttack && _isLeft != 1 && _isStand != 2) {
+				}
+				if (_isRight == 1) {
+					if (_isFoot && !_isAttack && _isLeft != 1 && _isStand != 2) {
+						_isStand = 1;
+						setWalk();
+					}
+					if (_isLeft == 0) {
+						_isRight = 2;
+						if (!_isAttack&& _mobInRange.empty()) setWay(true);
+					}
+				}
+				if (_isJump == 2) {
 					_isStand = 1;
-					setWalk();
+					if (_isFoot) {
+						_isJump = 3;
+						_isFoot = false;
+					}
 				}
-				if (_isLeft == 0) {
-					_isRight = 2;
-					if (!_isAttack&& _mobInRange.empty()) setWay(true);
+				if (!_isAttack && !_skill->getIsNormal()) {
+					if (!_mobInRange.empty()) {
+						_isStand = 1;
+						if (_isJump == 2) _isJump = 1;
+						_isAttack = true;
+						setAttack();
+					}
+					else if (!_isFoot) {
+						setJump();
+					}
 				}
-			}
-			if (_isJump == 2) {
-				_isStand = 1;
-				if (_isFoot) {
-					_isJump = 3;
-					_isFoot = false;
-				}
-			}
-			if (!_isAttack && !_skill->getIsNormal()) {
-				if (!_mobInRange.empty()) {
-					_isStand = 1;
-					if (_isJump == 2) _isJump = 1;
-					_isAttack = true;
-					setAttack();
-				}
-				else if (!_isFoot) {
-					setJump();
+				if (!_isFoot) {
+					_jPow += 0.4f;
+					_player->setPositionY(_player->getPositionY() - _jPow);
 				}
 			}
-			if (!_isFoot) {
-				_jPow += 0.4f;
-				_player->setPositionY(_player->getPositionY() - _jPow);
+
+			if (_player->getPositionX() > 20) {
+				if (_isLeft == 2) _player->setPositionX(_player->getPositionX() - _speed);
+			}
+			if (_player->getPositionX() < 1960) {
+				if (_isRight == 2) _player->setPositionX(_player->getPositionX() + _speed);
 			}
 		}
 
-		if (_player->getPositionX() > 20) {
-			if (_isLeft == 2) _player->setPositionX(_player->getPositionX() - _speed);
-		}
-		if (_player->getPositionX() < 1960) {
-			if (_isRight == 2) _player->setPositionX(_player->getPositionX() + _speed);
-		}
-	}
-	
 
-	if (_player->getPositionX() > instance->getWinSize().width / 2 && _player->getPositionX() < 1980 - instance->getWinSize().width / 2) {
-		_player->getParent()->setPositionX(instance->getWinSize().width / 2 - _player->getPositionX());
-	}
+		if (_player->getPositionX() > instance->getWinSize().width / 2 && _player->getPositionX() < 1980 - instance->getWinSize().width / 2) {
+			_player->getParent()->setPositionX(instance->getWinSize().width / 2 - _player->getPositionX());
+		}
 
-	if (_player->getPositionY() < 207) {
-		_player->setPositionY(207);
-		setFoot();
+		if (_player->getPositionY() < 207) {
+			_player->setPositionY(207);
+			setFoot();
+		}
 	}
 }

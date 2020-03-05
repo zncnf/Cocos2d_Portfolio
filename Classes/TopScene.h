@@ -24,7 +24,6 @@ public:
 	static Scene* createScene();
 	virtual bool init();
 	CREATE_FUNC(TopScene);
-	~TopScene();
 private:
 	void tick(float delta);
 	virtual void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);

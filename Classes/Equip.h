@@ -35,10 +35,6 @@ private:
 	Armor* _mountArmor;
 	Shoes* _mountShoes;
 
-	Weapon* _tempWeapon;
-	Armor* _tempArmor;
-	Shoes* _tempShoes;
-
 public:
 	Equip();
 

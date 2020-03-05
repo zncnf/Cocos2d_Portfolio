@@ -50,10 +50,10 @@ private:
 	Passive* _mountPassive;
 
 public:
-	Skill(Layer* player);
+	Skill();
 
-	void setLayer(Layer* layer);
-	void releaseLayer();
+	void setLayer(Layer* layer, Layer* player);
+
 	void setNormal(String name);
 	void setSpecial(String name);
 	void setPassive(String name);

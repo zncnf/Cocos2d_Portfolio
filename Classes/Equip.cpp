@@ -7,8 +7,6 @@ Equip::Equip()
 	cache->addSpriteFramesWithFile("Equip/Armor/commander.plist");
 	cache->addSpriteFramesWithFile("Equip/Shoes/luminous.plist");
 
-	_layer = Layer::create();
-
 	action1 = new Action;
 	action1->setFlags(10);
 	action2 = new Action;
@@ -26,19 +24,10 @@ Equip::Equip()
 	_mountArmor = new Armor({ 0 });
 	_mountShoes = new Shoes({ 0 });
 
-	_tempWeapon = new Weapon({ 0 });
-	_tempArmor = new Armor({ 0 });
-	_tempShoes = new Shoes({ 0 });
-
-	_mountWeapon->sprite = Sprite::createWithSpriteFrame(_myWeapon.back()->sprite->getSpriteFrame());
-	_mountArmor->body = Sprite::createWithSpriteFrame(_myArmor.back()->body->getSpriteFrame());
-	_mountArmor->arm = Sprite::createWithSpriteFrame(_myArmor.back()->arm->getSpriteFrame());
-	_mountShoes->sprite = Sprite::createWithSpriteFrame(_myShoes.back()->sprite->getSpriteFrame());
-
-	_tempWeapon->sprite = Sprite::createWithSpriteFrame(_myWeapon.back()->sprite->getSpriteFrame());
-	_tempArmor->body = Sprite::createWithSpriteFrame(_myArmor.back()->body->getSpriteFrame());
-	_tempArmor->arm = Sprite::createWithSpriteFrame(_myArmor.back()->arm->getSpriteFrame());
-	_tempShoes->sprite = Sprite::createWithSpriteFrame(_myShoes.back()->sprite->getSpriteFrame());
+	_mountWeapon->sprite = Sprite::create();
+	_mountArmor->body = Sprite::create();
+	_mountArmor->arm = Sprite::create();
+	_mountShoes->sprite = Sprite::create();
 
 	mountWeapon(0);
 	mountArmor(0);
@@ -47,20 +36,15 @@ Equip::Equip()
 
 void Equip::setLayer(Layer* layer)
 {
-	_layer = layer;
-	_mountWeapon = new Weapon({ 0 });
-	_mountArmor = new Armor({ 0 });
-	_mountShoes = new Shoes({ 0 });
+	_mountWeapon->sprite = Sprite::create();
+	_mountArmor->body = Sprite::create();
+	_mountArmor->arm = Sprite::create();
+	_mountShoes->sprite = Sprite::create();
 
-	_tempWeapon->sprite->getSpriteFrame();
-	/*_mountWeapon->sprite = Sprite::createWithSpriteFrame(_tempWeapon->sprite->getSpriteFrame());
-	_mountArmor->body = Sprite::createWithSpriteFrame(_tempArmor->body->getSpriteFrame());
-	_mountArmor->arm = Sprite::createWithSpriteFrame(_tempArmor->arm->getSpriteFrame());
-	_mountShoes->sprite = Sprite::createWithSpriteFrame(_tempShoes->sprite->getSpriteFrame());
-	/*_layer->addChild(_mountArmor->body, 12);
-	_layer->addChild(_mountShoes->sprite, 13);
-	_layer->addChild(_mountWeapon->sprite, 13);
-	_layer->addChild(_mountArmor->arm, 16);*/
+	layer->addChild(_mountWeapon->sprite, 13);
+	layer->addChild(_mountArmor->body, 12);
+	layer->addChild(_mountArmor->arm, 16);
+	layer->addChild(_mountShoes->sprite, 13);
 }
 
 void Equip::setWeapon(String name)
@@ -223,11 +207,6 @@ void Equip::mountWeapon(int n)
 		_mountWeapon->icon = Sprite::createWithSpriteFrame(_myWeapon[n]->icon->getSpriteFrame());
 		_mountWeapon->iconRaw = Sprite::createWithSpriteFrame(_myWeapon[n]->iconRaw->getSpriteFrame());
 		_mountWeapon->name = _myWeapon[n]->name;
-		_tempWeapon->atk = _myWeapon[n]->atk;
-		_tempWeapon->code = _myWeapon[n]->code;
-		_tempWeapon->icon = Sprite::createWithSpriteFrame(_myWeapon[n]->icon->getSpriteFrame());
-		_tempWeapon->iconRaw = Sprite::createWithSpriteFrame(_myWeapon[n]->iconRaw->getSpriteFrame());
-		_tempWeapon->name = _myWeapon[n]->name;
 
 		_myWeapon.erase(_myWeapon.begin() + n);
 		if (temp.getCString() != "") setWeapon(temp);
@@ -244,12 +223,6 @@ void Equip::mountArmor(int n)
 		_mountArmor->iconRaw = Sprite::createWithSpriteFrame(_myArmor[n]->iconRaw->getSpriteFrame());
 		_mountArmor->name = _myArmor[n]->name;
 
-		_tempArmor->life = _myArmor[n]->life;
-		_tempArmor->code = _myArmor[n]->code;
-		_tempArmor->icon = Sprite::createWithSpriteFrame(_myArmor[n]->icon->getSpriteFrame());
-		_tempArmor->iconRaw = Sprite::createWithSpriteFrame(_myArmor[n]->iconRaw->getSpriteFrame());
-		_tempArmor->name = _myArmor[n]->name;
-
 		_myArmor.erase(_myArmor.begin() + n);
 		if (temp.getCString() != "") setArmor(temp);
 	}
@@ -264,12 +237,6 @@ void Equip::mountShoes(int n)
 		_mountShoes->icon = Sprite::createWithSpriteFrame(_myShoes[n]->icon->getSpriteFrame());
 		_mountShoes->iconRaw = Sprite::createWithSpriteFrame(_myShoes[n]->iconRaw->getSpriteFrame());
 		_mountShoes->name = _myShoes[n]->name;
-
-		_tempShoes->speed = _myShoes[n]->speed;
-		_tempShoes->code = _myShoes[n]->code;
-		_tempShoes->icon = Sprite::createWithSpriteFrame(_myShoes[n]->icon->getSpriteFrame());
-		_tempShoes->iconRaw = Sprite::createWithSpriteFrame(_myShoes[n]->iconRaw->getSpriteFrame());
-		_tempShoes->name = _myShoes[n]->name;
 
 		_myShoes.erase(_myShoes.begin() + n);
 		if (temp.getCString() != "") setShoes(temp);
