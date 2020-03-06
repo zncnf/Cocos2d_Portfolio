@@ -61,10 +61,11 @@ private:
 public:
 	Monster(Layer* layer);
 	~Monster();
-	
+
 	Sprite* getMonster() { return _monster; }
 	Rect getRect() { return Rect(_monster->boundingBox().getMinX(), _monster->boundingBox().getMidY(),
 								_monster->getContentSize().width, _monster->getContentSize().height); }
+	Item* getItem() { return _item; }
 
 	float getAtk() { return _atk; }
 	float getHp() { return _hp; }
@@ -94,7 +95,7 @@ public:
 
 private:
 	void setWay(bool way);
-	void setRemove() { _isRemove = true; }
+	void setRemove() { _isRemove = true; _hpBarLayer->setVisible(false); _monster->setVisible(false); }
 	void setHitEffect() { 
 		player->getSkill()->playNormalHit(_monster->getPosition()); 
 		_damageNumber->cleanup();

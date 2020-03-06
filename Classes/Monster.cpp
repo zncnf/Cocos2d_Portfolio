@@ -209,7 +209,7 @@ void Monster::tick()
 				break;
 			}
 			_item->dropItem(_monster);
-			for (int i = 0; i <=  _dieCount; i++) {
+			for (int i = 0; i <= _dieCount; i++) {
 				frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_die_%d.png", _code, i)));
 			}
 			_monster->runAction(Sequence::create(

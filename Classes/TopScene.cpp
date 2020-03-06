@@ -81,7 +81,21 @@ void TopScene::tick(float delta)
 				//sprintf(str, "%s%d : %d/%d, ", str, i, (int)_monster.at(i)->getHp(), (int)_monster.at(i)->getHpm());
 			}
 		}
-		if (_monster.at(i)->getIsRemove()) {
+		for (int j = 0; j < _monster.at(i)->getItem()->getItemSize(); j++) {
+			if (_monster.at(i)->getItem()->getIsPickUp(j)) {
+				//_monster.at(i)->getItem()->getItemPosition(j);// ->getRect(j);
+				if (player->getRect().intersectsRect(_monster.at(i)->getItem()->getRect(j))) {
+					_monster.at(i)->getItem()->pickupItem(player->getPlayer(), j);
+				}
+			}
+			if (_monster.at(i)->getItem()->getIsGet(j)) {
+				if (player->getRect().containsPoint(_monster.at(i)->getItem()->getItemPosition(j))) {
+					_monster.at(i)->getItem()->removeItem(j);
+					log("%d", j);
+				}
+			}
+		}
+		if (_monster.at(i)->getIsRemove() && _monster.at(i)->getItem()->getIsRemove()) {
 			delete _monster.at(i);
 			_monster.erase(_monster.begin() + i);
 			i--;
