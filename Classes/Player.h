@@ -3,6 +3,7 @@
 #include "Item.h"
 #include "Equip.h"
 #include "Skill.h"
+#include "Pet.h"
 
 #define player Player::getInstance()
 
@@ -17,7 +18,7 @@ private:
 	Layer* _expLayer;
 	Layer* _lifeLayer;
 	Label* _lifeLabel;
-	Sprite* _rect;
+	Sprite *_rect, *_rect2;
 	Sprite *_body, *_head, *_arm, *_rhand, *_lhand;
 	Sprite* _expBar;
 	Vector<Animate*> _stand, _walk;
@@ -26,15 +27,17 @@ private:
 	string _name;
 	float _lv, _exp, _expm, _gold;
 	float _atk, _life, _lifem, _speed;
-	vector<Item*> _item;
+	Item* _item;
 	Equip* _equip;
 	Skill* _skill;
+	Pet* _pet;
 
 	vector<int> _mobInRange;
 
 	int _isStand, _isLeft, _isRight, _isJump, _isHit;
 	bool _isDead, _isFoot, _isAttack, _way, _isGame;
 	float _jPow;
+	int _pickUpDelay;
 
 public:
 	static Player* getInstance();
@@ -52,6 +55,11 @@ public:
 	void setHitCount(int n);
 	void setDead();
 	void setWay(bool way);
+	void setPickUp() { _pickUpDelay = 30; }
+
+	void appendGold(int gold) {
+		_gold += gold;
+	}
 
 	void appendExp(int exp) {
 		_exp += exp;
@@ -70,6 +78,7 @@ public:
 
 	void viewRect(bool view) { 
 		_rect->setVisible(view);
+		_rect2->setVisible(view);
 		_skill->viewRect(view);
 	}
 
@@ -83,11 +92,16 @@ public:
 	bool getIsRight() { return _isRight == 2 ? true : false; }
 	bool getIsDead() { return _isDead; }
 	Rect getRect() { return Rect(_player->getPositionX() - 15, _player->getPositionY() - 36, 30, 72); }
+	Rect getRect2() { return Rect(_player->getPositionX() - 500, _player->getPositionY() - 136, 1000, 200); }
+	Item* getItem() { return _item; }
 	Equip* getEquip() { return _equip; }
 	Skill* getSkill() { return _skill; }
+	Pet* getPet() { return _pet; }
 	bool getIsAttack() { return _isAttack; }
 	bool getIsHit() { return _isHit; }
+	bool getIsFoot() { return _isFoot; }
 	bool getWay() { return _way; }
+	bool getIsPickUp() { return _pickUpDelay == 0 ? true : false; }
 	int getMobRangeSize() { return _mobInRange.size(); }
 	float getLv() { return _lv; }
 	float getExp() { return _exp; }
@@ -96,11 +110,9 @@ public:
 
 	float getNormalDamage() { 
 		float damage = (_atk + _equip->getMountWeaponAtk()) * _skill->getNormalAtkf();
-		return damage * cuey->rand(0.8f, 1.0f);
+		return damage * cuey->rand(0.8, 1.0);
 	}
 	float getBaseAtk() { return _atk; }
 	float getBaseLife() { return _life; }
 	float getBaseSpeed() { return _speed; }
-
-	Item* getItem() { return _item.back(); }
 };

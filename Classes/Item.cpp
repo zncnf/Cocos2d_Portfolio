@@ -12,29 +12,57 @@ void Item::setLayer(Layer * layer)
 
 void Item::setItem(String name)
 {
+	bool isEmpty = true;
 	if (name.compare("µ∑") == 0) {
-		_item.push_back(new ITEM({
-		"µ∑",
-		Sprite::create("Item/µ∑.png"),
-		Sprite::create("Item/µ∑_icon.png"),
-		NONE, 0
-		}));
+		for (int i = 0; i < _item.size(); i++) {
+			if (_item[i]->name.compare(name.getCString()) == 0) {
+				isEmpty = false;
+				_item[i]->count++;
+				break;
+			}
+		}
+		if (isEmpty) {
+			_item.push_back(new ITEM({
+			"µ∑",
+			Sprite::create("Item/µ∑.png"),
+			Sprite::create("Item/µ∑_icon.png"),
+			NONE, 1
+				}));
+		}
 	}
 	if (name.compare("¥ﬁ∆ÿ¿Ã¿« ≤Æ¡˙") == 0) {
-		_item.push_back(new ITEM({
-		"¥ﬁ∆ÿ¿Ã¿« ≤Æ¡˙",
-		Sprite::create("Item/¥ﬁ∆ÿ¿Ã¿« ≤Æ¡˙.png"),
-		Sprite::create("Item/¥ﬁ∆ÿ¿Ã¿« ≤Æ¡˙_icon.png"),
-		NONE, 0
-		}));
+		for (int i = 0; i < _item.size(); i++) {
+			if (_item[i]->name.compare(name.getCString()) == 0) {
+				isEmpty = false;
+				_item[i]->count++;
+				break;
+			}
+		}
+		if (isEmpty) {
+			_item.push_back(new ITEM({
+			"¥ﬁ∆ÿ¿Ã¿« ≤Æ¡˙",
+			Sprite::create("Item/¥ﬁ∆ÿ¿Ã¿« ≤Æ¡˙.png"),
+			Sprite::create("Item/¥ﬁ∆ÿ¿Ã¿« ≤Æ¡˙_icon.png"),
+			NONE, 1
+				}));
+		}
 	}
 	if (name.compare("µ≈¡ˆ¿« ∏”∏Æ") == 0) {
-		_item.push_back(new ITEM({
-		"µ≈¡ˆ¿« ∏”∏Æ",
-		Sprite::create("Item/µ≈¡ˆ¿« ∏”∏Æ.png"),
-		Sprite::create("Item/µ≈¡ˆ¿« ∏”∏Æ_icon.png"),
-		NONE, 0
-		}));
+		for (int i = 0; i < _item.size(); i++) {
+			if (_item[i]->name.compare(name.getCString()) == 0) {
+				isEmpty = false;
+				_item[i]->count++;
+				break;
+			}
+		}
+		if (isEmpty) {
+			_item.push_back(new ITEM({
+			"µ≈¡ˆ¿« ∏”∏Æ",
+			Sprite::create("Item/µ≈¡ˆ¿« ∏”∏Æ.png"),
+			Sprite::create("Item/µ≈¡ˆ¿« ∏”∏Æ_icon.png"),
+			NONE, 1
+				}));
+		}
 	}
 }
 
@@ -46,7 +74,6 @@ void Item::dropItem(Sprite * monster)
 	temp->setAnchorPoint(Vec2(0, 0));
 	for (int i = 0; i < _item.size(); i++) {
 		if (_item[i]->state == NONE) {
-			log("%s", _item[i]->name.getCString());
 			_item[i]->sprite = Sprite::create(StringUtils::format("Item/%s.png", _item[i]->name.getCString()));
 			_item[i]->sprite->setAnchorPoint(Vec2(0.5f, 0));
 			_layer->addChild(_item[i]->sprite);
@@ -77,12 +104,31 @@ void Item::dropItem(Sprite * monster)
 
 void Item::pickupItem(Layer* player, int n)
 {
-
 	_item[n]->state = GET;
-	_item[n]->speed -= 0.1f;
 	_item[n]->sprite->setZOrder(2);
-	_item[n]->sprite->runAction(Sequence::create(
-		JumpTo::create(1 + _item[n]->speed, Vec2(player->getPositionX(), player->getPositionY()-10), 10, 1), 
-		CallFunc::create(CC_CALLBACK_0(Item::pickupItem, this, player, n)),
+
+	_item[n]->sprite->runAction(Spawn::create(
+		FadeTo::create(0.3, 0),
+		MoveTo::create(0.3, Vec2(player->getPositionX(), player->getPositionY() - 20)),
 		nullptr));
+}
+
+void Item::pickupItem(Sprite * pet, int n)
+{
+	log("∆Íæ∆¿Ã≈‹ º∫∞¯");
+	_item[n]->state = GET;
+	_item[n]->sprite->setZOrder(2);
+
+	_item[n]->sprite->runAction(Spawn::create(
+		FadeTo::create(0.3, 0),
+		MoveTo::create(0.3, Vec2(pet->getPositionX(), pet->getPositionY())),
+		nullptr));
+}
+
+int Item::getId(String s)
+{
+	for (int i = 0; i < _item.size(); i++) {
+		if (_item[i]->name.compare(s.getCString()) == 0) return i;
+	}
+	return -1;
 }

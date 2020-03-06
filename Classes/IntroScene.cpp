@@ -42,7 +42,7 @@ void IntroScene::allUserFadeIn()
 	grade2->runAction(FadeIn::create(3));
 	message->runAction(FadeIn::create(3));
 	this->runAction(Sequence::create(
-		DelayTime::create(1),//4
+		DelayTime::create(0.5),//4
 		CallFunc::create(CC_CALLBACK_0(IntroScene::allUserFadeOut, this)),
 		nullptr
 	));

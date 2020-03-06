@@ -1,0 +1,7 @@
+백록
+백록_stand_0.png		0~3
+백록_move_0.png		0~7
+
+쁘띠 부우
+쁘띠 부우_stand_0.png	0~4
+쁘띠 부우_move_0.png	0~4

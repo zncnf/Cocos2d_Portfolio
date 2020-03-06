@@ -23,7 +23,7 @@ void Skill::setLayer(Layer* layer, Layer* player)
 	_mountNormal->rect = Sprite::createWithTexture(nullptr, _mountNormal->attack->boundingBox());
 	_mountNormal->rect->setPositionX((-_mountNormal->attack->boundingBox().size.width / 2));
 	_mountNormal->rect->setColor(Color3B::RED);
-	_mountNormal->rect->setOpacity(100);
+	_mountNormal->rect->setOpacity(70);
 	_mountNormal->rect->setTag(15);
 	_mountNormal->rect->setVisible(false);
 	_player->addChild(_mountNormal->rect, -1);

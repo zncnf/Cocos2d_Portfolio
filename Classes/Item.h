@@ -7,7 +7,8 @@ class Item : public Scene
 		NONE,
 		DROP,
 		PICKUP,
-		GET
+		GET,
+		REMOVE
 	};
 	struct ITEM
 	{
@@ -15,8 +16,7 @@ class Item : public Scene
 		Sprite* sprite;
 		Sprite* icon;
 		STATE state;
-		float speed;
-		int gold;
+		int count;
 	};
 
 	Layer* _layer;
@@ -37,6 +37,7 @@ public:
 	void dropItem(Sprite* monster);
 
 	void pickupItem(Layer* player, int n);
+	void pickupItem(Sprite* pet, int n);
 
 	int getItemSize() { return _item.size(); }
 
@@ -49,11 +50,15 @@ public:
 	}
 
 	void removeItem(int n) { 
-		//_item[n]->sprite->cleanup();
-		_item[n]->sprite->runAction(FadeTo::create(0.5, 0));
-		//_layer->removeChild(_item[n]->sprite);
-		_item[n]->state = NONE;
+		_item[n]->state = REMOVE;
+		_isRemove = true;
+		for (int i = 0; i < _item.size(); i++) {
+			if(_item[i]->state != REMOVE) _isRemove = false;
+		}
 	}
+	String getName(int n) { return _item[n]->name; }
+	int getCount(int n) { return _item[n]->count; }
+	int getId(String s);
 
 	bool getIsNone(int n) { return _item[n]->state == NONE ? true : false; }
 	bool getIsDrop(int n) { return _item[n]->state == DROP ? true : false; }

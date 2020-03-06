@@ -19,7 +19,7 @@ bool TopScene::init()
 	_layer->addChild(_bg);
 
 	_map = Sprite::create("Map/°íÅëÀÇ ¹Ì±Ã Áß½ÉºÎ.png");
-	_map->setPosition(0,-76);
+	_map->setPosition(0, -76);
 	_map->setAnchorPoint(Vec2(0, 0));
 	_layer->addChild(_map);
 
@@ -57,15 +57,58 @@ bool TopScene::init()
 
 void TopScene::tick(float delta)
 {
-	if(!player->getIsDead()) _time += delta;
+	if (!player->getIsDead()) _time += delta;
 	_timeLabel->setString(StringUtils::format("TIME   %02d : %02d", (int)_time / 60, (int)_time % 60));
 	player->tick();
-	int mobRezen = 600 / pow(_time,0.6f) + 30;
+	int mobRezen = 600 / pow(_time, 0.6f) + 30;
 	if (cuey->rand(0, mobRezen) == 0 && !player->getIsDead()) {
 		_monster.pushBack(new Monster(_layer));
 		_monster.back()->viewRect(_isViewRect);
 	}
 	char str[1048] = "";
+	vector<float> itemX;
+	for (int i = 0; i < _monster.size(); i++) {
+		for (int j = 0; j < _monster.at(i)->getItem()->getItemSize(); j++) {
+			if (_monster.at(i)->getItem()->getIsPickUp(j)) {
+				if (player->getRect2().intersectsRect(_monster.at(i)->getItem()->getRect(j))) {
+					bool isItemX = false;
+					for (int k = 0; k < itemX.size(); k++) {
+						if (itemX[k] == _monster.at(i)->getItem()->getItemPosition(j).x) isItemX = true;
+					}
+					if (!isItemX) itemX.push_back(_monster.at(i)->getItem()->getItemPosition(j).x);
+				}
+			}
+		}
+	}
+	if (//player->getPet()->getIsPickUp() && 	
+		(player->getPlayer()->getPositionX() + 150 < player->getPet()->getMountPet()->getPositionX() ||
+			player->getPlayer()->getPositionX() - 150 > player->getPet()->getMountPet()->getPositionX())
+		) itemX.push_back(player->getPlayer()->getPositionX() + (player->getPlayer()->getPositionX() > player->getPet()->getMountPet()->getPositionX() ? 10 : -10));
+	if (!player->getIsDead()) {
+		if (itemX.empty()) {
+			if (player->getPlayer()->getPositionX() + 450 < player->getPet()->getMountPet()->getPositionX()) {
+				player->getPet()->getMountPet()->setFlippedX(false);
+
+				player->getPet()->getMountPet()->runAction(MoveTo::create(2, Vec2(player->getRect().getMidX() + 300, player->getPet()->getMountPet()->getPositionY())));
+			} 
+			if (player->getPlayer()->getPositionX() - 450 > player->getPet()->getMountPet()->getPositionX()) {
+				player->getPet()->getMountPet()->setFlippedX(true);
+				player->getPet()->getMountPet()->runAction(MoveTo::create(2, Vec2(player->getRect().getMidX() - 300, player->getPet()->getMountPet()->getPositionY())));
+			}
+			if (!player->getPet()->getIsStand()) player->getPet()->setStand();
+		}
+		else {
+			if (!player->getPet()->getIsMove()) player->getPet()->setMove();
+			if (player->getPet()->getMountPet()->getPositionX() > itemX[0]) {
+				player->getPet()->getMountPet()->setFlippedX(false);
+				player->getPet()->getMountPet()->setPositionX(player->getPet()->getMountPet()->getPositionX() - player->getBaseSpeed() * 1.5f);
+			}
+			else {
+				player->getPet()->getMountPet()->setFlippedX(true);
+				player->getPet()->getMountPet()->setPositionX(player->getPet()->getMountPet()->getPositionX() + player->getBaseSpeed() * 1.5f);
+			}
+		}
+	}
 	for (int i = 0; i < _monster.size(); i++) {
 		_monster.at(i)->tick();
 		_monster.at(i)->getRect();
@@ -83,16 +126,29 @@ void TopScene::tick(float delta)
 		}
 		for (int j = 0; j < _monster.at(i)->getItem()->getItemSize(); j++) {
 			if (_monster.at(i)->getItem()->getIsPickUp(j)) {
-				//_monster.at(i)->getItem()->getItemPosition(j);// ->getRect(j);
-				if (player->getRect().intersectsRect(_monster.at(i)->getItem()->getRect(j))) {
+				if (player->getRect().intersectsRect(_monster.at(i)->getItem()->getRect(j)) && player->getIsPickUp()) {
 					_monster.at(i)->getItem()->pickupItem(player->getPlayer(), j);
+					player->setPickUp();
+				}
+				else if(player->getPet()->getMountPet()->getBoundingBox().intersectsRect(_monster.at(i)->getItem()->getRect(j)) && player->getPet()->getIsPickUp()) {
+					_monster.at(i)->getItem()->pickupItem(player->getPet()->getMountPet(), j);
+					player->getPet()->setPickUp();
 				}
 			}
 			if (_monster.at(i)->getItem()->getIsGet(j)) {
-				if (player->getRect().containsPoint(_monster.at(i)->getItem()->getItemPosition(j))) {
-					_monster.at(i)->getItem()->removeItem(j);
-					log("%d", j);
+				if (_monster.at(i)->getItem()->getName(j).compare("µ·") == 0) {
+					int gold = _monster.at(i)->getGold();
+					player->appendGold(gold);
+					_gold += gold;
+					_goldLabel->setString(StringUtils::format("%d", _gold));
 				}
+				else {
+					player->getItem()->setItem(_monster.at(i)->getItem()->getName(j));
+					log("%s(%d)À»(¸¦) È¹µæÇÏ¿´½À´Ï´Ù.",
+						player->getItem()->getName(player->getItem()->getId(_monster.at(i)->getItem()->getName(j))).getCString(), 
+						player->getItem()->getCount(player->getItem()->getId(_monster.at(i)->getItem()->getName(j))));
+				}
+				_monster.at(i)->getItem()->removeItem(j);
 			}
 		}
 		if (_monster.at(i)->getIsRemove() && _monster.at(i)->getItem()->getIsRemove()) {

@@ -30,7 +30,7 @@ Monster::Monster(Layer* layer) {
 		_hp = _hpm = 20;
 		_delay = 0;
 		_speed = 1;
-		_gold = 5;
+		_gold = 10;
 		_exp = 3;
 		itemString.push_back("´ŞÆØÀÌÀÇ ²®Áú");
 
@@ -38,10 +38,10 @@ Monster::Monster(Layer* layer) {
 
 		for (int i = 0; i < itemString.size(); i++) {
 			if (itemString[i].compare("µ·") == 0) {
-				if (cuey->rand(0.0f, 1.0f) < 0.9) _item->setItem("µ·");
+				if (cuey->rand(0.0, 1.0) < 0.9) _item->setItem("µ·");
 			}
 			else {
-				if (cuey->rand(0.0f, 1.0f) < 0.5) _item->setItem(itemString[i]);
+				if (cuey->rand(0.0, 1.0) < 0.5) _item->setItem(itemString[i]);
 			}
 		}
 		break;
@@ -57,7 +57,7 @@ Monster::Monster(Layer* layer) {
 		_hp = _hpm = 30;
 		_delay = 0;
 		_speed = 1.5;
-		_gold = 10;
+		_gold = 20;
 		_exp = 6;
 		itemString.push_back("µÅÁöÀÇ ¸Ó¸®");
 
@@ -65,12 +65,12 @@ Monster::Monster(Layer* layer) {
 
 		for (int i = 0; i < itemString.size(); i++) {
 			if (itemString[i].compare("µ·") == 0) {
-				if (cuey->rand(0.0f, 1.0f) < 0.9) {
+				if (cuey->rand(0.0, 1.0) < 0.9) {
 					_item->setItem("µ·");
 				}
 			}
 			else {
-				if (cuey->rand(0.0f, 1.0f) < 0.5) {
+				if (cuey->rand(0.0, 1.0) < 0.5) {
 					_item->setItem(itemString[i]);
 				}
 			}
@@ -86,7 +86,7 @@ Monster::Monster(Layer* layer) {
 	_monster->addChild(_rect, -1);
 	_rect->setAnchorPoint(Vec2(0, 0));
 	_rect->setColor(Color3B::RED);
-	_rect->setOpacity(100);
+	_rect->setOpacity(70);
 	_rect->setVisible(false);
 
 	_layer->addChild(_monster);

@@ -10,9 +10,13 @@ Player::Player()
 
 	_layer = Layer::create();
 
+	_item = new Item();
+
 	_equip = new Equip();
 
 	_skill = new Skill();
+
+	_pet = new Pet();
 
 	Vector<SpriteFrame*> frame[4];
 
@@ -49,7 +53,6 @@ Player::Player()
 	_atk = 5;
 	_lifem = _life = 3;
 	_speed = 2;
-	_item.push_back(new Item());
 	_isGame = false;
 }
 
@@ -75,6 +78,7 @@ void Player::setLayer(Layer * layer)
 	_isDead = false;
 	_way = false;
 	_jPow = 0;
+	_pickUpDelay = 0;
 
 	_player = Layer::create();
 	_layer->addChild(_player, 1);
@@ -99,15 +103,25 @@ void Player::setLayer(Layer * layer)
 	_player->addChild(_lhand, 25);
 
 	_rect = Sprite::createWithTexture(nullptr, { 0,0,30,72 });
-	_player->addChild(_rect);
+	_player->addChild(_rect, -1);
 	_rect->setPosition(0, -13);
 	_rect->setTag(15);
 	_rect->setColor(Color3B::RED);
-	_rect->setOpacity(100);
+	_rect->setOpacity(70);
 	_rect->setVisible(false);
+
+	_rect2 = Sprite::createWithTexture(nullptr, { 0,0,1000,200 });
+	_player->addChild(_rect2, -1);
+	_rect2->setAnchorPoint(Vec2(0.5f, 1));
+	_rect2->setPosition(0, -13);
+	_rect2->setTag(15);
+	_rect2->setColor(Color3B::RED);
+	_rect2->setOpacity(70);
+	_rect2->setVisible(false);
 	
 	_equip->setLayer(_player);
 	_skill->setLayer(_layer, _player);
+	_pet->setLayer(_layer, _player);
 
 	_life = (int)_lifem;
 
@@ -290,7 +304,6 @@ void Player::setHit()
 	if (_isHit == 0 && !_isDead) {
 		_life--;
 		_lifeLabel->setString(StringUtils::format("%d", (int)_life));
-		log("%d/ %d", (int)_life, (int)_lifem);
 		if (_life == 0) {
 			setDead();
 		}
@@ -458,6 +471,7 @@ void Player::tick()
 {
 	if (_isGame) {
 		if (!_isDead) {
+			_pet->tick();
 			if (_isHit != 1) {
 				if (_isStand == 1) { //¸ØÃã 0, ´ë±â 1, Àû¿ë 2
 					if (_isLeft != 2 && _isRight != 2 && !_isAttack && _isFoot) {
@@ -516,6 +530,8 @@ void Player::tick()
 			if (_player->getPositionX() < 1960) {
 				if (_isRight == 2) _player->setPositionX(_player->getPositionX() + _speed);
 			}
+
+			if(_pickUpDelay > 0) _pickUpDelay--;
 		}
 
 

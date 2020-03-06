@@ -47,7 +47,7 @@ public:
 	static Cuey* getInstance();
 
 	int rand(int min, int max);
-	float rand(float min, float max);
+	float rand(double min, double max);
 	Size winsize() { return instance->getWinSize();	}
 	GLView* glview() { return instance->getOpenGLView(); }
 	Texture2D* texture(char* name) { return instance->getTextureCache()->addImage(name); }

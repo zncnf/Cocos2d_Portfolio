@@ -2,8 +2,6 @@
 #include "Cuey.h"
 #include "Player.h"
 
-#define PTM_RATIO 32
-
 class Monster : public Scene {
 public:
 	enum MOB {
@@ -72,6 +70,8 @@ public:
 	float getHpm() { return _hpm; }
 	float getDelay() { return _delay; }
 	float getSpeed() { return _speed; }
+
+	int getGold() { return (int)(cuey->rand(0.8, 1.0) * _gold); }
 
 	bool getIsFollow() { return _isFollow; }
 	bool getIsHitTrue() { return _isHitTrue; }
