@@ -3,10 +3,19 @@
 Monster::Monster(Layer* layer) {
 	_layer = layer;
 
+	_item = new Item;
+	_item->setLayer(_layer);
+
 	switch (cuey->rand(0, 1)) {
 	case 0:_mob = √ ∑œ¥ﬁ∆ÿ¿Ã; break;
 	case 1:_mob = µ≈¡ˆ; break;
 	}
+
+	vector<String> itemString;
+	itemString.push_back("µ∑");
+
+	random_device rd;
+	mt19937 g(rd());
 
 	switch (_mob) {
 	case √ ∑œ¥ﬁ∆ÿ¿Ã:
@@ -23,6 +32,18 @@ Monster::Monster(Layer* layer) {
 		_speed = 1;
 		_gold = 5;
 		_exp = 3;
+		itemString.push_back("¥ﬁ∆ÿ¿Ã¿« ≤Æ¡˙");
+
+		shuffle(itemString.begin(), itemString.end(), g);
+
+		for (int i = 0; i < itemString.size(); i++) {
+			if (itemString[i].compare("µ∑") == 0) {
+				if (cuey->rand(0.0f, 1.0f) < 0.9) _item->setItem("µ∑");
+			}
+			else {
+				if (cuey->rand(0.0f, 1.0f) < 0.5) _item->setItem(itemString[i]);
+			}
+		}
 		break;
 	case µ≈¡ˆ:
 		cache->addSpriteFramesWithFile("Monster/pig.plist");
@@ -38,6 +59,22 @@ Monster::Monster(Layer* layer) {
 		_speed = 1.5;
 		_gold = 10;
 		_exp = 6;
+		itemString.push_back("µ≈¡ˆ¿« ∏”∏Æ");
+
+		shuffle(itemString.begin(), itemString.end(), g);
+
+		for (int i = 0; i < itemString.size(); i++) {
+			if (itemString[i].compare("µ∑") == 0) {
+				if (cuey->rand(0.0f, 1.0f) < 0.9) {
+					_item->setItem("µ∑");
+				}
+			}
+			else {
+				if (cuey->rand(0.0f, 1.0f) < 0.5) {
+					_item->setItem(itemString[i]);
+				}
+			}
+		}
 		break;
 	}
 
@@ -89,6 +126,7 @@ Monster::Monster(Layer* layer) {
 	_state = STAND;
 
 	_hitDamage = 0;
+
 }
 
 Monster::~Monster()
@@ -164,10 +202,13 @@ void Monster::tick()
 		case DEAD:
 			switch (_mob) {
 			case √ ∑œ¥ﬁ∆ÿ¿Ã:
-			case µ≈¡ˆ:
 				_monster->setPositionY(_monster->getPositionY() + 4);
 				break;
+			case µ≈¡ˆ:
+				_monster->setPositionY(_monster->getPositionY() - 4);
+				break;
 			}
+			_item->dropItem(_monster);
 			for (int i = 0; i <=  _dieCount; i++) {
 				frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_die_%d.png", _code, i)));
 			}

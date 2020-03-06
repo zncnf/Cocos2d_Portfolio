@@ -11,27 +11,25 @@ Skill::Skill()
 
 void Skill::setLayer(Layer* layer, Layer* player)
 {
-	//if (_isWay) {
-		_layer = layer;
-		_player = player;
+	_layer = layer;
+	_player = player;
 
-		_mountNormal->attack = Sprite::createWithSpriteFrameName(StringUtils::format("%s_attack_0.png", _mountNormal->code.getCString()));
-		_mountNormal->attack->setPosition(_player->getPosition());
-		_mountNormal->attack->setVisible(false);
+	_mountNormal->attack = Sprite::createWithSpriteFrameName(StringUtils::format("%s_attack_0.png", _mountNormal->code.getCString()));
+	_mountNormal->attack->setPosition(_player->getPosition());
+	_mountNormal->attack->setVisible(false);
 
-		_layer->addChild(_mountNormal->attack);
+	_layer->addChild(_mountNormal->attack);
 
-		_mountNormal->rect = Sprite::createWithTexture(nullptr, _mountNormal->attack->boundingBox());
-		_mountNormal->rect->setPositionX((-_mountNormal->attack->boundingBox().size.width / 2));
-		_mountNormal->rect->setColor(Color3B::RED);
-		_mountNormal->rect->setOpacity(100);
-		_mountNormal->rect->setTag(15);
-		_mountNormal->rect->setVisible(false);
-		_player->addChild(_mountNormal->rect, -1);
+	_mountNormal->rect = Sprite::createWithTexture(nullptr, _mountNormal->attack->boundingBox());
+	_mountNormal->rect->setPositionX((-_mountNormal->attack->boundingBox().size.width / 2));
+	_mountNormal->rect->setColor(Color3B::RED);
+	_mountNormal->rect->setOpacity(100);
+	_mountNormal->rect->setTag(15);
+	_mountNormal->rect->setVisible(false);
+	_player->addChild(_mountNormal->rect, -1);
 
-		_isWay = false;
-		_isNormal = false;
-	//}
+	_isWay = false;
+	_isNormal = false;
 }
 
 void Skill::setNormal(String name)

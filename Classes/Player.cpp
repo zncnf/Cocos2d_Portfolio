@@ -77,7 +77,7 @@ void Player::setLayer(Layer * layer)
 	_jPow = 0;
 
 	_player = Layer::create();
-	_layer->addChild(_player);
+	_layer->addChild(_player, 1);
 	_player->setAnchorPoint(Vec2(0, 0));
 	_player->setPosition(500, 500);
 
@@ -237,7 +237,6 @@ void Player::setAttack()
 		for (int i = 0; i < _player->getChildrenCount(); i++) {
 			_player->getChildren().at(i)->stopActionsByFlags(10);
 		}
-		levelUp();
 		_player->stopActionsByFlags(10);
 		_skill->playNormal();
 		auto action = Sequence::create(

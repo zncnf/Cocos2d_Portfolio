@@ -42,6 +42,8 @@ private:
 	Animate* _moveAnimate;
 	Animate* _dieAnimate;
 
+	Item* _item;
+
 	PHASE _phase;
 
 	MOB _mob;
