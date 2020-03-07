@@ -1,0 +1,10 @@
+미사일
+미사일_attack_0.png	0~3
+미사일_hit_0.png		0~5
+
+레이저
+레이저_attack_0.png	0~7
+
+유도 미사일
+유도 미사일_attack_0.png	0~2
+유도 미사일_hit_0.png	0~8

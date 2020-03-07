@@ -79,6 +79,7 @@ void Player::setLayer(Layer * layer)
 	_way = false;
 	_jPow = 0;
 	_pickUpDelay = 0;
+	_mobInRange.clear();
 
 	_player = Layer::create();
 	_layer->addChild(_player, 1);
@@ -201,28 +202,30 @@ void Player::setFoot()
 
 void Player::setWalk()
 {
-	if (_isHit != 1) {
-		for (int i = 0; i < _player->getChildrenCount(); i++) {
-			_player->getChildren().at(i)->stopActionsByFlags(10);
+	if (!_isDead) {
+		if (_isHit != 1) {
+			for (int i = 0; i < _player->getChildrenCount(); i++) {
+				_player->getChildren().at(i)->stopActionsByFlags(10);
+			}
+			_player->stopActionsByFlags(10);
+
+			auto action1 = RepeatForever::create(_walk.at(0));
+			action1->setFlags(10);
+			_body->runAction(action1);
+
+			auto action2 = RepeatForever::create(_walk.at(1));
+			action2->setFlags(10);
+			_head->runAction(action2);
+
+			auto action3 = RepeatForever::create(_walk.at(2));
+			action3->setFlags(10);
+			_arm->runAction(action3);
+
+			_rhand->setVisible(false);
+			_lhand->setVisible(false);
+
+			_equip->setWalk();
 		}
-		_player->stopActionsByFlags(10);
-
-		auto action1 = RepeatForever::create(_walk.at(0));
-		action1->setFlags(10);
-		_body->runAction(action1);
-
-		auto action2 = RepeatForever::create(_walk.at(1));
-		action2->setFlags(10);
-		_head->runAction(action2);
-
-		auto action3 = RepeatForever::create(_walk.at(2));
-		action3->setFlags(10);
-		_arm->runAction(action3);
-
-		_rhand->setVisible(false);
-		_lhand->setVisible(false);
-
-		_equip->setWalk();
 	}
 }
 
@@ -396,7 +399,7 @@ void Player::levelUp()
 	}
 	
 	sprite->runAction(Sequence::create(
-		Animate::create(Animation::createWithSpriteFrames(frame, 0.1f)),
+		Animate::create(Animation::createWithSpriteFrames(frame, 0.08f)),
 		RemoveSelf::create(true),
 		nullptr));
 
@@ -407,7 +410,6 @@ void Player::levelUp()
 	_lifem = _lv / 5 + 3;
 	_expBar->cleanup();
 	_expBar->setScaleX(_exp / _expm);
-	log("Level UP! : lv%f, speed %f, exp %f/%f", _lv, _speed, _exp, _expm);
 	if (_exp >= _expm) {
 		levelUp();
 	}

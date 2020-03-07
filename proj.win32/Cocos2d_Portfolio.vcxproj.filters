@@ -49,6 +49,9 @@
     <Filter Include="src\Skill">
       <UniqueIdentifier>{cea75389-d699-49e0-bd93-40a35f276118}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\Obstacle">
+      <UniqueIdentifier>{e66b959e-e220-4ebe-8d05-cfae4dceb317}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -99,6 +102,9 @@
     <ClCompile Include="..\Classes\Skill.cpp">
       <Filter>src\Skill</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\Obstacle.cpp">
+      <Filter>src\Obstacle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -148,6 +154,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\Skill.h">
       <Filter>src\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Obstacle.h">
+      <Filter>src\Obstacle</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

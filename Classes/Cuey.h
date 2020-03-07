@@ -46,6 +46,8 @@ private:
 public:
 	static Cuey* getInstance();
 
+	Vec2 pt;
+
 	int rand(int min, int max);
 	float rand(double min, double max);
 	Size winsize() { return instance->getWinSize();	}

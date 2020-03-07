@@ -91,8 +91,9 @@ public:
 	bool getIsLeft() { return _isLeft == 2 ? true : false; }
 	bool getIsRight() { return _isRight == 2 ? true : false; }
 	bool getIsDead() { return _isDead; }
-	Rect getRect() { return Rect(_player->getPositionX() - 15, _player->getPositionY() - 36, 30, 72); }
+	Rect getRect() { return Rect(_player->getPositionX() - 15, _player->getPositionY() - 49, 30, 72); }
 	Rect getRect2() { return Rect(_player->getPositionX() - 500, _player->getPositionY() - 136, 1000, 200); }
+	Rect getRect3() { return Rect(_player->getPositionX() - 15, _player->getPositionY() - 5, 30, 10); }
 	Item* getItem() { return _item; }
 	Equip* getEquip() { return _equip; }
 	Skill* getSkill() { return _skill; }

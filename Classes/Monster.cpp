@@ -1,7 +1,7 @@
 #include "Monster.h"
 
 Monster::Monster(Layer* layer) {
-	_layer = layer;
+	_layer = (Layer*)player->getPlayer()->getParent();
 
 	_item = new Item;
 	_item->setLayer(_layer);

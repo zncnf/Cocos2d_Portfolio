@@ -22,6 +22,9 @@ private:
 
 	STATE _state;
 
+	bool _isFoot;
+	float _jPow;
+
 	int _pickUpDelay;
 public:
 	Pet();
@@ -30,7 +33,6 @@ public:
 
 	void setPet(String name);
 
-	void setFall();
 	void setStand();
 	void setMove();
 
@@ -40,8 +42,6 @@ public:
 
 	void setPickUp() { _pickUpDelay = 10; }
 	bool getIsPickUp() { return _pickUpDelay == 0 ? true : false; }
-
-	Rect getRect();
 
 	Sprite* getMyPet(int n) { return _myPet[n]->sprite; }
 	String getMyPetName(int n) { return _myPet[n]->name; }

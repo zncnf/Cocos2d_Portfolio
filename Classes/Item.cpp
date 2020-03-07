@@ -115,7 +115,6 @@ void Item::pickupItem(Layer* player, int n)
 
 void Item::pickupItem(Sprite * pet, int n)
 {
-	log("Æê¾ÆÀÌÅÜ ¼º°ø");
 	_item[n]->state = GET;
 	_item[n]->sprite->setZOrder(2);
 

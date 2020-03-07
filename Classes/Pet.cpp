@@ -5,7 +5,7 @@ Pet::Pet()
 	cache->addSpriteFramesWithFile("Pet/¹é·Ï.plist");
 	cache->addSpriteFramesWithFile("Pet/»Ú¶ì ºÎ¿ì.plist");
 
-	setPet("¹é·Ï");
+	setPet("»Ú¶ì ºÎ¿ì");
 
 	_mountPet = new PET({ 0 });
 
@@ -19,14 +19,17 @@ void Pet::setLayer(Layer * layer, Layer* player)
 
 	_mountPet->sprite = Sprite::create();
 
-	_layer->addChild(_mountPet->sprite, 30);
+	_player->getParent()->addChild(_mountPet->sprite, 30);
 	_mountPet->sprite->setPositionX(_player->getPositionX());
 	_mountPet->sprite->setPositionY(_player->getPositionY()+1);
+
+	_isFoot = false;
+	_jPow = 0;
 
 	_pickUpDelay = 0;
 
 	setStand();
-	setFall();
+
 }
 
 void Pet::setPet(String name)
@@ -42,17 +45,6 @@ void Pet::setPet(String name)
 		_myPet.back()->standCount = 4;
 		_myPet.back()->moveCount = 4;
 	};
-}
-
-void Pet::setFall()
-{
-	if (_mountPet->sprite->getPositionY() != _player->getPositionY() - 32) {
-		_mountPet->sprite->runAction(Sequence::create(
-			MoveTo::create(0.05, Vec2(_player->getPosition().x, _player->getPositionY() - 32)),
-			CallFunc::create(CC_CALLBACK_0(Pet::setFall, this)),
-			nullptr
-		));
-	}
 }
 
 void Pet::setStand()
@@ -102,11 +94,14 @@ void Pet::mountPet(int n)
 void Pet::tick()
 {
 	if (_pickUpDelay > 0) _pickUpDelay--;
-}
 
-Rect Pet::getRect()
-{
-	log("%f, %f", _mountPet->sprite->boundingBox().getMinX(), _mountPet->sprite->boundingBox().getMidY());
-	return Rect(-_mountPet->sprite->boundingBox().getMinX(), -_mountPet->sprite->boundingBox().getMinY() - 200,
-		_mountPet->sprite->getContentSize().width*200, _mountPet->sprite->getContentSize().height*200);
+	if (!_isFoot) {
+		_jPow += 0.3f;
+		_mountPet->sprite->setPositionY(_mountPet->sprite->getPositionY() -_jPow);
+		if (_mountPet->sprite->getPositionY() + _mountPet->sprite->getContentSize().height / 2 < 207) {
+			_mountPet->sprite->setPositionY(207 - _mountPet->sprite->getContentSize().height);
+			_isFoot = true;
+			_jPow = 0;
+		}
+	}
 }

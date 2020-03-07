@@ -4,6 +4,7 @@ Cuey* Cuey::Instance = nullptr;
 
 Cuey::Cuey()
 {
+	pt = Vec2(0, 0);
 }
 
 Cuey * Cuey::getInstance()

@@ -2,6 +2,7 @@
 #include "Cuey.h"
 #include "Player.h"
 #include "Monster.h"
+#include "Obstacle.h"
 #include "IntroScene.h"
 
 #define PTM_RATIO 32
@@ -14,6 +15,7 @@ private:
 	Label *_goldLabel, *_timeLabel;
 
 	Vector<Monster*> _monster;
+	Vector<Obstacle*> _obstacle;
 
 	int _gold;
 	float _time;

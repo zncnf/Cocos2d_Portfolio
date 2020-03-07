@@ -65,6 +65,27 @@ void TopScene::tick(float delta)
 		_monster.pushBack(new Monster(_layer));
 		_monster.back()->viewRect(_isViewRect);
 	}
+	int obsRezen = 600 / pow(_time, 0.5f) + 30;
+	if (cuey->rand(0, obsRezen) == 0 && !player->getIsDead()) {
+		_obstacle.pushBack(new Obstacle("유도 미사일"));
+		//_obstacle.pushBack(new Obstacle("미사일"));
+		//_obstacle.pushBack(new Obstacle("레이저"));
+	}
+	for (int i = 0; i < _obstacle.size(); i++) {
+		_obstacle.at(i)->tick();
+		if (_obstacle.at(i)->getIsAttack()) {
+			if (_obstacle.at(i)->getIsSectRect()) {
+				player->setHit();
+			}
+		}
+		if (_obstacle.at(i)->getIsRemove()) {
+			_layer->removeChild(_obstacle.at(i)->getSprite());
+			delete _obstacle.at(i);
+			_obstacle.erase(_obstacle.begin() + i);
+			break;
+		}
+	}
+
 	char str[1048] = "";
 	vector<float> itemX;
 	for (int i = 0; i < _monster.size(); i++) {
@@ -80,38 +101,31 @@ void TopScene::tick(float delta)
 			}
 		}
 	}
-	if (//player->getPet()->getIsPickUp() && 	
+	bool isItamInPlayer = false;
+	if (itemX.size() == 0 &&
 		(player->getPlayer()->getPositionX() + 150 < player->getPet()->getMountPet()->getPositionX() ||
-			player->getPlayer()->getPositionX() - 150 > player->getPet()->getMountPet()->getPositionX())
-		) itemX.push_back(player->getPlayer()->getPositionX() + (player->getPlayer()->getPositionX() > player->getPet()->getMountPet()->getPositionX() ? 10 : -10));
+		player->getPlayer()->getPositionX() - 150 > player->getPet()->getMountPet()->getPositionX())) {
+		isItamInPlayer = true;
+		itemX.push_back(player->getPlayer()->getPositionX() + (player->getPlayer()->getPositionX() > player->getPet()->getMountPet()->getPositionX() ? 10 : -10));
+	}
 	if (!player->getIsDead()) {
 		if (itemX.empty()) {
-			if (player->getPlayer()->getPositionX() + 450 < player->getPet()->getMountPet()->getPositionX()) {
-				player->getPet()->getMountPet()->setFlippedX(false);
-
-				player->getPet()->getMountPet()->runAction(MoveTo::create(2, Vec2(player->getRect().getMidX() + 300, player->getPet()->getMountPet()->getPositionY())));
-			} 
-			if (player->getPlayer()->getPositionX() - 450 > player->getPet()->getMountPet()->getPositionX()) {
-				player->getPet()->getMountPet()->setFlippedX(true);
-				player->getPet()->getMountPet()->runAction(MoveTo::create(2, Vec2(player->getRect().getMidX() - 300, player->getPet()->getMountPet()->getPositionY())));
-			}
 			if (!player->getPet()->getIsStand()) player->getPet()->setStand();
 		}
 		else {
 			if (!player->getPet()->getIsMove()) player->getPet()->setMove();
 			if (player->getPet()->getMountPet()->getPositionX() > itemX[0]) {
 				player->getPet()->getMountPet()->setFlippedX(false);
-				player->getPet()->getMountPet()->setPositionX(player->getPet()->getMountPet()->getPositionX() - player->getBaseSpeed() * 1.5f);
+				player->getPet()->getMountPet()->setPositionX(player->getPet()->getMountPet()->getPositionX() - player->getBaseSpeed() * (isItamInPlayer ? 1.0f : 1.8f));
 			}
 			else {
 				player->getPet()->getMountPet()->setFlippedX(true);
-				player->getPet()->getMountPet()->setPositionX(player->getPet()->getMountPet()->getPositionX() + player->getBaseSpeed() * 1.5f);
+				player->getPet()->getMountPet()->setPositionX(player->getPet()->getMountPet()->getPositionX() + player->getBaseSpeed() * (isItamInPlayer ? 1.0f : 1.8f));
 			}
 		}
 	}
 	for (int i = 0; i < _monster.size(); i++) {
 		_monster.at(i)->tick();
-		_monster.at(i)->getRect();
 		if (!_monster.at(i)->getIsDead()) {
 			if (player->getRect().intersectsRect(_monster.at(i)->getRect())) {
 				player->setHit();
@@ -200,6 +214,7 @@ void TopScene::onEnter()
 	listener->onTouchBegan = CC_CALLBACK_2(TopScene::onTouchBegan, this);
 	listener->onTouchMoved = CC_CALLBACK_2(TopScene::onTouchMoved, this);
 	listener->onTouchEnded = CC_CALLBACK_2(TopScene::onTouchEnded, this);
+	listener->onTouchCancelled = CC_CALLBACK_2(TopScene::onTouchCancelled, this);
 
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(listener, this);
 }
@@ -222,7 +237,13 @@ bool TopScene::onTouchBegan(Touch * touch, Event * event)
 
 void TopScene::onTouchMoved(Touch * touch, Event * event)
 {
-	
+	PtInRect(nullptr, { 1,1 });
+	cuey->pt = touch->getLocation() - _layer->getPosition();
+	for (int i = 0; i < _obstacle.size(); i++) {
+		if (_obstacle.at(i)->getRect().containsPoint(cuey->pt)) {
+			log("%d, %d", (int)cuey->pt.x, (int)cuey->pt.y);
+		}
+	}
 }
 
 void TopScene::onTouchEnded(Touch * touch, Event * event)
@@ -232,5 +253,5 @@ void TopScene::onTouchEnded(Touch * touch, Event * event)
 
 void TopScene::onTouchCancelled(Touch * touch, Event * event)
 {
-
+	
 }
