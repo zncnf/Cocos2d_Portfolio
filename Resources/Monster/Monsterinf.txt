@@ -10,3 +10,32 @@ pig_move_0.png		0~2
 pig_jump_0.png		0
 pig_hit_0.png		0
 pig_die_0.png		0~11
+
+마이너 좀비
+마이너 좀비_stand_0.png	0~2
+마이너 좀비_move_0.png	0~2
+마이너 좀비_attack_0.png	0~12
+마이너 좀비_hit_0.png	0
+마이너 좀비_die_0.png	0~19
+
+스켈레곤
+스켈레곤_stand_0.png	0~5
+스켈레곤_move_0.png	0~3
+스켈레곤_attack_0.png	0~16
+스켈레곤_hit_0.png		0
+스켈레곤_die_0.png		0~17
+
+침묵의 암살자
+침묵의 암살자_stand_0.png	0~5
+침묵의 암살자_move_0.png	0~5
+침묵의 암살자_attack_0.png	0~19
+침묵의 암살자_hit_0.png	0
+침묵의 암살자_die_0.png	0~15
+
+절망의 날개
+절망의 날개_stand_0.png	0~7
+절망의 날개_move_0.png	0~7
+절망의 날개_attack_0.png	0~9
+절망의 날개_hit_0.png	0
+절망의 날개_die_0.png	0~10
+
