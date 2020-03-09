@@ -6,9 +6,13 @@ Monster::Monster(Layer* layer) {
 	_item = new Item;
 	_item->setLayer(_layer);
 
-	switch (cuey->rand(0, 1)) {
+	switch (cuey->rand(2, 3)) {
 	case 0:_mob = ÃÊ·Ï´ŞÆØÀÌ; break;
 	case 1:_mob = µÅÁö; break;
+	case 2:_mob = ¸¶ÀÌ³Ê_Á»ºñ; break;
+	case 3:_mob = ½ºÄÌ·¹°ï; break;
+	case 4:_mob = Ä§¹¬ÀÇ_¾Ï»ìÀÚ; break;
+	case 5:_mob = Àı¸ÁÀÇ_³¯°³; break;		
 	}
 
 	vector<String> itemString;
@@ -23,6 +27,7 @@ Monster::Monster(Layer* layer) {
 		_code = "grinSnail";
 		_standCount = 0;
 		_moveCount = 4;
+		_attackCount = -1;
 		_hitCount = 0;
 		_dieCount = 9;
 		_atk = 10;
@@ -50,8 +55,73 @@ Monster::Monster(Layer* layer) {
 		_code = "pig";
 		_standCount = 2;
 		_moveCount = 2;
+		_attackCount = -1;
 		_hitCount = 0;
 		_dieCount = 11;
+		_atk = 10;
+		_def = 3;
+		_hp = _hpm = 30;
+		_delay = 0;
+		_speed = 1.5;
+		_gold = 20;
+		_exp = 6;
+		itemString.push_back("µÅÁöÀÇ ¸Ó¸®");
+
+		shuffle(itemString.begin(), itemString.end(), g);
+
+		for (int i = 0; i < itemString.size(); i++) {
+			if (itemString[i].compare("µ·") == 0) {
+				if (cuey->rand(0.0, 1.0) < 0.9) {
+					_item->setItem("µ·");
+				}
+			}
+			else {
+				if (cuey->rand(0.0, 1.0) < 0.5) {
+					_item->setItem(itemString[i]);
+				}
+			}
+		}
+		break;
+	case ¸¶ÀÌ³Ê_Á»ºñ:
+		cache->addSpriteFramesWithFile("Monster/¸¶ÀÌ³Ê Á»ºñ.plist");
+		_code = "¸¶ÀÌ³Ê Á»ºñ";
+		_standCount = 2;
+		_moveCount = 2;
+		_attackCount = 12;
+		_hitCount = 0;
+		_dieCount = 19;
+		_atk = 10;
+		_def = 3;
+		_hp = _hpm = 30;
+		_delay = 0;
+		_speed = 1.5;
+		_gold = 20;
+		_exp = 6;
+		itemString.push_back("µÅÁöÀÇ ¸Ó¸®");
+
+		shuffle(itemString.begin(), itemString.end(), g);
+
+		for (int i = 0; i < itemString.size(); i++) {
+			if (itemString[i].compare("µ·") == 0) {
+				if (cuey->rand(0.0, 1.0) < 0.9) {
+					_item->setItem("µ·");
+				}
+			}
+			else {
+				if (cuey->rand(0.0, 1.0) < 0.5) {
+					_item->setItem(itemString[i]);
+				}
+			}
+		}
+		break;
+	case ½ºÄÌ·¹°ï:
+		cache->addSpriteFramesWithFile("Monster/½ºÄÌ·¹°ï.plist");
+		_code = "½ºÄÌ·¹°ï";
+		_standCount = 5;
+		_moveCount = 3;
+		_attackCount = 16;
+		_hitCount = 0;
+		_dieCount = 17;
 		_atk = 10;
 		_def = 3;
 		_hp = _hpm = 30;

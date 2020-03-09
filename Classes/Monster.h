@@ -6,9 +6,11 @@ class Monster : public Scene {
 public:
 	enum MOB {
 		ÃÊ·Ï´ŞÆØÀÌ = 0,
-		ÆÄ¶õ´ŞÆØÀÌ,
-		»¡°£´ŞÆØÀÌ,
-		µÅÁö
+		µÅÁö,
+		¸¶ÀÌ³Ê_Á»ºñ,
+		½ºÄÌ·¹°ï,
+		Ä§¹¬ÀÇ_¾Ï»ìÀÚ,
+		Àı¸ÁÀÇ_³¯°³
 	};
 private:
 	enum PHASE {
@@ -45,7 +47,7 @@ private:
 	PHASE _phase;
 
 	MOB _mob;
-	int _standCount, _moveCount, _hitCount, _dieCount;
+	int _standCount, _moveCount, _attackCount, _hitCount, _dieCount;
 	char* _code;
 	float _atk, _def, _hp, _hpm, _delay, _speed, _gold, _exp;
 	float _jPow;

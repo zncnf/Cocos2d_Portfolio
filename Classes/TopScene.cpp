@@ -62,14 +62,14 @@ void TopScene::tick(float delta)
 	player->tick();
 	int mobRezen = 600 / pow(_time, 0.6f) + 30;
 	if (cuey->rand(0, mobRezen) == 0 && !player->getIsDead()) {
-		//_monster.pushBack(new Monster(_layer));
-		//_monster.back()->viewRect(_isViewRect);
+		_monster.pushBack(new Monster(_layer));
+		_monster.back()->viewRect(_isViewRect);
 	}
 	int obsRezen = 600 / pow(_time, 0.5f) + 30;
 	if (cuey->rand(0, obsRezen) == 0 && !player->getIsDead()) {
-		_obstacle.pushBack(new Obstacle("유도 미사일"));
-		_obstacle.pushBack(new Obstacle("미사일"));
-		_obstacle.pushBack(new Obstacle("레이저"));
+		//_obstacle.pushBack(new Obstacle("유도 미사일"));
+		//_obstacle.pushBack(new Obstacle("미사일"));
+		//_obstacle.pushBack(new Obstacle("레이저"));
 	}
 	for (int i = 0; i < _obstacle.size(); i++) {
 		_obstacle.at(i)->tick();
@@ -187,7 +187,9 @@ void TopScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 		break;
 	case EventKeyboard::KeyCode::KEY_R:
 		player->offGame();
-		instance->replaceScene(scene);
+		this->cleanup();
+		init();
+		instance->replaceScene(IntroScene::createScene());
 		break;
 	case EventKeyboard::KeyCode::KEY_F1:
 		_isViewRect = !_isViewRect;

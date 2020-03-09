@@ -49,7 +49,7 @@ void Obstacle::setMissile()
 	_layer->addChild(_obstacle);
 
 	_rect = Sprite::createWithTexture(nullptr, Rect(0,0, 20, 20));
-	//_rect->setVisible(false);
+	_rect->setVisible(false);
 	_rect->setColor(Color3B::RED);
 	_rect->setOpacity(150);
 	_layer->addChild(_rect);
