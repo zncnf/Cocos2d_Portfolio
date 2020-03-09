@@ -6,7 +6,7 @@ Monster::Monster(Layer* layer) {
 	_item = new Item;
 	_item->setLayer(_layer);
 
-	switch (cuey->rand(2, 3)) {
+	switch (cuey->rand(0, 5)) {
 	case 0:_mob = 초록달팽이; break;
 	case 1:_mob = 돼지; break;
 	case 2:_mob = 마이너_좀비; break;
@@ -146,6 +146,70 @@ Monster::Monster(Layer* layer) {
 			}
 		}
 		break;
+	case 침묵의_암살자:
+		cache->addSpriteFramesWithFile("Monster/침묵의 암살자.plist");
+		_code = "침묵의 암살자";
+		_standCount = 5;
+		_moveCount = 5;
+		_attackCount = 19;
+		_hitCount = 0;
+		_dieCount = 15;
+		_atk = 10;
+		_def = 3;
+		_hp = _hpm = 30;
+		_delay = 0;
+		_speed = 1.5;
+		_gold = 20;
+		_exp = 6;
+		itemString.push_back("돼지의 머리");
+
+		shuffle(itemString.begin(), itemString.end(), g);
+
+		for (int i = 0; i < itemString.size(); i++) {
+			if (itemString[i].compare("돈") == 0) {
+				if (cuey->rand(0.0, 1.0) < 0.9) {
+					_item->setItem("돈");
+				}
+			}
+			else {
+				if (cuey->rand(0.0, 1.0) < 0.5) {
+					_item->setItem(itemString[i]);
+				}
+			}
+		}
+		break;
+	case 절망의_날개:
+		cache->addSpriteFramesWithFile("Monster/절망의 날개.plist");
+		_code = "절망의 날개";
+		_standCount = 7;
+		_moveCount = 7;
+		_attackCount = 9;
+		_hitCount = 0;
+		_dieCount = 10;
+		_atk = 10;
+		_def = 3;
+		_hp = _hpm = 30;
+		_delay = 0;
+		_speed = 1.5;
+		_gold = 20;
+		_exp = 6;
+		itemString.push_back("돼지의 머리");
+
+		shuffle(itemString.begin(), itemString.end(), g);
+
+		for (int i = 0; i < itemString.size(); i++) {
+			if (itemString[i].compare("돈") == 0) {
+				if (cuey->rand(0.0, 1.0) < 0.9) {
+					_item->setItem("돈");
+				}
+			}
+			else {
+				if (cuey->rand(0.0, 1.0) < 0.5) {
+					_item->setItem(itemString[i]);
+				}
+			}
+		}
+		break;
 	}
 
 
@@ -176,13 +240,6 @@ Monster::Monster(Layer* layer) {
 	_hpBar->setAnchorPoint(Vec2(0, 0.5f));
 	_hpBarLayer->addChild(_hpBar, 2);
 
-	Vector<SpriteFrame*> frame;
-
-	for (int i = 0; i <= _standCount; i++) {
-		frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_stand_%d.png", _code, i)));
-	}
-	_monster->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame, 0.2f))));
-
 	_damageNumber = Label::createWithCharMap("damage_effect.png", 36, 46, '0');
 	_layer->addChild(_damageNumber);
 
@@ -190,6 +247,7 @@ Monster::Monster(Layer* layer) {
 	_phase = 회전;
 
 	_isFollow = false;
+	_isAttack = false;
 	_isHitTrue = false;
 	_isRemove = false;
 	_way = LEFT;
@@ -223,7 +281,7 @@ void Monster::tick()
 		break;
 	case 착지:
 		_monster->cleanup();
-		_monster->setRotation3D(Vec3(0, 0, (int)_monster->getRotation3D().z % 360));
+		_monster->setRotation((int)_monster->getRotation3D().z % 360);
 		_monster->runAction(Spawn::create(
 			RotateTo::create(0.4, Vec3(0, 0, _monster->getRotation3D().z > 180 ? 0 : 720)),
 			JumpBy::create(0.5, Vec2(cuey->rand(-70, 70), 0), 70, 1),
@@ -239,11 +297,14 @@ void Monster::tick()
 		_monster->cleanup();
 		switch (_state) {
 		case HIT:
-			_isFollow = true;
 			_state = MOVE;
 			for (int i = 0; i <= (_moveCount >= 3 ? 3 : _moveCount); i++) {
 				frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_move_%d.png", _code, i)));
 			}
+			_monster->setSpriteFrame(StringUtils::format("%s_move_0.png", _code));
+			_monster->setAnchorPoint(Vec2(0.5, 0.5));
+			_monster->setPositionY(160 + _monster->getContentSize().height / 2);
+			_rect->setTextureRect(_monster->getBoundingBox());
 			_monster->runAction(Spawn::create(
 				Animate::create(Animation::createWithSpriteFrames(frame, 0.2f)),
 				Sequence::create(
@@ -268,17 +329,36 @@ void Monster::tick()
 				_state = MOVE;
 				setPhase(모션);
 			}
+			_rect->setTextureRect(_monster->getBoundingBox());
+			_isFollow = true;
+			break;
+		case ATTACK:
+			_state = MOVE;
+			_isAttack = true;
+			for (int i = 0; i <= _attackCount; i++) {
+				frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_attack_%d.png", _code, i)));
+			}
+			_monster->setSpriteFrame(StringUtils::format("%s_attack_0.png", _code));
+			_monster->setAnchorPoint(Vec2(0.5, 0.5));
+			_monster->setPositionY(160 + _monster->getContentSize().height / 2);
+			_rect->setTextureRect(_monster->getBoundingBox());
+			_monster->runAction(Spawn::create(
+				Sequence::create(
+					Animate::create(Animation::createWithSpriteFrames(frame, 0.1f)),
+					CallFunc::create(CC_CALLBACK_0(Monster::setPhase, this, 모션)),
+					nullptr),
+				Sequence::create(
+					DelayTime::create(_attackCount * 0.05f),
+					CallFunc::create(CC_CALLBACK_0(Monster::setPhase, this, 모션)), //플레이어 공격
+					nullptr),
+				nullptr));
+			setPhase(대기);
 			break;
 		case DEAD:
-			switch (_mob) {
-			case 초록달팽이:
-				_monster->setPositionY(_monster->getPositionY() + 4);
-				break;
-			case 돼지:
-				_monster->setPositionY(_monster->getPositionY() - 4);
-				break;
-			}
-			_item->dropItem(_monster);
+			_item->dropItem(Vec2(_monster->getPositionX(), 160));
+			_monster->setAnchorPoint(Vec2(0.5, 0.5));
+			_monster->setPositionY(160 + _monster->getContentSize().height / 2);
+			_rect->setTextureRect(_monster->getBoundingBox());
 			for (int i = 0; i <= _dieCount; i++) {
 				frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_die_%d.png", _code, i)));
 			}
@@ -291,6 +371,10 @@ void Monster::tick()
 			break;
 		default:
 			if (_isFollow) {
+				_monster->setSpriteFrame(StringUtils::format("%s_move_0.png", _code));
+				_monster->setAnchorPoint(Vec2(0.5, 0));
+				_monster->setPositionY(160);
+				_rect->setTextureRect(_monster->getBoundingBox());
 				for (int i = 0; i <= _moveCount; i++) {
 					frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_move_%d.png", _code, i)));
 				}
@@ -307,6 +391,12 @@ void Monster::tick()
 				switch (cuey->rand(0, 1)) {
 				case 0:
 					_monster->setSpriteFrame(StringUtils::format("%s_stand_0.png", _code));
+					_monster->setAnchorPoint(Vec2(0.5, 0));
+					_monster->setPositionY(160);
+					_rect->setTextureRect(_monster->getBoundingBox());
+					if (_code == "침묵의 암살자") {
+						_monster->setPositionY(120);
+					}
 					for (int i = 0; i <= _standCount; i++) {
 						frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_stand_%d.png", _code, i)));
 					}
@@ -314,6 +404,10 @@ void Monster::tick()
 					_state = STAND;
 					break;
 				case 1:
+					_monster->setSpriteFrame(StringUtils::format("%s_move_0.png", _code));
+					_monster->setAnchorPoint(Vec2(0.5, 0));
+					_monster->setPositionY(160);
+					_rect->setTextureRect(_monster->getBoundingBox());
 					for (int i = 0; i <= _moveCount; i++) {
 						frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_move_%d.png", _code, i)));
 					}

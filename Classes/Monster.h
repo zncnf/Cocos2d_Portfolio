@@ -27,6 +27,7 @@ private:
 	enum STATE {
 		STAND,
 		MOVE,
+		ATTACK,
 		HIT,
 		HITEND,
 		DEAD
@@ -53,7 +54,7 @@ private:
 	float _jPow;
 	float _hitDamage;
 
-	bool _isFollow, _isHitTrue, _isRemove;
+	bool _isFollow, _isAttack, _isHitTrue, _isRemove;
 
 	WAY _way;
 	STATE _state;
@@ -63,7 +64,7 @@ public:
 	~Monster();
 
 	Sprite* getMonster() { return _monster; }
-	Rect getRect() { return Rect(_monster->boundingBox().getMinX(), _monster->boundingBox().getMidY(),
+	Rect getRect() { return Rect(_monster->boundingBox().getMinX(), _monster->boundingBox().getMinY(),
 								_monster->getContentSize().width, _monster->getContentSize().height); }
 	Item* getItem() { return _item; }
 
@@ -97,7 +98,11 @@ public:
 
 private:
 	void setWay(bool way);
-	void setRemove() { _isRemove = true; _hpBarLayer->setVisible(false); _monster->setVisible(false); }
+	void setRemove() { 
+		_isRemove = true;
+		_hpBarLayer->setVisible(false);
+		_monster->setVisible(false);
+	}
 	void setHitEffect() { 
 		player->getSkill()->playNormalHit(_monster->getPosition()); 
 		_damageNumber->cleanup();

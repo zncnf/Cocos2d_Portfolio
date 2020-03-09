@@ -66,19 +66,15 @@ void Item::setItem(String name)
 	}
 }
 
-void Item::dropItem(Sprite * monster)
+void Item::dropItem(Vec2 position)
 {
-	auto temp = Sprite::create();
-	temp->setDisplayFrame(monster->displayFrame());
-	temp->setPosition(monster->getPosition());
-	temp->setAnchorPoint(Vec2(0, 0));
 	for (int i = 0; i < _item.size(); i++) {
 		if (_item[i]->state == NONE) {
 			_item[i]->sprite = Sprite::create(StringUtils::format("Item/%s.png", _item[i]->name.getCString()));
 			_item[i]->sprite->setAnchorPoint(Vec2(0.5f, 0));
 			_layer->addChild(_item[i]->sprite);
 			_item[i]->state = DROP;
-			_item[i]->sprite->setPosition(temp->getPosition());
+			_item[i]->sprite->setPosition(position);
 			float x = (int)-_item.size() * 10 + 20 * i;
 			if (_item[i]->sprite->boundingBox().getMinX() + x < 0) {
 				x += _item[i]->sprite->getContentSize().width / 2;
@@ -86,12 +82,11 @@ void Item::dropItem(Sprite * monster)
 			if (_item[i]->sprite->boundingBox().getMaxX() > x + 1980) {
 				x += -_item[i]->sprite->getContentSize().width / 2;
 			}
-			float y = -17;
 			_item[i]->sprite->runAction(Spawn::create(
-				JumpBy::create(0.8f, Vec2(x, y), 50, 1),
+				JumpBy::create(0.8f, Vec2(x, 0), 50, 1),
 				Sequence::create(
 					DelayTime::create(0.2f),
-					CallFunc::create(CC_CALLBACK_0(Item::dropItem, this, monster)),
+					CallFunc::create(CC_CALLBACK_0(Item::dropItem, this, position)),
 					DelayTime::create(0.6f),
 					CallFunc::create(CC_CALLBACK_0(Item::setState, this, i, PICKUP)),
 					nullptr

@@ -277,7 +277,6 @@ void Player::setAttack()
 void Player::setAttack_Frame(int frame)
 {
 	if (frame == 3) {
-		
 		if (_isJump == 1) {
 			_isJump = 2;
 		} else {

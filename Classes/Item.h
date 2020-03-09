@@ -34,7 +34,7 @@ public:
 
 	void setItem(String name);
 
-	void dropItem(Sprite* monster);
+	void dropItem(Vec2 position);
 
 	void pickupItem(Layer* player, int n);
 	void pickupItem(Sprite* pet, int n);
