@@ -62,14 +62,14 @@ void TopScene::tick(float delta)
 	player->tick();
 	int mobRezen = 600 / pow(_time, 0.6f) + 30;
 	if (cuey->rand(0, mobRezen) == 0 && !player->getIsDead()) {
-		_monster.pushBack(new Monster(_layer));
-		_monster.back()->viewRect(_isViewRect);
+		//_monster.pushBack(new Monster(_layer));
+		//_monster.back()->viewRect(_isViewRect);
 	}
 	int obsRezen = 600 / pow(_time, 0.5f) + 30;
 	if (cuey->rand(0, obsRezen) == 0 && !player->getIsDead()) {
 		_obstacle.pushBack(new Obstacle("유도 미사일"));
-		//_obstacle.pushBack(new Obstacle("미사일"));
-		//_obstacle.pushBack(new Obstacle("레이저"));
+		_obstacle.pushBack(new Obstacle("미사일"));
+		_obstacle.pushBack(new Obstacle("레이저"));
 	}
 	for (int i = 0; i < _obstacle.size(); i++) {
 		_obstacle.at(i)->tick();

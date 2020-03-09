@@ -135,6 +135,8 @@ void Obstacle::setHit()
 
 void Obstacle::tick()
 {
+	if (_obstacle->getRotation() > 360) _obstacle->setRotation(_obstacle->getRotation() - 360);
+	if(_obstacle->getRotation() < 0) _obstacle->setRotation(_obstacle->getRotation() + 360);
 	float a = getAngle(_player->getPosition(), _obstacle->getPosition());
 	switch (_state) {
 	case NONE:break;
@@ -156,22 +158,21 @@ void Obstacle::tick()
 		break;
 	case MOVE_GUIDED:
 		if (a > PI) {
-			if (a - PI < _obstacle->getRotation() / 52.7 && a > _obstacle->getRotation() / 52.7) {
-				_obstacle->setRotation(_obstacle->getRotation() + 0.2f);
+			if (a - PI < _obstacle->getRotation() / 57.2 && a > _obstacle->getRotation() / 57.2) {
+				_obstacle->setRotation(_obstacle->getRotation() + 0.15f);
 			}
 			else {
-				_obstacle->setRotation(_obstacle->getRotation() - 0.2f);
+				_obstacle->setRotation(_obstacle->getRotation() - 0.15f);
 			}
 		}
 		else {
-			if (a + PI > _obstacle->getRotation() / 52.7 && a < _obstacle->getRotation() / 52.7) {
-				_obstacle->setRotation(_obstacle->getRotation() - 0.2f);
+			if (a + PI > _obstacle->getRotation() / 57.2 && a < _obstacle->getRotation() / 57.2) {
+				_obstacle->setRotation(_obstacle->getRotation() - 0.15f);
 			}
 			else {
-				_obstacle->setRotation(_obstacle->getRotation() + 0.2f);
+				_obstacle->setRotation(_obstacle->getRotation() + 0.15f);
 			}
 		}
-		if (_obstacle->getRotation() > 360) _obstacle->setRotation(_obstacle->getRotation() - 360);
 		_rect->setRotation(_obstacle->getRotation());
 
 		_speed += 0.01f;
@@ -202,7 +203,7 @@ bool Obstacle::getIsSectRect()
 	//¼±Ãæµ¹
 	for (int i = 0; i < 1000; i++) {
 		if (player->getRect().containsPoint(Vec2(getRect().getMinX() + getRect().size.width / 1000 * i, 
-			_obstacle->getRotation() < 90 ? getRect().getMaxY() - getRect().size.height / 1000 * i : getRect().getMinY() + getRect().size.height / 1000 * i))) {
+			_obstacle->getRotation() / 57.2 < PI*1.5f ? getRect().getMaxY() - getRect().size.height / 1000 * i : getRect().getMinY() + getRect().size.height / 1000 * i))) {
 			_state = NONE;
 			return true;
 		}
