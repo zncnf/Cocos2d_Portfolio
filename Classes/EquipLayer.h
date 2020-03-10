@@ -9,6 +9,7 @@ private:
 		Layer* layer;
 		Sprite* sprite;
 		Label* label;
+		Label* label2;
 	};
 
 public:
@@ -17,6 +18,8 @@ public:
 
 	//left
 	Sprite *_leftUI;
+
+	Label* _stats;
 
 	vector<LeftEquip*> _mountEquip;
 

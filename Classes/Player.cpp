@@ -126,7 +126,7 @@ void Player::setLayer(Layer * layer, bool game)
 		_rect2->setOpacity(70);
 		_rect2->setVisible(false);
 
-		_life = (int)_lifem;
+		_life = getLife();
 
 		_expLayer = Layer::create();
 		_expLayer->setPosition(640, 5);
@@ -533,10 +533,10 @@ void Player::tick()
 			}
 
 			if (_player->getPositionX() > 20) {
-				if (_isLeft == 2) _player->setPositionX(_player->getPositionX() - _speed);
+				if (_isLeft == 2) _player->setPositionX(_player->getPositionX() - getSpeed());
 			}
 			if (_player->getPositionX() < 1960) {
-				if (_isRight == 2) _player->setPositionX(_player->getPositionX() + _speed);
+				if (_isRight == 2) _player->setPositionX(_player->getPositionX() + getSpeed());
 			}
 
 			if(_pickUpDelay > 0) _pickUpDelay--;

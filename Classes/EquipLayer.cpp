@@ -10,7 +10,7 @@ bool EquipLayer::init()
 	if (!Layer::init()) {
 		return false;
 	}
-	
+
 	auto bg = Sprite::create("Main/장비창.png");
 	this->addChild(bg);
 
@@ -44,49 +44,106 @@ bool EquipLayer::init()
 	player->getPet()->getMountPet()->setPosition(-410, 170);
 	player->getPet()->getMountPet()->setFlippedX(true);
 
+	float atk = player->getBaseAtk();
+
+	_stats = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 17);
+	_stats->setString(StringUtils::format("Lv : %.f\n\n공격력 : %.1f(%.f+%.1f)\n\n생명력 : %0.1f(%.f+%.1f)\n\n기동력 : %.1f(%.f+%.1f)",
+											player->getLv(),
+											player->getAtk(), player->getBaseAtk(), player->getEquip()->getMountWeaponAtk(),
+											player->getLife(), player->getBaseLife(), player->getEquip()->getMountArmorLife(), 
+											player->getSpeed(), player->getBaseSpeed(), player->getEquip()->getMountShoesSpeed()));
+	_stats->setAnchorPoint(Vec2(0, 1));
+	_stats->setPosition(-245, 260);
+	_stats->setColor(Color3B(100, 100, 100));
+	this->addChild(_stats);
+
 	_mountEquip.push_back(new LeftEquip({Layer::create()}));
-	_mountEquip.back()->layer->setPosition(-250, 38);
+	_mountEquip.back()->layer->setPosition(-357, 38);
 	this->addChild(_mountEquip.back()->layer);
 
 	_mountEquip.push_back(new LeftEquip({ Layer::create() }));
-	_mountEquip.back()->layer->setPosition(-250, -58);
+	_mountEquip.back()->layer->setPosition(-357, -58);
 	this->addChild(_mountEquip.back()->layer);
 
 	_mountEquip.push_back(new LeftEquip({ Layer::create() }));
-	_mountEquip.back()->layer->setPosition(-250, -154);
+	_mountEquip.back()->layer->setPosition(-357, -154);
 	this->addChild(_mountEquip.back()->layer);
 
 	_mountEquip.push_back(new LeftEquip({ Layer::create() }));
-	_mountEquip.back()->layer->setPosition(-250, -250);
+	_mountEquip.back()->layer->setPosition(-357, -250);
 	this->addChild(_mountEquip.back()->layer);
 
-	_mountEquip.at(0)->sprite = Sprite::createWithSpriteFrame(player->getPet()->getMountPet()->getSpriteFrame());
+	_mountEquip.at(0)->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_icon.png", player->getEquip()->getMountWeaponCode().getCString()));
+	_mountEquip.at(0)->sprite->setPositionY(-22);
+	_mountEquip.at(0)->sprite->setScale(1.5f);
 	_mountEquip.at(0)->layer->addChild(_mountEquip.at(0)->sprite);
-
-	_mountEquip.at(0)->label = Label::createWithTTF(player->getPet()->getMountPetName().getCString(), "fonts/Maplestory Bold.ttf", 20);
+				   
+	_mountEquip.at(0)->label = Label::createWithTTF(player->getEquip()->getMountWeaponName().getCString(), "fonts/Maplestory Bold.ttf", 20);
+	_mountEquip.at(0)->label->setAnchorPoint(Vec2(0, 0.5));
+	_mountEquip.at(0)->label->setPositionX(60);
 	_mountEquip.at(0)->label->setColor(Color3B(50, 50, 50));
 	_mountEquip.at(0)->layer->addChild(_mountEquip.at(0)->label);
 
-	_mountEquip.at(1)->sprite = Sprite::createWithSpriteFrame(player->getPet()->getMountPet()->getSpriteFrame());
+	_mountEquip.at(0)->label2 = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 15);
+	_mountEquip.at(0)->label2->setString(StringUtils::format("공격력 : +%d", (int)player->getEquip()->getMountWeaponAtk()));
+	_mountEquip.at(0)->label2->setAnchorPoint(Vec2(0, 0.5));
+	_mountEquip.at(0)->label2->setPosition(50, -35);
+	_mountEquip.at(0)->label2->setColor(Color3B(100, 100, 100));
+	_mountEquip.at(0)->layer->addChild(_mountEquip.at(0)->label2);
+
+	_mountEquip.at(1)->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_icon.png", player->getEquip()->getMountArmorCode().getCString()));
+	_mountEquip.at(1)->sprite->setPositionY(-22);
+	_mountEquip.at(1)->sprite->setScale(1.5f);
 	_mountEquip.at(1)->layer->addChild(_mountEquip.at(1)->sprite);
 				   
-	_mountEquip.at(1)->label = Label::createWithTTF(player->getPet()->getMountPetName().getCString(), "fonts/Maplestory Bold.ttf", 20);
+	_mountEquip.at(1)->label = Label::createWithTTF(player->getEquip()->getMountArmorName().getCString(), "fonts/Maplestory Bold.ttf", 20);
+	_mountEquip.at(1)->label->setAnchorPoint(Vec2(0, 0.5));
+	_mountEquip.at(1)->label->setPositionX(60);
 	_mountEquip.at(1)->label->setColor(Color3B(50, 50, 50));
 	_mountEquip.at(1)->layer->addChild(_mountEquip.at(1)->label);
 
-	_mountEquip.at(2)->sprite = Sprite::createWithSpriteFrame(player->getPet()->getMountPet()->getSpriteFrame());
+	_mountEquip.at(1)->label2 = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 15);
+	_mountEquip.at(1)->label2->setString(StringUtils::format("생명력 : +%d", (int)player->getEquip()->getMountArmorLife()));
+	_mountEquip.at(1)->label2->setAnchorPoint(Vec2(0, 0.5));
+	_mountEquip.at(1)->label2->setPosition(50, -35);
+	_mountEquip.at(1)->label2->setColor(Color3B(100, 100, 100));
+	_mountEquip.at(1)->layer->addChild(_mountEquip.at(1)->label2);
+
+	_mountEquip.at(2)->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_icon.png", player->getEquip()->getMountShoesCode().getCString()));
+	_mountEquip.at(2)->sprite->setPositionY(-22);
+	_mountEquip.at(2)->sprite->setScale(1.5f);
 	_mountEquip.at(2)->layer->addChild(_mountEquip.at(2)->sprite);
 				   
-	_mountEquip.at(2)->label = Label::createWithTTF(player->getPet()->getMountPetName().getCString(), "fonts/Maplestory Bold.ttf", 20);
+	_mountEquip.at(2)->label = Label::createWithTTF(player->getEquip()->getMountShoesName().getCString(), "fonts/Maplestory Bold.ttf", 20);
+	_mountEquip.at(2)->label->setAnchorPoint(Vec2(0, 0.5));
+	_mountEquip.at(2)->label->setPositionX(60);
 	_mountEquip.at(2)->label->setColor(Color3B(50, 50, 50));
 	_mountEquip.at(2)->layer->addChild(_mountEquip.at(2)->label);
+	
+	_mountEquip.at(2)->label2 = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 15);
+	_mountEquip.at(2)->label2->setString(StringUtils::format("기동력 : +%d", (int)player->getEquip()->getMountShoesSpeed()));
+	_mountEquip.at(2)->label2->setAnchorPoint(Vec2(0, 0.5));
+	_mountEquip.at(2)->label2->setPosition(50, -35);
+	_mountEquip.at(2)->label2->setColor(Color3B(100, 100, 100));
+	_mountEquip.at(2)->layer->addChild(_mountEquip.at(2)->label2);
 
-	_mountEquip.at(3)->sprite = Sprite::createWithSpriteFrame(player->getPet()->getMountPet()->getSpriteFrame());
+	_mountEquip.at(3)->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_icon.png", player->getPet()->getMountPetName().getCString()));
+	_mountEquip.at(3)->sprite->setPositionY(-22);
+	_mountEquip.at(3)->sprite->setScale(1.5f);
 	_mountEquip.at(3)->layer->addChild(_mountEquip.at(3)->sprite);
 
 	_mountEquip.at(3)->label = Label::createWithTTF(player->getPet()->getMountPetName().getCString(), "fonts/Maplestory Bold.ttf", 20);
+	_mountEquip.at(3)->label->setAnchorPoint(Vec2(0, 0.5));
+	_mountEquip.at(3)->label->setPositionX(60);
 	_mountEquip.at(3)->label->setColor(Color3B(50, 50, 50));
 	_mountEquip.at(3)->layer->addChild(_mountEquip.at(3)->label);
+
+	_mountEquip.at(3)->label2 = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 15);
+	_mountEquip.at(3)->label2->setString(StringUtils::format(""));
+	_mountEquip.at(3)->label2->setAnchorPoint(Vec2(0, 0.5));
+	_mountEquip.at(3)->label2->setPosition(50, -35);
+	_mountEquip.at(3)->label2->setColor(Color3B(100, 100, 100));
+	_mountEquip.at(3)->layer->addChild(_mountEquip.at(3)->label2);
 
 	//right
 

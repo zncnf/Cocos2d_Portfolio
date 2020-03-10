@@ -17,7 +17,6 @@ bool MainScene::init()
 	this->addChild(_bg);
 
 	_layer = Layer::create();
-	//_layer->setPosition(700, 357);
 	this->addChild(_layer);
 
 	_equipBtn = Sprite::create("Main/장비버튼.png");
@@ -38,9 +37,9 @@ bool MainScene::init()
 	_equipLayer->setPosition(700, 357);
 	_layer->addChild(_equipLayer);
 
-	_topLayer = TopLayer::create();
+	/*_topLayer = TopLayer::create();
 	_topLayer->setPosition(1750, 357);
-	_layer->addChild(_topLayer);
+	_layer->addChild(_topLayer);*/
 
 	/*_weaponBtn = Sprite::createWithTexture(cuey->texture("Main/무기버튼.png"));
 	_weaponBtn->setTextureRect(Rect(4, 227, _weaponBtn->getContentSize().width, _weaponBtn->getContentSize().height));
@@ -85,35 +84,34 @@ void MainScene::onExit()
 bool MainScene::onTouchBegan(Touch * touch, Event * event)
 {
 	_equipLayer->onTouchBegan(touch, event);
+	//_topLayer->onTouchBegan(touch, event);
 
-	Vec2 pt = touch->getLocation();
-	if (_equipBtn->getBoundingBox().containsPoint(pt - _layer->getPosition())) {
-		_equipLayer->setPosition(0, 0);
+	Vec2 pt = touch->getLocation() - _layer->getPosition();
+	if (_equipBtn->getBoundingBox().containsPoint(pt)) {
+		_equipLayer->setPosition(700, 357);
 		if (_isAction) {
 			_layer->runAction(Sequence::create(
-				EaseExponentialInOut::create(MoveTo::create(1, Vec2(1100, 357))),
+				EaseExponentialInOut::create(MoveTo::create(1, Vec2(0, 0))),
 				CallFunc::create(CC_CALLBACK_0(MainScene::setisAction, this, true)),
 				nullptr));
 		}
 		_isAction = false;
 	}
-	if (_skillBtn->getBoundingBox().containsPoint(pt - _layer->getPosition())) {
+	if (_skillBtn->getBoundingBox().containsPoint(pt)) {
 		_equipLayer->setPosition(9999, 9999);
 	}
-	if (_itemBtn->getBoundingBox().containsPoint(pt - _layer->getPosition())) {
+	if (_itemBtn->getBoundingBox().containsPoint(pt)) {
 		//_equipLayer->setPosition(9999, 9999);
 		if (_isAction) {
 			_layer->runAction(Sequence::create(
-				EaseExponentialInOut::create(MoveTo::create(1, Vec2(303, 357))),
+				EaseExponentialInOut::create(MoveTo::create(1, Vec2(-1103, 0))),
 				CallFunc::create(CC_CALLBACK_0(MainScene::setisAction, this, true)),
 				CallFunc::create(CC_CALLBACK_0(MainScene::moveTopLayer, this)),
 				nullptr));
 		}
 		_isAction = false;
 	}
-	/*if (_weaponBtn->getBoundingBox().containsPoint(pt - _layer->getPosition())) {
-		log("test");
-	}*/
+
 	return true;
 }
 

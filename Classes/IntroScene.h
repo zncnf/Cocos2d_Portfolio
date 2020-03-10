@@ -1,5 +1,6 @@
 #pragma once
 #include "Cuey.h"
+#include "MainScene.h"
 #include "TopScene.h"
 #include "Player.h"
 

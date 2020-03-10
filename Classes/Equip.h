@@ -79,16 +79,19 @@ public:
 	Sprite* getMountWeaponIcon() { return _mountWeapon->icon; }
 	Sprite* getMountWeaponIconRaw() { return _mountWeapon->iconRaw; }
 	String getMountWeaponName() { return _mountWeapon->name; }
+	String getMountWeaponCode() { return _mountWeapon->code; }
 	float getMountWeaponAtk() { return _mountWeapon->atk; }
 
 	Sprite* getMountArmorIcon() { return _mountArmor->icon; }
 	Sprite* getMountArmorIconRaw() { return _mountArmor->iconRaw; }
 	String getMountArmorName() { return _mountArmor->name; }
-	float getMountArmorAtk() { return _mountArmor->life; }
+	String getMountArmorCode() { return _mountArmor->code; }
+	float getMountArmorLife() { return _mountArmor->life; }
 
 	Sprite* getMountShoesIcon() { return _mountShoes->icon; }
 	Sprite* getMountShoesIconRaw() { return _mountShoes->iconRaw; }
 	String getMountShoesName() { return _mountShoes->name; }
-	float getMountShoesAtk() { return _mountShoes->speed; }
+	String getMountShoesCode() { return _mountShoes->code; }
+	float getMountShoesSpeed() { return _mountShoes->speed; }
 
 };

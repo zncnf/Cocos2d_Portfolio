@@ -9,7 +9,7 @@ class MainScene : public Scene
 private:
 	Layer* _layer;
 	EquipLayer* _equipLayer;
-	TopLayer* _topLayer;
+	//TopLayer* _topLayer;
 
 	Sprite* _bg;
 

@@ -237,6 +237,7 @@ void Equip::mountShoes(int n)
 		_mountShoes->icon = Sprite::createWithSpriteFrame(_myShoes[n]->icon->getSpriteFrame());
 		_mountShoes->iconRaw = Sprite::createWithSpriteFrame(_myShoes[n]->iconRaw->getSpriteFrame());
 		_mountShoes->name = _myShoes[n]->name;
+		log("%s", _mountShoes->name.getCString());
 
 		_myShoes.erase(_myShoes.begin() + n);
 		if (temp.getCString() != "") setShoes(temp);

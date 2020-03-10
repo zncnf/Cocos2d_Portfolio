@@ -116,11 +116,11 @@ void TopScene::tick(float delta)
 			if (!player->getPet()->getIsMove()) player->getPet()->setMove();
 			if (player->getPet()->getMountPet()->getPositionX() > itemX[0]) {
 				player->getPet()->getMountPet()->setFlippedX(false);
-				player->getPet()->getMountPet()->setPositionX(player->getPet()->getMountPet()->getPositionX() - player->getBaseSpeed() * (isItamInPlayer ? 1.0f : 1.8f));
+				player->getPet()->getMountPet()->setPositionX(player->getPet()->getMountPet()->getPositionX() - player->getSpeed() * (isItamInPlayer ? 1.0f : 1.8f));
 			}
 			else {
 				player->getPet()->getMountPet()->setFlippedX(true);
-				player->getPet()->getMountPet()->setPositionX(player->getPet()->getMountPet()->getPositionX() + player->getBaseSpeed() * (isItamInPlayer ? 1.0f : 1.8f));
+				player->getPet()->getMountPet()->setPositionX(player->getPet()->getMountPet()->getPositionX() + player->getSpeed() * (isItamInPlayer ? 1.0f : 1.8f));
 			}
 		}
 	}

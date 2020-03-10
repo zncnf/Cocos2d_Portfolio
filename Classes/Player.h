@@ -114,6 +114,10 @@ public:
 		return damage * cuey->rand(0.8, 1.0);
 	}
 	float getBaseAtk() { return _atk; }
-	float getBaseLife() { return _life; }
+	float getBaseLife() { return _lifem; }
 	float getBaseSpeed() { return _speed; }
+
+	float getAtk() { return _atk + _equip->getMountWeaponAtk(); }
+	float getLife() { return _lifem + _equip->getMountArmorLife(); }
+	float getSpeed() { return _speed + _equip->getMountShoesSpeed(); }
 };
