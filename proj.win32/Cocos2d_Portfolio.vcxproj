@@ -154,6 +154,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\Cuey.cpp" />
     <ClCompile Include="..\Classes\EndingScene.cpp" />
     <ClCompile Include="..\Classes\Equip.cpp" />
+    <ClCompile Include="..\Classes\EquipLayer.cpp" />
     <ClCompile Include="..\Classes\IntroScene.cpp" />
     <ClCompile Include="..\Classes\Item.cpp" />
     <ClCompile Include="..\Classes\MainScene.cpp" />
@@ -164,6 +165,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClCompile Include="..\Classes\ShopScene.cpp" />
     <ClCompile Include="..\Classes\Skill.cpp" />
     <ClCompile Include="..\Classes\SmeltScene.cpp" />
+    <ClCompile Include="..\Classes\TopLayer.cpp" />
     <ClCompile Include="..\Classes\TopScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -173,6 +175,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\Cuey.h" />
     <ClInclude Include="..\Classes\EndingScene.h" />
     <ClInclude Include="..\Classes\Equip.h" />
+    <ClInclude Include="..\Classes\EquipLayer.h" />
     <ClInclude Include="..\Classes\IntroScene.h" />
     <ClInclude Include="..\Classes\Item.h" />
     <ClInclude Include="..\Classes\MainScene.h" />
@@ -183,6 +186,7 @@ xcopy "$(ProjectDir)..\Resources" "$(OutDir)\Resources\" /D /E /I /F /Y
     <ClInclude Include="..\Classes\ShopScene.h" />
     <ClInclude Include="..\Classes\Skill.h" />
     <ClInclude Include="..\Classes\SmeltScene.h" />
+    <ClInclude Include="..\Classes\TopLayer.h" />
     <ClInclude Include="..\Classes\TopScene.h" />
     <ClInclude Include="main.h" />
   </ItemGroup>

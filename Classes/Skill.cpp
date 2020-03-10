@@ -91,6 +91,7 @@ void Skill::playNormal()
 {
 	_isNormal = true;
 	_mountNormal->attack->setVisible(true);
+	_mountNormal->attack->cleanup();
 
 	Vector<SpriteFrame*> frame;
 

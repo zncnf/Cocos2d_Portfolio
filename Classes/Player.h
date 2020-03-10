@@ -42,13 +42,13 @@ private:
 public:
 	static Player* getInstance();
 
-	void setLayer(Layer* layer);
+	void setLayer(Layer* layer, bool game = true);
 
 	void setStand();
 	void setFoot();
 	void setWalk();
 	void setJump();
-	void setAttack();
+	void setAttack(bool game = true);
 	void setAttack_Frame(int frame);
 	void setRange(int n);
 	void setHit();

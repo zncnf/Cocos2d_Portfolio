@@ -64,7 +64,7 @@ Player * Player::getInstance()
 	return Instance;
 }
 
-void Player::setLayer(Layer * layer)
+void Player::setLayer(Layer * layer, bool game)
 {
 	_layer = layer;
 
@@ -73,7 +73,7 @@ void Player::setLayer(Layer * layer)
 	_isRight = 0;
 	_isJump = 0;
 	_isHit = 0;
-	_isAttack = false;
+	_isAttack = game ? false : true;
 	_isFoot = false;
 	_isDead = false;
 	_way = false;
@@ -103,57 +103,61 @@ void Player::setLayer(Layer * layer)
 	_lhand->setVisible(false);
 	_player->addChild(_lhand, 25);
 
-	_rect = Sprite::createWithTexture(nullptr, { 0,0,30,72 });
-	_player->addChild(_rect, -1);
-	_rect->setPosition(0, -13);
-	_rect->setTag(15);
-	_rect->setColor(Color3B::RED);
-	_rect->setOpacity(70);
-	_rect->setVisible(false);
-
-	_rect2 = Sprite::createWithTexture(nullptr, { 0,0,1000,200 });
-	_player->addChild(_rect2, -1);
-	_rect2->setAnchorPoint(Vec2(0.5f, 1));
-	_rect2->setPosition(0, -13);
-	_rect2->setTag(15);
-	_rect2->setColor(Color3B::RED);
-	_rect2->setOpacity(70);
-	_rect2->setVisible(false);
-	
 	_equip->setLayer(_player);
 	_skill->setLayer(_layer, _player);
 	_pet->setLayer(_layer, _player);
 
-	_life = (int)_lifem;
+	if (game) {
 
-	_expLayer = Layer::create();
-	_expLayer->setPosition(640, 5);
-	_layer->getParent()->addChild(_expLayer);
+		_rect = Sprite::createWithTexture(nullptr, { 0,0,30,72 });
+		_player->addChild(_rect, -1);
+		_rect->setPosition(0, -13);
+		_rect->setTag(15);
+		_rect->setColor(Color3B::RED);
+		_rect->setOpacity(70);
+		_rect->setVisible(false);
 
-	auto _expBar_back = Sprite::create("Map/exp_back.png");
-	_expLayer->addChild(_expBar_back, 1);
+		_rect2 = Sprite::createWithTexture(nullptr, { 0,0,1000,200 });
+		_player->addChild(_rect2, -1);
+		_rect2->setAnchorPoint(Vec2(0.5f, 1));
+		_rect2->setPosition(0, -13);
+		_rect2->setTag(15);
+		_rect2->setColor(Color3B::RED);
+		_rect2->setOpacity(70);
+		_rect2->setVisible(false);
 
-	auto _expBar_back2 = Sprite::create("Map/exp_back2.png");
-	_expBar_back2->setScaleX(1.004);
-	_expBar_back2->setPositionX(7);
-	_expLayer->addChild(_expBar_back2, 3);
+		_life = (int)_lifem;
 
-	_expBar = Sprite::create("Map/exp.png");
-	_expBar->setScaleX(_exp / _expm);
-	_expBar->setPosition(-625, 0);
-	_expBar->setAnchorPoint(Vec2(0, 0.5f));
-	_expLayer->addChild(_expBar, 2);
-	
-	_lifeLayer = Layer::create();
-	_lifeLayer->setPosition(0, 50);
-	_player->addChild(_lifeLayer);
+		_expLayer = Layer::create();
+		_expLayer->setPosition(640, 5);
+		_layer->getParent()->addChild(_expLayer);
 
-	auto _lifeSprite = Sprite::create("Player/life.png");
-	_lifeSprite->setScale(0.1f);
-	_lifeLayer->addChild(_lifeSprite);
+		auto _expBar_back = Sprite::create("Map/exp_back.png");
+		_expLayer->addChild(_expBar_back, 1);
 
-	_lifeLabel = Label::create(StringUtils::format("%d", (int)_life), "fonts/具愁磊 具眉Rehular.ttf", 30);
-	_lifeLayer->addChild(_lifeLabel);
+		auto _expBar_back2 = Sprite::create("Map/exp_back2.png");
+		_expBar_back2->setScaleX(1.004);
+		_expBar_back2->setPositionX(7);
+		_expLayer->addChild(_expBar_back2, 3);
+
+		_expBar = Sprite::create("Map/exp.png");
+		_expBar->setScaleX(_exp / _expm);
+		_expBar->setPosition(-625, 0);
+		_expBar->setAnchorPoint(Vec2(0, 0.5f));
+		_expLayer->addChild(_expBar, 2);
+
+		_lifeLayer = Layer::create();
+		_lifeLayer->setPosition(0, 50);
+		_player->addChild(_lifeLayer);
+
+		auto _lifeSprite = Sprite::create("Player/life.png");
+		_lifeSprite->setScale(0.1f);
+		_lifeLayer->addChild(_lifeSprite);
+
+		_lifeLabel = Label::create(StringUtils::format("%d", (int)_life), "fonts/具愁磊 具眉Rehular.ttf", 30);
+		_lifeLayer->addChild(_lifeLabel);
+
+	}
 
 	setStand();
 	_isGame = true;
@@ -248,7 +252,7 @@ void Player::setJump()
 	}
 }
 
-void Player::setAttack()
+void Player::setAttack(bool game)
 {
 	if (_isHit != 1) {
 		for (int i = 0; i < _player->getChildrenCount(); i++) {
@@ -263,11 +267,12 @@ void Player::setAttack()
 			DelayTime::create(0.15f),
 			CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 2)),
 			DelayTime::create(_skill->getNormalDelay()),
-			CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, 3)),
+			CallFunc::create(CC_CALLBACK_0(Player::setAttack_Frame, this, game ? 3 : 4)),
 			nullptr
 		);
 		action->setFlags(10);
-		_player->runAction(action);
+
+		_player->runAction(action); 
 
 		_rhand->setVisible(false);
 		_lhand->setVisible(false);
@@ -286,6 +291,8 @@ void Player::setAttack_Frame(int frame)
 		}
 		_isAttack = false;
 		_mobInRange.clear();
+	} else if(frame == 4) {
+		setStand();
 	}
 	else if(_isAttack) {
 		_body->setSpriteFrame(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("player_swing_%d_body.png", frame)));

@@ -11,6 +11,8 @@ bool IntroScene::init()
 		return false;
 	}
 
+	auto a = Sprite::create("Main/¿Ê¹öÆ°.png");
+	this->addChild(a);
 	auto _layer = LayerColor::create(Color4B::WHITE);
 	this->addChild(_layer);
 	
