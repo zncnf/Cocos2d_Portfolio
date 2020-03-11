@@ -59,7 +59,7 @@ bool EquipLayer::init()
 	_mountEquip.at(0)->layer->addChild(_mountEquip.at(0)->label);
 
 	_mountEquip.at(0)->label2 = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 15);
-	_mountEquip.at(0)->label2->setString(StringUtils::format("공격력 : +%d", (int)player->getEquip()->getMountWeaponAtk()));
+	_mountEquip.at(0)->label2->setString(StringUtils::format("공격력 : +%.1f", player->getEquip()->getMountWeaponAtk()));
 	_mountEquip.at(0)->label2->setAnchorPoint(Vec2(0, 0.5));
 	_mountEquip.at(0)->label2->setPosition(50, -35);
 	_mountEquip.at(0)->label2->setColor(Color3B(100, 100, 100));
@@ -95,7 +95,7 @@ bool EquipLayer::init()
 	_mountEquip.at(2)->layer->addChild(_mountEquip.at(2)->label);
 	
 	_mountEquip.at(2)->label2 = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 15);
-	_mountEquip.at(2)->label2->setString(StringUtils::format("기동력 : +%d", (int)player->getEquip()->getMountShoesSpeed()));
+	_mountEquip.at(2)->label2->setString(StringUtils::format("기동력 : +%.1f", player->getEquip()->getMountShoesSpeed()));
 	_mountEquip.at(2)->label2->setAnchorPoint(Vec2(0, 0.5));
 	_mountEquip.at(2)->label2->setPosition(50, -35);
 	_mountEquip.at(2)->label2->setColor(Color3B(100, 100, 100));
@@ -174,7 +174,7 @@ bool EquipLayer::init()
 		_myEquip.back()->layer->addChild(_myEquip.at(i)->label);
 		
 		_myEquip.back()->label2 = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 15);
-		_myEquip.back()->label2->setString(StringUtils::format("공격력 : +%d", (int)player->getEquip()->getMyWeaponAtk(i)));
+		_myEquip.back()->label2->setString(StringUtils::format("공격력 : +%.1f", player->getEquip()->getMyWeaponAtk(i)));
 		_myEquip.back()->label2->setAnchorPoint(Vec2(0, 0.5));
 		_myEquip.back()->label2->setPosition(50, -35);
 		_myEquip.back()->label2->setColor(Color3B(100, 100, 100));
@@ -254,7 +254,7 @@ void EquipLayer::setWeapon()
 {
 	_mountEquip.at(0)->sprite->setSpriteFrame(StringUtils::format("%s_icon.png", player->getEquip()->getMountWeaponCode().getCString()));
 	_mountEquip.at(0)->label->setString(player->getEquip()->getMountWeaponName().getCString());
-	_mountEquip.at(0)->label2->setString(StringUtils::format("공격력 : +%d", (int)player->getEquip()->getMountWeaponAtk()));
+	_mountEquip.at(0)->label2->setString(StringUtils::format("공격력 : +%.1f", player->getEquip()->getMountWeaponAtk()));
 
 	_rightUI_weapon->setPosition(168, 0);
 	_rightUI_armor->setPosition(9999, 9999);
@@ -286,7 +286,7 @@ void EquipLayer::setWeapon()
 		_myEquip.back()->layer->addChild(_myEquip.at(i)->label);
 
 		_myEquip.back()->label2 = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 15);
-		_myEquip.back()->label2->setString(StringUtils::format("공격력 : +%d", (int)player->getEquip()->getMyWeaponAtk(i)));
+		_myEquip.back()->label2->setString(StringUtils::format("공격력 : +%.1f", player->getEquip()->getMyWeaponAtk(i)));
 		_myEquip.back()->label2->setAnchorPoint(Vec2(0, 0.5));
 		_myEquip.back()->label2->setPosition(50, -35);
 		_myEquip.back()->label2->setColor(Color3B(100, 100, 100));
@@ -330,7 +330,7 @@ void EquipLayer::setArmor()
 		_myEquip.back()->layer->addChild(_myEquip.at(i)->label);
 
 		_myEquip.back()->label2 = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 15);
-		_myEquip.back()->label2->setString(StringUtils::format("공격력 : +%d", (int)player->getEquip()->getMyArmorLife(i)));
+		_myEquip.back()->label2->setString(StringUtils::format("생명력 : +%d", (int)player->getEquip()->getMyArmorLife(i)));
 		_myEquip.back()->label2->setAnchorPoint(Vec2(0, 0.5));
 		_myEquip.back()->label2->setPosition(50, -35);
 		_myEquip.back()->label2->setColor(Color3B(100, 100, 100));
@@ -343,7 +343,7 @@ void EquipLayer::setShoes()
 {
 	_mountEquip.at(2)->sprite->setSpriteFrame(StringUtils::format("%s_icon.png", player->getEquip()->getMountShoesCode().getCString()));
 	_mountEquip.at(2)->label->setString(player->getEquip()->getMountShoesName().getCString());
-	_mountEquip.at(2)->label2->setString(StringUtils::format("기동력 : +%d", (int)player->getEquip()->getMountShoesSpeed()));
+	_mountEquip.at(2)->label2->setString(StringUtils::format("기동력 : +%.1f", player->getEquip()->getMountShoesSpeed()));
 
 	_rightUI_weapon->setPosition(9999, 9999);
 	_rightUI_armor->setPosition(9999, 9999);
@@ -374,7 +374,7 @@ void EquipLayer::setShoes()
 		_myEquip.back()->layer->addChild(_myEquip.at(i)->label);
 
 		_myEquip.back()->label2 = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 15);
-		_myEquip.back()->label2->setString(StringUtils::format("공격력 : +%d", (int)player->getEquip()->getMyShoesSpeed(i)));
+		_myEquip.back()->label2->setString(StringUtils::format("기동력 : +%.1f", player->getEquip()->getMyShoesSpeed(i)));
 		_myEquip.back()->label2->setAnchorPoint(Vec2(0, 0.5));
 		_myEquip.back()->label2->setPosition(50, -35);
 		_myEquip.back()->label2->setColor(Color3B(100, 100, 100));

@@ -6,6 +6,7 @@ Equip::Equip()
 	cache->addSpriteFramesWithFile("Equip/Weapon/tube.plist");
 	cache->addSpriteFramesWithFile("Equip/Armor/commander.plist");
 	cache->addSpriteFramesWithFile("Equip/Shoes/luminous.plist");
+	cache->addSpriteFramesWithFile("Equip/Shoes/¹«ÇÑÀÇ Æ÷Åæ ½Å¹ß.plist");
 
 	action1 = new Action;
 	action1->setFlags(10);
@@ -18,7 +19,7 @@ Equip::Equip()
 
 	setWeapon("¸ùµÕÀÌ");
 	setArmor("»ç·É°ü ½´Æ®");
-	setShoes("¾ß±¤ ½Å¹ß");
+	setShoes("¹«ÇÑÀÇ Æ÷Åæ ½Å¹ß");
 
 	_mountWeapon = new Weapon({ 0 });
 	_mountArmor = new Armor({ 0 });
@@ -101,6 +102,9 @@ void Equip::setShoes(String name, int n)
 	if (name.compare("¾ß±¤ ½Å¹ß") == 0) {
 		_myShoes[n]->code = "luminous";
 		_myShoes[n]->speed = 1.0f;
+	} else if (name.compare("¹«ÇÑÀÇ Æ÷Åæ ½Å¹ß") == 0) {
+		_myShoes[n]->code = "¹«ÇÑÀÇ Æ÷Åæ ½Å¹ß";
+		_myShoes[n]->speed = 1.5f;
 	}
 
 	_myShoes[n]->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_stand_0_0.png", _myShoes[n]->code.getCString()));
