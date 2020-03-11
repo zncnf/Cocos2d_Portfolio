@@ -21,10 +21,10 @@ bool EquipLayer::init()
 	this->addChild(_leftUI);
 
 	_stats = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 17);
-	_stats->setString(StringUtils::format("Lv : %d\n\n공격력 : %.1f(%d+%.1f)\n\n생명력 : %d(%.1f+%.1f)\n\n기동력 : %.1f(%.1f+%.1f)",
+	_stats->setString(StringUtils::format("Lv : %d\n\n공격력 : %.1f(%d+%.1f)\n\n생명력 : %d(%d+%d)\n\n기동력 : %.1f(%.1f+%.1f)",
 											(int)player->getLv(),
 											player->getAtk(), (int)player->getBaseAtk(), player->getEquip()->getMountWeaponAtk(),
-											(int)player->getLife(), player->getBaseLife(), player->getEquip()->getMountArmorLife(), 
+											(int)player->getLife(), (int)player->getBaseLife(), (int)player->getEquip()->getMountArmorLife(),
 											player->getSpeed(), player->getBaseSpeed(), player->getEquip()->getMountShoesSpeed()));
 	_stats->setAnchorPoint(Vec2(0, 1));
 	_stats->setPosition(-245, 260);
@@ -183,13 +183,17 @@ bool EquipLayer::init()
 
 	_selEquip = 0;
 
+	player->getPet()->setPet("백록");
+	player->getPet()->setPet("쁘띠 부우");
+	player->getPet()->setPet("백록");
+	player->getPet()->setPet("쁘띠 부우");
+
 	return true;
 }
 
 bool EquipLayer::onTouchBegan(Touch * touch, Event * event, bool isUse)
 {
 	Vec2 pt = touch->getLocation() - this->getPosition();
-	//log("%d, %d\t%d, %d\t%d, %d", (int)pt.x, (int)pt.y, (int)_weaponBtn->getPositionX(), (int)_weaponBtn->getPositionY(), (int)this->getPositionX(), (int)this->getPositionY());
 
 	if (_weaponBtn->getBoundingBox().containsPoint(pt)) {
 		setWeapon();
@@ -224,15 +228,17 @@ bool EquipLayer::onTouchBegan(Touch * touch, Event * event, bool isUse)
 				player->setStand();
 				break;
 			case 3:
+				player->getPet()->mountPet(i);
 				setPet();
+				player->getPet()->setStand();
 				break;
 			}
 		}
 	}
-	_stats->setString(StringUtils::format("Lv : %d\n\n공격력 : %.1f(%d+%.1f)\n\n생명력 : %d(%.1f+%.1f)\n\n기동력 : %.1f(%.1f+%.1f)",
+	_stats->setString(StringUtils::format("Lv : %d\n\n공격력 : %.1f(%d+%.1f)\n\n생명력 : %d(%d+%d)\n\n기동력 : %.1f(%.1f+%.1f)",
 		(int)player->getLv(),
 		player->getAtk(), (int)player->getBaseAtk(), player->getEquip()->getMountWeaponAtk(),
-		(int)player->getLife(), player->getBaseLife(), player->getEquip()->getMountArmorLife(),
+		(int)player->getLife(), (int)player->getBaseLife(), (int)player->getEquip()->getMountArmorLife(),
 		player->getSpeed(), player->getBaseSpeed(), player->getEquip()->getMountShoesSpeed()));
 	
 	return true;
@@ -397,6 +403,32 @@ void EquipLayer::setPet()
 		_myEquip.at(i)->layer->removeFromParentAndCleanup(true);
 	}
 	_myEquip.clear();
+	for (int i = 0; i < player->getPet()->getMyPetSize(); i++) {
+		_myEquip.push_back(new RightEquip({ Layer::create() }));
+		_myEquip.back()->layer->setPosition(30, 232 - 96 * i);
+		this->addChild(_myEquip.back()->layer);
 
+		auto equipbg = Sprite::create("Main/아이템칸.png");
+		equipbg->setPositionY(-22);
+		_myEquip.back()->layer->addChild(equipbg);
+
+		_myEquip.back()->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_icon.png", player->getPet()->getMyPetName(i).getCString()));
+		_myEquip.back()->sprite->setPositionY(-22);
+		_myEquip.back()->sprite->setScale(1.5f);
+		_myEquip.back()->layer->addChild(_myEquip.at(i)->sprite);
+
+		_myEquip.back()->label = Label::createWithTTF(player->getPet()->getMyPetName(i).getCString(), "fonts/Maplestory Bold.ttf", 20);
+		_myEquip.back()->label->setAnchorPoint(Vec2(0, 0.5));
+		_myEquip.back()->label->setPositionX(60);
+		_myEquip.back()->label->setColor(Color3B(50, 50, 50));
+		_myEquip.back()->layer->addChild(_myEquip.at(i)->label);
+
+		_myEquip.back()->label2 = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 15);
+		_myEquip.back()->label2->setString(StringUtils::format(""));
+		_myEquip.back()->label2->setAnchorPoint(Vec2(0, 0.5));
+		_myEquip.back()->label2->setPosition(50, -35);
+		_myEquip.back()->label2->setColor(Color3B(100, 100, 100));
+		_myEquip.back()->layer->addChild(_myEquip.at(i)->label2);
+	}
 	_selEquip = 3;
 }

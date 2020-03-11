@@ -2,7 +2,7 @@
 
 Skill::Skill()
 {
-	setNormal("소울 블레이드");
+	setNormal("디바이드");
 
 	_mountNormal = new Normal({ 0 });
 
@@ -18,7 +18,7 @@ void Skill::setLayer(Layer* layer, Layer* player)
 	_mountNormal->attack->setPosition(_player->getPosition());
 	_mountNormal->attack->setVisible(false);
 
-	_layer->addChild(_mountNormal->attack);
+	_layer->addChild(_mountNormal->attack, 1);
 
 	_mountNormal->rect = Sprite::createWithTexture(nullptr, _mountNormal->attack->boundingBox());
 	_mountNormal->rect->setPositionX((-_mountNormal->attack->boundingBox().size.width / 2));

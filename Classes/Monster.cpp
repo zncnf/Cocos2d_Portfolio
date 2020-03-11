@@ -53,11 +53,11 @@ Monster::Monster(Layer* layer, MOB mob) {
 		_dieCount = 11;
 		_atk = 10;
 		_def = 3;
-		_hp = _hpm = 20;
+		_hp = _hpm = 16;
 		_delay = 0;
 		_speed = 1.5;
 		_gold = 20;
-		_exp = 6;
+		_exp = 5;
 		itemString.push_back("µÅÁöÀÇ ¸Ó¸®");
 
 		shuffle(itemString.begin(), itemString.end(), g);
@@ -84,12 +84,12 @@ Monster::Monster(Layer* layer, MOB mob) {
 		_hitCount = 0;
 		_dieCount = 19;
 		_atk = 10;
-		_def = 3;
+		_def = 5;
 		_hp = _hpm = 30;
 		_delay = 0;
-		_speed = 1.5;
-		_gold = 20;
-		_exp = 6;
+		_speed = 1.2;
+		_gold = 30;
+		_exp = 8;
 		itemString.push_back("µÅÁöÀÇ ¸Ó¸®");
 
 		shuffle(itemString.begin(), itemString.end(), g);
@@ -116,12 +116,12 @@ Monster::Monster(Layer* layer, MOB mob) {
 		_hitCount = 0;
 		_dieCount = 17;
 		_atk = 10;
-		_def = 3;
-		_hp = _hpm = 30;
+		_def = 8;
+		_hp = _hpm = 25;
 		_delay = 0;
 		_speed = 1.5;
-		_gold = 20;
-		_exp = 6;
+		_gold = 35;
+		_exp = 10;
 		itemString.push_back("µÅÁöÀÇ ¸Ó¸®");
 
 		shuffle(itemString.begin(), itemString.end(), g);
@@ -148,12 +148,12 @@ Monster::Monster(Layer* layer, MOB mob) {
 		_hitCount = 0;
 		_dieCount = 15;
 		_atk = 10;
-		_def = 3;
-		_hp = _hpm = 30;
+		_def = 13;
+		_hp = _hpm = 40;
 		_delay = 0;
-		_speed = 1.5;
-		_gold = 20;
-		_exp = 6;
+		_speed = 1.7;
+		_gold = 40;
+		_exp = 15;
 		itemString.push_back("µÅÁöÀÇ ¸Ó¸®");
 
 		shuffle(itemString.begin(), itemString.end(), g);
@@ -180,12 +180,12 @@ Monster::Monster(Layer* layer, MOB mob) {
 		_hitCount = 0;
 		_dieCount = 10;
 		_atk = 10;
-		_def = 3;
-		_hp = _hpm = 30;
+		_def = 10;
+		_hp = _hpm = 50;
 		_delay = 0;
-		_speed = 1.5;
+		_speed = 1.4;
 		_gold = 20;
-		_exp = 6;
+		_exp = 20;
 		itemString.push_back("µÅÁöÀÇ ¸Ó¸®");
 
 		shuffle(itemString.begin(), itemString.end(), g);

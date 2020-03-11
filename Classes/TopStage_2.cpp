@@ -66,9 +66,9 @@ void TopStage_2::tick(float delta)
 {
 	if (!player->getIsDead()) {
 		_time += delta;
-		if (player->getBestTime(0) < _time) {
-			player->setBestTime(0, _time);
-			_bestTimeLabel->setString(StringUtils::format("BEST TIME   %02d : %02d(New)", (int)player->getBestTime(0) / 60, (int)player->getBestTime(0) % 60));
+		if (player->getBestTime(1) < _time) {
+			player->setBestTime(1, _time);
+			_bestTimeLabel->setString(StringUtils::format("BEST TIME   %02d : %02d(New)", (int)player->getBestTime(1) / 60, (int)player->getBestTime(1) % 60));
 		}
 	}
 	_timeLabel->setString(StringUtils::format("TIME   %02d : %02d", (int)_time / 60, (int)_time % 60));

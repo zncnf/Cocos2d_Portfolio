@@ -19,10 +19,7 @@ bool MainScene::init()
 	_layer = Layer::create();
 	this->addChild(_layer, 1);
 
-	auto _layer2 = Layer::create();
-	_layer->addChild(_layer2, 2);
-
-	player->setLayer(_layer2, false);
+	player->setLayer(_layer, false);
 	player->getPlayer()->setPosition(370, 530);
 	player->setWay(true);
 	player->getPet()->getMountPet()->setPosition(280, 500);
@@ -49,7 +46,7 @@ bool MainScene::init()
 
 	_skillLayer = SkillLayer::create();
 	_skillLayer->setPosition(9999, 9999);
-	_layer->addChild(_skillLayer);
+	_layer->addChild(_skillLayer, 1);
 
 	_topLayer = TopLayer::create();
 	_topLayer->setPosition(1650, 357);

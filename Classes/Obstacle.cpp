@@ -159,18 +159,18 @@ void Obstacle::tick()
 	case MOVE_GUIDED:
 		if (a > PI) {
 			if (a - PI < _obstacle->getRotation() / 57.2 && a > _obstacle->getRotation() / 57.2) {
-				_obstacle->setRotation(_obstacle->getRotation() + 0.15f);
+				_obstacle->setRotation(_obstacle->getRotation() + 0.2f);
 			}
 			else {
-				_obstacle->setRotation(_obstacle->getRotation() - 0.15f);
+				_obstacle->setRotation(_obstacle->getRotation() - 0.2f);
 			}
 		}
 		else {
 			if (a + PI > _obstacle->getRotation() / 57.2 && a < _obstacle->getRotation() / 57.2) {
-				_obstacle->setRotation(_obstacle->getRotation() - 0.15f);
+				_obstacle->setRotation(_obstacle->getRotation() - 0.2f);
 			}
 			else {
-				_obstacle->setRotation(_obstacle->getRotation() + 0.15f);
+				_obstacle->setRotation(_obstacle->getRotation() + 0.2f);
 			}
 		}
 		_rect->setRotation(_obstacle->getRotation());

@@ -32,19 +32,26 @@ void Pet::setLayer(Layer * layer, Layer* player)
 
 }
 
-void Pet::setPet(String name)
+void Pet::setPet(String name, int n)
 {
-	_myPet.push_back(new PET({
-		Sprite::createWithSpriteFrameName(StringUtils::format("%s_stand_0.png", name.getCString())),
-		name }));
+	if (n == -1) n = _myPet.size();
+	else if (_myPet.size() == 0) n = 0;
+
+	if (_myPet.size() == 0)_myPet.push_back(new PET({ 0 }));
+	else _myPet.insert(_myPet.begin() + n, new PET({ 0 }));
+
+	_myPet[n]->name = name;
+
 	if (name.compare("寥煙") == 0) {
-		_myPet.back()->standCount = 3;
-		_myPet.back()->moveCount = 7;
-	};
-	if (name.compare("際塑 睡辦") == 0) {
-		_myPet.back()->standCount = 4;
-		_myPet.back()->moveCount = 4;
-	};
+		_myPet[n]->standCount = 3;
+		_myPet[n]->moveCount = 7;
+	}
+	else if (name.compare("際塑 睡辦") == 0) {
+		_myPet[n]->standCount = 4;
+		_myPet[n]->moveCount = 4;
+	}
+
+	_myPet[n]->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_stand_0.png", name.getCString()));
 }
 
 void Pet::setStand()
@@ -86,8 +93,9 @@ void Pet::mountPet(int n)
 		_mountPet->name = _myPet[n]->name;
 		_mountPet->standCount = _myPet[n]->standCount;
 		_mountPet->moveCount = _myPet[n]->moveCount;
+
 		_myPet.erase(_myPet.begin() + n);
-		if (temp.compare("") != 0) setPet(temp);
+		if (temp.compare("") != 0) setPet(temp, n);
 	}
 }
 

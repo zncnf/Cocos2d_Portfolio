@@ -31,7 +31,7 @@ public:
 
 	void setLayer(Layer* layer, Layer* player);
 
-	void setPet(String name);
+	void setPet(String name, int n = -1);
 
 	void setStand();
 	void setMove();
@@ -45,6 +45,7 @@ public:
 
 	Sprite* getMyPet(int n) { return _myPet[n]->sprite; }
 	String getMyPetName(int n) { return _myPet[n]->name; }
+	int getMyPetSize() { return _myPet.size(); }
 
 	Sprite* getMountPet() { return _mountPet->sprite; }
 	String getMountPetName() { return _mountPet->name; }

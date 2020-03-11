@@ -4,9 +4,13 @@ Equip::Equip()
 {
 	cache->addSpriteFramesWithFile("Equip/Weapon/stick.plist");
 	cache->addSpriteFramesWithFile("Equip/Weapon/tube.plist");
+	cache->addSpriteFramesWithFile("Equip/Weapon/태극부채.plist");
+	cache->addSpriteFramesWithFile("Equip/Armor/커닝공고 교복.plist");
 	cache->addSpriteFramesWithFile("Equip/Armor/commander.plist");
+	cache->addSpriteFramesWithFile("Equip/Armor/나이트 매지션.plist");
 	cache->addSpriteFramesWithFile("Equip/Shoes/luminous.plist");
 	cache->addSpriteFramesWithFile("Equip/Shoes/무한의 포톤 신발.plist");
+	cache->addSpriteFramesWithFile("Equip/Shoes/슈퍼 부스터 운동화.plist");
 
 	action1 = new Action;
 	action1->setFlags(10);
@@ -17,9 +21,9 @@ Equip::Equip()
 	action4 = new Action;
 	action4->setFlags(10);
 
-	setWeapon("몽둥이");
-	setArmor("사령관 슈트");
-	setShoes("무한의 포톤 신발");
+	setWeapon("태극부채");
+	setArmor("나이트 매지션");
+	setShoes("슈퍼 부스터 운동화");
 
 	_mountWeapon = new Weapon({ 0 });
 	_mountArmor = new Armor({ 0 });
@@ -57,14 +61,17 @@ void Equip::setWeapon(String name, int n)
 	else _myWeapon.insert(_myWeapon.begin() + n, new Weapon({ 0 }));
 
 	_myWeapon[n]->name = name;
-	log("%s, %d", name.getCString(), n);
 	if(name.compare("몽둥이") == 0) {
 		_myWeapon[n]->code = "stick";
 		_myWeapon[n]->atk = 1.0f;
 	}
 	else if (name.compare("튜브") == 0) {
 		_myWeapon[n]->code = "tube";
-		_myWeapon[n]->atk = 2.0f;
+		_myWeapon[n]->atk = 5.0f;
+	}
+	else if (name.compare("태극부채") == 0) {
+		_myWeapon[n]->code = "태극부채";
+		_myWeapon[n]->atk = 10.0f;
 	}
 
 	_myWeapon[n]->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_stand_0_0.png", _myWeapon[n]->code.getCString()));
@@ -79,12 +86,18 @@ void Equip::setArmor(String name, int n)
 	else _myArmor.insert(_myArmor.begin() + n, new Armor({ 0 }));
 
 	_myArmor[n]->name = name;
-	log("%s, %d", name.getCString(), n);
-	if (name.compare("사령관 슈트") == 0) {
+	if (name.compare("커닝공고 교복") == 0) {
+		_myArmor[n]->code = "커닝공고 교복";
+		_myArmor[n]->life = 1.0f;
+	}
+	else if (name.compare("사령관 슈트") == 0) {
 		_myArmor[n]->code = "commander";
+		_myArmor[n]->life = 2.0f;
+	}
+	else if (name.compare("나이트 매지션") == 0) {
+		_myArmor[n]->code = "나이트 매지션";
 		_myArmor[n]->life = 3.0f;
 	}
-
 	_myArmor[n]->body = Sprite::createWithSpriteFrameName(StringUtils::format("%s_stand_0_body.png", _myArmor[n]->code.getCString()));
 	_myArmor[n]->arm = Sprite::createWithSpriteFrameName(StringUtils::format("%s_stand_0_arm.png", _myArmor[n]->code.getCString()));
 }
@@ -98,13 +111,17 @@ void Equip::setShoes(String name, int n)
 	else _myShoes.insert(_myShoes.begin() + n, new Shoes({ 0 }));
 
 	_myShoes[n]->name = name;
-	log("%s, %d", name.getCString(), n);
 	if (name.compare("야광 신발") == 0) {
 		_myShoes[n]->code = "luminous";
 		_myShoes[n]->speed = 1.0f;
-	} else if (name.compare("무한의 포톤 신발") == 0) {
+	}
+	else if (name.compare("무한의 포톤 신발") == 0) {
 		_myShoes[n]->code = "무한의 포톤 신발";
 		_myShoes[n]->speed = 1.5f;
+	}
+	else if (name.compare("슈퍼 부스터 운동화") == 0) {
+		_myShoes[n]->code = "슈퍼 부스터 운동화";
+		_myShoes[n]->speed = 2.0f;
 	}
 
 	_myShoes[n]->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_stand_0_0.png", _myShoes[n]->code.getCString()));
