@@ -114,6 +114,15 @@
     <ClCompile Include="..\Classes\SkillLayer.cpp">
       <Filter>src\Main</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\TopStage_1.cpp">
+      <Filter>src\Top</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TopStage_2.cpp">
+      <Filter>src\Top</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\TopStage_3.cpp">
+      <Filter>src\Top</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -175,6 +184,15 @@
     </ClInclude>
     <ClInclude Include="..\Classes\SkillLayer.h">
       <Filter>src\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TopStage_1.h">
+      <Filter>src\Top</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TopStage_2.h">
+      <Filter>src\Top</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\TopStage_3.h">
+      <Filter>src\Top</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

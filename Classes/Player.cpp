@@ -440,27 +440,11 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 		case EventKeyboard::KeyCode::KEY_ALT:
 			if (_isFoot) {
 				_isJump = 2;
-				levelUp();
 				_jPow = -getSpeed() * 0.2 - 8;
-				log("%.f : %f", _lv, getSpeed());
 			}
 			else {
 				_isJump = 1;
 			}
-			break;
-		case EventKeyboard::KeyCode::KEY_Q:
-			//_equip->setWeapon("∆©∫Í");
-			log("∆©∫Í»πµÊ");
-			break;
-		case EventKeyboard::KeyCode::KEY_W:
-			for (int i = 0; i < _equip->getMyWeaponSize(); i++) {
-				log("%d : %s", i, _equip->getMyWeaponName(i).getCString());
-			}
-			break;
-		case EventKeyboard::KeyCode::KEY_E:
-			//_equip->mountWeapon(0);
-			setStand();
-			setAttack_Frame(3);
 			break;
 		}
 	}

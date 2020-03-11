@@ -7,6 +7,8 @@ class TopLayer : public Layer
 private:
 	Sprite* _tower;
 
+	Sprite *_startBtn0, *_startBtn1, *_startBtn2;
+
 public:
 	static Layer* createLayer();
 	virtual bool init();

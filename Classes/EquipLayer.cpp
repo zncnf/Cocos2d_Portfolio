@@ -21,10 +21,10 @@ bool EquipLayer::init()
 	this->addChild(_leftUI);
 
 	_stats = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 17);
-	_stats->setString(StringUtils::format("Lv : %.f\n\n공격력 : %.1f(%.f+%.1f)\n\n생명력 : %0.1f(%.f+%.1f)\n\n기동력 : %.1f(%.f+%.1f)",
-											player->getLv(),
-											player->getAtk(), player->getBaseAtk(), player->getEquip()->getMountWeaponAtk(),
-											player->getLife(), player->getBaseLife(), player->getEquip()->getMountArmorLife(), 
+	_stats->setString(StringUtils::format("Lv : %d\n\n공격력 : %.1f(%d+%.1f)\n\n생명력 : %d(%.1f+%.1f)\n\n기동력 : %.1f(%.1f+%.1f)",
+											(int)player->getLv(),
+											player->getAtk(), (int)player->getBaseAtk(), player->getEquip()->getMountWeaponAtk(),
+											(int)player->getLife(), player->getBaseLife(), player->getEquip()->getMountArmorLife(), 
 											player->getSpeed(), player->getBaseSpeed(), player->getEquip()->getMountShoesSpeed()));
 	_stats->setAnchorPoint(Vec2(0, 1));
 	_stats->setPosition(-245, 260);
@@ -229,10 +229,10 @@ bool EquipLayer::onTouchBegan(Touch * touch, Event * event, bool isUse)
 			}
 		}
 	}
-	_stats->setString(StringUtils::format("Lv : %.f\n\n공격력 : %.1f(%.f+%.1f)\n\n생명력 : %0.1f(%.f+%.1f)\n\n기동력 : %.1f(%.f+%.1f)",
-		player->getLv(),
-		player->getAtk(), player->getBaseAtk(), player->getEquip()->getMountWeaponAtk(),
-		player->getLife(), player->getBaseLife(), player->getEquip()->getMountArmorLife(),
+	_stats->setString(StringUtils::format("Lv : %d\n\n공격력 : %.1f(%d+%.1f)\n\n생명력 : %d(%.1f+%.1f)\n\n기동력 : %.1f(%.1f+%.1f)",
+		(int)player->getLv(),
+		player->getAtk(), (int)player->getBaseAtk(), player->getEquip()->getMountWeaponAtk(),
+		(int)player->getLife(), player->getBaseLife(), player->getEquip()->getMountArmorLife(),
 		player->getSpeed(), player->getBaseSpeed(), player->getEquip()->getMountShoesSpeed()));
 	
 	return true;
