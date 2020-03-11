@@ -64,6 +64,5 @@ void IntroScene::allUserFadeOut()
 
 void IntroScene::gotoTopScene()
 {
-	auto scene = MainScene::createScene();
-	instance->replaceScene(scene);
+	instance->replaceScene(MainScene::createScene());
 }

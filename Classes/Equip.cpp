@@ -47,52 +47,63 @@ void Equip::setLayer(Layer* layer)
 	layer->addChild(_mountShoes->sprite, 13);
 }
 
-void Equip::setWeapon(String name)
+void Equip::setWeapon(String name, int n)
 {
-	if (name.compare("¸ùµÕÀÌ") == 0) {
-		_myWeapon.push_back(new Weapon({
-		Sprite::createWithSpriteFrameName("stick_icon.png"),
-		Sprite::createWithSpriteFrameName("stick_iconRaw.png"),
-		Sprite::createWithSpriteFrameName("stick_stand_0_0.png"),
-		"¸ùµÕÀÌ",
-		"stick",
-		10.0f }));
-	} else if(name.compare("Æ©ºê") == 0) {
-		_myWeapon.push_back(new Weapon({
-		Sprite::createWithSpriteFrameName("tube_icon.png"),
-		Sprite::createWithSpriteFrameName("tube_iconRaw.png"),
-		Sprite::createWithSpriteFrameName("tube_stand_0_0.png"),
-		"Æ©ºê",
-		"tube",
-		10.0f }));
+	if (n == -1) n = _myWeapon.size();
+	else if (_myWeapon.size() == 0) n = 0;
+
+	if (_myWeapon.size() == 0)_myWeapon.push_back(new Weapon({ 0 }));
+	else _myWeapon.insert(_myWeapon.begin() + n, new Weapon({ 0 }));
+
+	_myWeapon[n]->name = name;
+	log("%s, %d", name.getCString(), n);
+	if(name.compare("¸ùµÕÀÌ") == 0) {
+		_myWeapon[n]->code = "stick";
+		_myWeapon[n]->atk = 1.0f;
 	}
+	else if (name.compare("Æ©ºê") == 0) {
+		_myWeapon[n]->code = "tube";
+		_myWeapon[n]->atk = 2.0f;
+	}
+
+	_myWeapon[n]->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_stand_0_0.png", _myWeapon[n]->code.getCString()));
 }
 
-void Equip::setArmor(String name)
+void Equip::setArmor(String name, int n)
 {
+	if (n == -1) n = _myArmor.size();
+	else if (_myArmor.size() == 0) n = 0;
+
+	if (_myArmor.size() == 0)_myArmor.push_back(new Armor({ 0 }));
+	else _myArmor.insert(_myArmor.begin() + n, new Armor({ 0 }));
+
+	_myArmor[n]->name = name;
+	log("%s, %d", name.getCString(), n);
 	if (name.compare("»ç·É°ü ½´Æ®") == 0) {
-		_myArmor.push_back(new Armor({
-			Sprite::createWithSpriteFrameName("commander_icon.png"),
-			Sprite::createWithSpriteFrameName("commander_iconRaw.png"),
-			Sprite::createWithSpriteFrameName("commander_stand_0_body.png"),
-			Sprite::createWithSpriteFrameName("commander_stand_0_arm.png"),
-			"»ç·É°ü ½´Æ®",
-			"commander",
-			10.0f }));
+		_myArmor[n]->code = "commander";
+		_myArmor[n]->life = 3.0f;
 	}
+
+	_myArmor[n]->body = Sprite::createWithSpriteFrameName(StringUtils::format("%s_stand_0_body.png", _myArmor[n]->code.getCString()));
+	_myArmor[n]->arm = Sprite::createWithSpriteFrameName(StringUtils::format("%s_stand_0_arm.png", _myArmor[n]->code.getCString()));
 }
 
-void Equip::setShoes(String name)
+void Equip::setShoes(String name, int n)
 {
+	if (n == -1) n = _myShoes.size();
+	else if (_myShoes.size() == 0) n = 0;
+
+	if (_myShoes.size() == 0)_myShoes.push_back(new Shoes({ 0 }));
+	else _myShoes.insert(_myShoes.begin() + n, new Shoes({ 0 }));
+
+	_myShoes[n]->name = name;
+	log("%s, %d", name.getCString(), n);
 	if (name.compare("¾ß±¤ ½Å¹ß") == 0) {
-		_myShoes.push_back(new Shoes({
-		Sprite::createWithSpriteFrameName("luminous_icon.png"),
-		Sprite::createWithSpriteFrameName("luminous_iconRaw.png"),
-		Sprite::createWithSpriteFrameName("luminous_stand_0_0.png"),
-		"¾ß±¤ ½Å¹ß",
-		"luminous",
-		10.0f }));
+		_myShoes[n]->code = "luminous";
+		_myShoes[n]->speed = 1.0f;
 	}
+
+	_myShoes[n]->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_stand_0_0.png", _myShoes[n]->code.getCString()));
 }
 
 void Equip::setStand()
@@ -204,12 +215,10 @@ void Equip::mountWeapon(int n)
 		String temp = _mountWeapon->name;
 		_mountWeapon->atk = _myWeapon[n]->atk;
 		_mountWeapon->code = _myWeapon[n]->code;
-		_mountWeapon->icon = Sprite::createWithSpriteFrame(_myWeapon[n]->icon->getSpriteFrame());
-		_mountWeapon->iconRaw = Sprite::createWithSpriteFrame(_myWeapon[n]->iconRaw->getSpriteFrame());
 		_mountWeapon->name = _myWeapon[n]->name;
 
 		_myWeapon.erase(_myWeapon.begin() + n);
-		if (temp.getCString() != "") setWeapon(temp);
+		if (temp.compare("") != 0) setWeapon(temp, n);
 	}
 }
 
@@ -219,12 +228,10 @@ void Equip::mountArmor(int n)
 		String temp = _mountArmor->name;
 		_mountArmor->life = _myArmor[n]->life;
 		_mountArmor->code = _myArmor[n]->code;
-		_mountArmor->icon = Sprite::createWithSpriteFrame(_myArmor[n]->icon->getSpriteFrame());
-		_mountArmor->iconRaw = Sprite::createWithSpriteFrame(_myArmor[n]->iconRaw->getSpriteFrame());
 		_mountArmor->name = _myArmor[n]->name;
 
 		_myArmor.erase(_myArmor.begin() + n);
-		if (temp.getCString() != "") setArmor(temp);
+		if (temp.compare("") != 0) setArmor(temp, n);
 	}
 }
 
@@ -234,13 +241,10 @@ void Equip::mountShoes(int n)
 		String temp = _mountShoes->name;
 		_mountShoes->speed = _myShoes[n]->speed;
 		_mountShoes->code = _myShoes[n]->code;
-		_mountShoes->icon = Sprite::createWithSpriteFrame(_myShoes[n]->icon->getSpriteFrame());
-		_mountShoes->iconRaw = Sprite::createWithSpriteFrame(_myShoes[n]->iconRaw->getSpriteFrame());
 		_mountShoes->name = _myShoes[n]->name;
-		log("%s", _mountShoes->name.getCString());
 
 		_myShoes.erase(_myShoes.begin() + n);
-		if (temp.getCString() != "") setShoes(temp);
+		if (temp.compare("") != 0) setShoes(temp, n);
 	}
 }
 

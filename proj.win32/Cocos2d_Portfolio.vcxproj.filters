@@ -111,6 +111,9 @@
     <ClCompile Include="..\Classes\TopLayer.cpp">
       <Filter>src\Main</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\SkillLayer.cpp">
+      <Filter>src\Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -168,6 +171,9 @@
       <Filter>src\Main</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\TopLayer.h">
+      <Filter>src\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SkillLayer.h">
       <Filter>src\Main</Filter>
     </ClInclude>
   </ItemGroup>

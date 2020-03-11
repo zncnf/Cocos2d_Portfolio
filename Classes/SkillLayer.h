@@ -2,16 +2,27 @@
 #include "Cuey.h"
 #include "Player.h"
 
-class TopLayer : public Layer
+class SkillLayer : public Layer
 {
 private:
-	Sprite* _tower;
+	struct LeftSkill {
+		Layer* layer;
+		Sprite* sprite;
+		Label* label;
+		Label* label2;
+	};
+
+	Sprite* _leftUI;
+
+	Sprite *_rightUI_normal, *_rightUI_special;
+	
+	Sprite *_normalBtn, *_specialBtn;
 
 public:
 	static Layer* createLayer();
 	virtual bool init();
 
-	CREATE_FUNC(TopLayer);
+	CREATE_FUNC(SkillLayer);
 
 	virtual bool onTouchBegan(Touch* touch, Event* event, bool isUse);
 

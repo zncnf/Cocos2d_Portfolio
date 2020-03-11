@@ -50,10 +50,12 @@ Player::Player()
 	_exp = 0;
 	_expm = 25;
 	_gold = 0;
-	_atk = 5;
+	_atk = 10;
 	_lifem = _life = 3;
-	_speed = 2;
+	_speed = 1;
 	_isGame = false;
+
+	ZeroMemory(&_bestTime, sizeof(_bestTime));
 }
 
 Player * Player::getInstance()
@@ -106,9 +108,7 @@ void Player::setLayer(Layer * layer, bool game)
 	_equip->setLayer(_player);
 	_skill->setLayer(_layer, _player);
 	_pet->setLayer(_layer, _player);
-
 	if (game) {
-
 		_rect = Sprite::createWithTexture(nullptr, { 0,0,30,72 });
 		_player->addChild(_rect, -1);
 		_rect->setPosition(0, -13);
@@ -193,7 +193,7 @@ void Player::setStand()
 void Player::setFoot()
 {
 	if (_isJump != 0) {
-		_jPow = -8;
+		_jPow = -getSpeed() * 0.2 - 8;
 	} else {
 		_jPow = 0;
 		_isFoot = true;
@@ -313,7 +313,7 @@ void Player::setHit()
 	if (_isHit == 0 && !_isDead) {
 		_life--;
 		_lifeLabel->setString(StringUtils::format("%d", (int)_life));
-		if (_life == 0) {
+		if ((int)_life == 0) {
 			setDead();
 		}
 		else {
@@ -345,6 +345,7 @@ void Player::setHitCount(int n)
 void Player::setDead()
 {
 	_isDead = true;
+
 	_lifeLayer->setVisible(false);
 	for (int i = 0; i < _player->getChildrenCount(); i++) {
 		_player->getChildren().at(i)->stopActionsByFlags(10);
@@ -412,8 +413,11 @@ void Player::levelUp()
 	_exp -= _expm;
 	_lv+= 1;
 	_expm = _lv * 25;
-	_atk = pow(_lv, 1.5) + 5;
-	_lifem = _lv / 5 + 3;
+	_atk = pow(_lv, 1.2) + 10;
+	_lifem = _lv / 5 + 2;
+	if (_speed < 4) {
+		_speed = (int)(_lv / 3) * 0.1 + 1;
+	}
 	_expBar->cleanup();
 	_expBar->setScaleX(_exp / _expm);
 	if (_exp >= _expm) {
@@ -436,7 +440,9 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 		case EventKeyboard::KeyCode::KEY_ALT:
 			if (_isFoot) {
 				_isJump = 2;
-				_jPow = -8;
+				levelUp();
+				_jPow = -getSpeed() * 0.2 - 8;
+				log("%.f : %f", _lv, getSpeed());
 			}
 			else {
 				_isJump = 1;

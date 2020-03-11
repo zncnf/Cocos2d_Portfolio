@@ -60,12 +60,14 @@ private:
 	STATE _state;
 
 public:
-	Monster(Layer* layer);
+	Monster(Layer* layer, MOB mob);
 	~Monster();
 
 	Sprite* getMonster() { return _monster; }
-	Rect getRect() { return Rect(_monster->boundingBox().getMinX(), _monster->boundingBox().getMinY(),
-								_monster->getContentSize().width, _monster->getContentSize().height); }
+	Rect getRect() {
+		return Rect(_monster->boundingBox().getMinX(), _monster->boundingBox().getMinY(),
+			_monster->getContentSize().width, _monster->getContentSize().height);
+	}
 	Item* getItem() { return _item; }
 
 	float getAtk() { return _atk; }
@@ -80,6 +82,7 @@ public:
 	bool getIsHitTrue() { return _isHitTrue; }
 	bool getIsDead() { return _state == DEAD ? true : false; }
 	bool getIsRemove() { return _isRemove; }
+	bool getIsAttack() { return _isAttack; }
 
 	void setPhase(PHASE n) { _phase = n; }
 	void setState(STATE n) { _state = n; }

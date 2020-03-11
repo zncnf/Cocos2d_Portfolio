@@ -39,6 +39,8 @@ private:
 	float _jPow;
 	int _pickUpDelay;
 
+	int _bestTime[3];
+
 public:
 	static Player* getInstance();
 
@@ -56,6 +58,7 @@ public:
 	void setDead();
 	void setWay(bool way);
 	void setPickUp() { _pickUpDelay = 30; }
+	void setBestTime(int n, int time) { _bestTime[n] = time; }
 
 	void appendGold(int gold) {
 		_gold += gold;
@@ -108,6 +111,7 @@ public:
 	float getExp() { return _exp; }
 	float getExpm() { return _expm; }
 	float getGold() { return _gold; }
+	int getBestTime(int n) { return _bestTime[n]; }
 
 	float getNormalDamage() { 
 		float damage = (_atk + _equip->getMountWeaponAtk()) * _skill->getNormalAtkf();

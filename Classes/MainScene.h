@@ -2,14 +2,17 @@
 #include "Cuey.h"
 #include "Player.h"
 #include "EquipLayer.h"
+#include "SkillLayer.h"
 #include "TopLayer.h"
+#include "TopScene.h"
 
 class MainScene : public Scene
 {
 private:
 	Layer* _layer;
 	EquipLayer* _equipLayer;
-	//TopLayer* _topLayer;
+	SkillLayer* _skillLayer;
+	TopLayer* _topLayer;
 
 	Sprite* _bg;
 
@@ -18,6 +21,7 @@ private:
 	Sprite* _weaponBtn;
 
 	bool _isAction;
+	bool _isUse;
 
 public:
 	static Scene* createScene();
@@ -30,7 +34,10 @@ public:
 private:
 
 	void setisAction(bool b) { _isAction = b; }
-	void moveTopLayer() { _equipLayer->setPosition(9999, 9999); }
+	void moveTopLayer() { 
+		_equipLayer->setPosition(9999, 9999); 
+		_skillLayer->setPosition(9999, 9999);
+	}
 
 	virtual void onEnter();
 

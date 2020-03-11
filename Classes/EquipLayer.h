@@ -12,6 +12,13 @@ private:
 		Label* label2;
 	};
 
+	struct RightEquip {
+		Layer* layer;
+		Sprite* sprite;
+		Label* label;
+		Label* label2;
+	};
+
 public:
 	static Layer* createLayer();
 	virtual bool init();
@@ -29,13 +36,23 @@ public:
 
 	Sprite *_weaponBtn, *_armorBtn, *_shoesBtn, *_petBtn;
 
+	vector<RightEquip*> _myEquip;
+
+	int _selEquip;
+
 	CREATE_FUNC(EquipLayer);
 
-	virtual bool onTouchBegan(Touch* touch, Event* event);
+	virtual bool onTouchBegan(Touch* touch, Event* event, bool isUse);
 
-	virtual void onTouchMoved(Touch* touch, Event* event);
+	virtual void onTouchMoved(Touch* touch, Event* event, bool isUse);
 
-	virtual void onTouchCancelled(Touch* touch, Event* event);
+	virtual void onTouchCancelled(Touch* touch, Event* event, bool isUse);
 
-	virtual void onTouchEnded(Touch* touch, Event* event);
+	virtual void onTouchEnded(Touch* touch, Event* event, bool isUse);
+
+private:
+	void setWeapon();
+	void setArmor();
+	void setShoes();
+	void setPet();
 };

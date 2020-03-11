@@ -17,29 +17,43 @@ bool MainScene::init()
 	this->addChild(_bg);
 
 	_layer = Layer::create();
-	this->addChild(_layer);
+	this->addChild(_layer, 1);
+
+	auto _layer2 = Layer::create();
+	_layer->addChild(_layer2, 2);
+
+	player->setLayer(_layer2, false);
+	player->getPlayer()->setPosition(370, 530);
+	player->setWay(true);
+	player->getPet()->getMountPet()->setPosition(280, 500);
+	player->getPet()->getMountPet()->setFlippedX(true);
 
 	_equipBtn = Sprite::create("Main/장비버튼.png");
 	_equipBtn->setPosition(1160, 574);
 	_layer->addChild(_equipBtn);
 
 	_skillBtn = Sprite::create("Main/스킬버튼.png");
-	_skillBtn->setPosition(1160, 477);
+	_skillBtn->setPosition(1160, 499);
 	_layer->addChild(_skillBtn);
 
 	_itemBtn = Sprite::create("Main/아이템버튼.png");
-	_itemBtn->setPosition(1160, 407);
+	_itemBtn->setPosition(1160, 424);
 	_layer->addChild(_itemBtn);
 
 	_isAction = true;
+	_isUse = false;
 
 	_equipLayer = EquipLayer::create();
 	_equipLayer->setPosition(700, 357);
 	_layer->addChild(_equipLayer);
 
-	/*_topLayer = TopLayer::create();
-	_topLayer->setPosition(1750, 357);
-	_layer->addChild(_topLayer);*/
+	_skillLayer = SkillLayer::create();
+	_skillLayer->setPosition(9999, 9999);
+	_layer->addChild(_skillLayer);
+
+	_topLayer = TopLayer::create();
+	_topLayer->setPosition(1650, 357);
+	_layer->addChild(_topLayer);
 
 	/*_weaponBtn = Sprite::createWithTexture(cuey->texture("Main/무기버튼.png"));
 	_weaponBtn->setTextureRect(Rect(4, 227, _weaponBtn->getContentSize().width, _weaponBtn->getContentSize().height));
@@ -76,19 +90,23 @@ void MainScene::onEnter()
 
 void MainScene::onExit()
 {
-	_eventDispatcher->removeAllEventListeners();
+	//_eventDispatcher->removeAllEventListeners();
 
 	Scene::onExit();
 }
 
 bool MainScene::onTouchBegan(Touch * touch, Event * event)
 {
-	_equipLayer->onTouchBegan(touch, event);
-	//_topLayer->onTouchBegan(touch, event);
+	_equipLayer->onTouchBegan(touch, event, _isUse ? false : true);
+	_skillLayer->onTouchBegan(touch, event, _isUse ? false : true);
+	_topLayer->onTouchBegan(touch, event, _isUse ? true : false);
 
 	Vec2 pt = touch->getLocation() - _layer->getPosition();
 	if (_equipBtn->getBoundingBox().containsPoint(pt)) {
+		_skillLayer->setPosition(9999, 9999);
 		_equipLayer->setPosition(700, 357);
+		player->getPlayer()->setPosition(370, 530);
+		player->getPet()->getMountPet()->setPosition(280, 500);
 		if (_isAction) {
 			_layer->runAction(Sequence::create(
 				EaseExponentialInOut::create(MoveTo::create(1, Vec2(0, 0))),
@@ -96,12 +114,26 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 				nullptr));
 		}
 		_isAction = false;
+		_isUse = false;
 	}
 	if (_skillBtn->getBoundingBox().containsPoint(pt)) {
 		_equipLayer->setPosition(9999, 9999);
+		_skillLayer->setPosition(689, 357);
+		player->getPlayer()->setPosition(270, 330);
+		player->getPet()->getMountPet()->setPosition(9999, 9999);
+		if (_isAction) {
+			_layer->runAction(Sequence::create(
+				EaseExponentialInOut::create(MoveTo::create(1, Vec2(0, 0))),
+				CallFunc::create(CC_CALLBACK_0(MainScene::setisAction, this, true)),
+				nullptr));
+		}
+		_isAction = false;
+		_isUse = false;
 	}
+
 	if (_itemBtn->getBoundingBox().containsPoint(pt)) {
-		//_equipLayer->setPosition(9999, 9999);
+		/*_equipLayer->setPosition(9999, 9999);
+		_skillLayer->setPosition(9999, 9999);*/
 		if (_isAction) {
 			_layer->runAction(Sequence::create(
 				EaseExponentialInOut::create(MoveTo::create(1, Vec2(-1103, 0))),
@@ -110,6 +142,7 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 				nullptr));
 		}
 		_isAction = false;
+		_isUse = true;
 	}
 
 	return true;

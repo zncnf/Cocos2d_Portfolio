@@ -2,7 +2,7 @@
 
 Skill::Skill()
 {
-	setNormal("디바이드");
+	setNormal("소울 블레이드");
 
 	_mountNormal = new Normal({ 0 });
 
@@ -43,7 +43,7 @@ void Skill::setNormal(String name)
 		nullptr,
 		"소울 블레이드",
 		"soulBlade",
-		1.0f, 0.35f, 1, 11, 3}));
+		1.0f, 0.45f, 1, 11, 3}));
 	}
 	else if(name.compare("디바이드") == 0) {
 		cache->addSpriteFramesWithFile("Skill/Normal/divide1.plist");

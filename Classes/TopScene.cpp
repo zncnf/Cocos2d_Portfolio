@@ -13,19 +13,19 @@ bool TopScene::init()
 
 	_layer = Layer::create();
 	this->addChild(_layer);
-	_bg = Sprite::create("Map/고통의 미궁 중심부bg.png");
+	_bg = Sprite::create("Map/헤네시스bg.png");
 	_bg->setPosition(0, -43);
 	_bg->setAnchorPoint(Vec2(0, 0));
 	_layer->addChild(_bg);
 
-	_map = Sprite::create("Map/고통의 미궁 중심부.png");
+	_map = Sprite::create("Map/헤네시스.png");
 	_map->setPosition(0, -76);
 	_map->setAnchorPoint(Vec2(0, 0));
 	_layer->addChild(_map);
 
 	_isViewRect = false;
 
-	player->setLayer(_layer);
+	player->setLayer(_layer, true);
 
 	_gold = 0;
 	_time = 0;
@@ -58,17 +58,20 @@ bool TopScene::init()
 void TopScene::tick(float delta)
 {
 	if (!player->getIsDead()) _time += delta;
+	else if(player->getBestTime(0) < _time) {
+		player->setBestTime(0, _time);
+	}
 	_timeLabel->setString(StringUtils::format("TIME   %02d : %02d", (int)_time / 60, (int)_time % 60));
 	player->tick();
 	int mobRezen = 600 / pow(_time, 0.6f) + 30;
 	if (cuey->rand(0, mobRezen) == 0 && !player->getIsDead()) {
-		_monster.pushBack(new Monster(_layer));
+		_monster.pushBack(new Monster(_layer, cuey->rand(0, 1) == 0 ? Monster::초록달팽이 : Monster::돼지));
 		_monster.back()->viewRect(_isViewRect);
 	}
 	int obsRezen = 600 / pow(_time, 0.5f) + 30;
 	if (cuey->rand(0, obsRezen) == 0 && !player->getIsDead()) {
 		//_obstacle.pushBack(new Obstacle("유도 미사일"));
-		//_obstacle.pushBack(new Obstacle("미사일"));
+		_obstacle.pushBack(new Obstacle("미사일"));
 		//_obstacle.pushBack(new Obstacle("레이저"));
 	}
 	for (int i = 0; i < _obstacle.size(); i++) {
@@ -178,11 +181,10 @@ void TopScene::tick(float delta)
 
 void TopScene::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 {
-	auto scene = IntroScene::createScene();
 	player->onKeyPressed(keyCode, event);
 	switch (keyCode) {
 	case EventKeyboard::KeyCode::KEY_M:
-		_monster.pushBack(new Monster(_layer));
+		_monster.pushBack(new Monster(_layer, Monster::초록달팽이));
 		_monster.back()->viewRect(_isViewRect);
 		break;
 	case EventKeyboard::KeyCode::KEY_R:

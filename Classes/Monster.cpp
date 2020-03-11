@@ -1,19 +1,12 @@
 #include "Monster.h"
 
-Monster::Monster(Layer* layer) {
+Monster::Monster(Layer* layer, MOB mob) {
 	_layer = (Layer*)player->getPlayer()->getParent();
 
 	_item = new Item;
 	_item->setLayer(_layer);
 
-	switch (cuey->rand(0, 5)) {
-	case 0:_mob = 초록달팽이; break;
-	case 1:_mob = 돼지; break;
-	case 2:_mob = 마이너_좀비; break;
-	case 3:_mob = 스켈레곤; break;
-	case 4:_mob = 침묵의_암살자; break;
-	case 5:_mob = 절망의_날개; break;		
-	}
+	_mob = mob;
 
 	vector<String> itemString;
 	itemString.push_back("돈");
@@ -32,7 +25,7 @@ Monster::Monster(Layer* layer) {
 		_dieCount = 9;
 		_atk = 10;
 		_def = 1;
-		_hp = _hpm = 20;
+		_hp = _hpm = 10;
 		_delay = 0;
 		_speed = 1;
 		_gold = 10;
@@ -60,7 +53,7 @@ Monster::Monster(Layer* layer) {
 		_dieCount = 11;
 		_atk = 10;
 		_def = 3;
-		_hp = _hpm = 30;
+		_hp = _hpm = 20;
 		_delay = 0;
 		_speed = 1.5;
 		_gold = 20;
@@ -247,7 +240,6 @@ Monster::Monster(Layer* layer) {
 	_phase = 회전;
 
 	_isFollow = false;
-	_isAttack = false;
 	_isHitTrue = false;
 	_isRemove = false;
 	_way = LEFT;
@@ -331,28 +323,6 @@ void Monster::tick()
 			}
 			_rect->setTextureRect(_monster->getBoundingBox());
 			_isFollow = true;
-			break;
-		case ATTACK:
-			_state = MOVE;
-			_isAttack = true;
-			for (int i = 0; i <= _attackCount; i++) {
-				frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_attack_%d.png", _code, i)));
-			}
-			_monster->setSpriteFrame(StringUtils::format("%s_attack_0.png", _code));
-			_monster->setAnchorPoint(Vec2(0.5, 0.5));
-			_monster->setPositionY(160 + _monster->getContentSize().height / 2);
-			_rect->setTextureRect(_monster->getBoundingBox());
-			_monster->runAction(Spawn::create(
-				Sequence::create(
-					Animate::create(Animation::createWithSpriteFrames(frame, 0.1f)),
-					CallFunc::create(CC_CALLBACK_0(Monster::setPhase, this, 모션)),
-					nullptr),
-				Sequence::create(
-					DelayTime::create(_attackCount * 0.05f),
-					CallFunc::create(CC_CALLBACK_0(Monster::setPhase, this, 모션)), //플레이어 공격
-					nullptr),
-				nullptr));
-			setPhase(대기);
 			break;
 		case DEAD:
 			_item->dropItem(Vec2(_monster->getPositionX(), 160));
