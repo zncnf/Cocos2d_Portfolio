@@ -12,7 +12,7 @@ class TopStage_1 : public Scene
 private:
 	Layer* _layer;
 	Sprite *_bg, *_map;
-	Label *_goldLabel, *_timeLabel;
+	Label *_goldLabel, *_timeLabel, *_bestTimeLabel;
 
 	Vector<Monster*> _monster;
 	Vector<Obstacle*> _obstacle;

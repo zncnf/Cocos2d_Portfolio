@@ -37,8 +37,15 @@ bool TopStage_2::init()
 	_goldLabel->enableOutline(Color4B(192, 128, 64, 255), 1);
 	this->addChild(_goldLabel, 50);
 
+	_bestTimeLabel = Label::create(StringUtils::format("BEST TIME   %02d : %02d", (int)player->getBestTime(1) / 60, (int)player->getBestTime(1) % 60), "fonts/具愁磊 具眉Rehular.ttf", 25);
+	_bestTimeLabel->setPosition(instance->getWinSize().width - 400, instance->getWinSize().height - 30);
+	_bestTimeLabel->setAnchorPoint(Vec2(0, 0.5));
+	_bestTimeLabel->setColor(Color3B::YELLOW);
+	_bestTimeLabel->enableOutline(Color4B(150, 50, 150, 255), 1);
+	this->addChild(_bestTimeLabel, 50);
+
 	_timeLabel = Label::create(StringUtils::format("TIME   %02d : %02d", (int)_time / 60, (int)_time % 60), "fonts/具愁磊 具眉Rehular.ttf", 35);
-	_timeLabel->setPosition(instance->getWinSize().width - 400, instance->getWinSize().height - 30);
+	_timeLabel->setPosition(instance->getWinSize().width - 400, instance->getWinSize().height - 60);
 	_timeLabel->setAnchorPoint(Vec2(0, 0.5));
 	_timeLabel->setColor(Color3B(0, 255, 255));
 	_timeLabel->enableOutline(Color4B::BLUE, 1);
@@ -57,9 +64,12 @@ bool TopStage_2::init()
 
 void TopStage_2::tick(float delta)
 {
-	if (!player->getIsDead()) _time += delta;
-	else if (player->getBestTime(1) < _time) {
-		player->setBestTime(1, _time);
+	if (!player->getIsDead()) {
+		_time += delta;
+		if (player->getBestTime(0) < _time) {
+			player->setBestTime(0, _time);
+			_bestTimeLabel->setString(StringUtils::format("BEST TIME   %02d : %02d(New)", (int)player->getBestTime(0) / 60, (int)player->getBestTime(0) % 60));
+		}
 	}
 	_timeLabel->setString(StringUtils::format("TIME   %02d : %02d", (int)_time / 60, (int)_time % 60));
 	player->tick();
