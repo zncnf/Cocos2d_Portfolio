@@ -7,6 +7,15 @@ class SkillLayer : public Layer
 private:
 	struct LeftSkill {
 		Layer* layer;
+		Sprite* box;
+		Sprite* sprite;
+		Label* label;
+		Label* label2;
+	};
+
+	struct RightSkill {
+		Layer* layer;
+		Sprite* box;
 		Sprite* sprite;
 		Label* label;
 		Label* label2;
@@ -14,9 +23,15 @@ private:
 
 	Sprite* _leftUI;
 
+	vector<LeftSkill*> _mountSkill;
+
 	Sprite *_rightUI_normal, *_rightUI_special;
 	
 	Sprite *_normalBtn, *_specialBtn;
+
+	vector<RightSkill*> _mySkill;
+
+	int _selSkill;
 
 public:
 	static Layer* createLayer();

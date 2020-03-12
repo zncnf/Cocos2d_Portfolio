@@ -44,16 +44,17 @@ bool MainScene::init()
 	_equipLayer->setPosition(700, 357);
 	_layer->addChild(_equipLayer);
 
-	auto bg = Sprite::create("Main/스킬창.png");
-	this->addChild(bg);
-
-	auto _leftUI = Sprite::create("Main/스킬창좌측UI.png");
-	_leftUI->setPosition(-231, 53);
-	this->addChild(_leftUI);
-
 	_skillLayer = SkillLayer::create();
 	_skillLayer->setPosition(9999, 9999);
 	_layer->addChild(_skillLayer, 1);
+
+	_skillBg = Sprite::create("Main/스킬창.png");
+	_skillBg->setPosition(_skillLayer->getPosition());
+	_layer->addChild(_skillBg);
+
+	_skillLeftUI = Sprite::create("Main/스킬창좌측UI.png");
+	_skillLeftUI->setPosition(_skillLayer->getPosition() + Vec2(-231, 53));
+	_layer->addChild(_skillLeftUI);
 
 	_topLayer = TopLayer::create();
 	_topLayer->setPosition(1650, 357);
@@ -108,6 +109,8 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 	Vec2 pt = touch->getLocation() - _layer->getPosition();
 	if (_equipBtn->getBoundingBox().containsPoint(pt)) {
 		_skillLayer->setPosition(9999, 9999);
+		_skillBg->setPosition(_skillLayer->getPosition());
+		_skillLeftUI->setPosition(_skillLayer->getPosition() + Vec2(-231, 53));
 		_equipLayer->setPosition(700, 357);
 		player->getPlayer()->setPosition(370, 530);
 		player->getPet()->getMountPet()->setPosition(280, 500);
@@ -123,6 +126,8 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 	if (_skillBtn->getBoundingBox().containsPoint(pt)) {
 		_equipLayer->setPosition(9999, 9999);
 		_skillLayer->setPosition(689, 357);
+		_skillBg->setPosition(_skillLayer->getPosition());
+		_skillLeftUI->setPosition(_skillLayer->getPosition() + Vec2(-231, 53));
 		player->getPlayer()->setPosition(270, 330);
 		player->getPet()->getMountPet()->setPosition(9999, 9999);
 		if (_isAction) {

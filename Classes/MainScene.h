@@ -15,6 +15,7 @@ private:
 	TopLayer* _topLayer;
 
 	Sprite* _bg;
+	Sprite *_skillBg, *_skillLeftUI;
 
 	Sprite *_equipBtn, *_skillBtn, *_itemBtn;
 
