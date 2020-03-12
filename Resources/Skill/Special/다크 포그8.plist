@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>frames</key>
+        <dict>
+            <key>다크 포그_attack_21.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{1199,598}</string>
+                <key>spriteSourceSize</key>
+                <string>{1199,598}</string>
+                <key>textureRect</key>
+                <string>{{0,0},{1199,598}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>다크 포그_attack_22.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{1199,598}</string>
+                <key>spriteSourceSize</key>
+                <string>{1199,598}</string>
+                <key>textureRect</key>
+                <string>{{0,598},{1199,598}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>다크 포그_attack_23.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{1199,598}</string>
+                <key>spriteSourceSize</key>
+                <string>{1199,598}</string>
+                <key>textureRect</key>
+                <string>{{0,1196},{1199,598}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+        </dict>
+        <key>metadata</key>
+        <dict>
+            <key>format</key>
+            <integer>3</integer>
+            <key>pixelFormat</key>
+            <string>RGBA8888</string>
+            <key>premultiplyAlpha</key>
+            <false/>
+            <key>realTextureFileName</key>
+            <string>다크 포그8.png</string>
+            <key>size</key>
+            <string>{1199,1794}</string>
+            <key>smartupdate</key>
+            <string>$TexturePacker:SmartUpdate:f49c6d76853791f3ddb8b3c729fb7bfb:982b7343667ad579714c536a8d2af066:c40b7aba535844b916cf5ccc2740b2ea$</string>
+            <key>textureFileName</key>
+            <string>다크 포그8.png</string>
+        </dict>
+    </dict>
+</plist>

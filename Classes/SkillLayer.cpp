@@ -11,14 +11,9 @@ bool SkillLayer::init()
 		return false;
 	}
 
-	auto bg = Sprite::create("Main/스킬창.png");
-	this->addChild(bg);
-
 	//left
 
-	_leftUI = Sprite::create("Main/스킬창좌측UI.png");
-	_leftUI->setPosition(-231, 53);
-	this->addChild(_leftUI);
+	
 
 	//right
 

@@ -44,6 +44,13 @@ bool MainScene::init()
 	_equipLayer->setPosition(700, 357);
 	_layer->addChild(_equipLayer);
 
+	auto bg = Sprite::create("Main/스킬창.png");
+	this->addChild(bg);
+
+	auto _leftUI = Sprite::create("Main/스킬창좌측UI.png");
+	_leftUI->setPosition(-231, 53);
+	this->addChild(_leftUI);
+
 	_skillLayer = SkillLayer::create();
 	_skillLayer->setPosition(9999, 9999);
 	_layer->addChild(_skillLayer, 1);

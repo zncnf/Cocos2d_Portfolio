@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>frames</key>
+        <dict>
+            <key>다크 포그_attack_33.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{1199,598}</string>
+                <key>spriteSourceSize</key>
+                <string>{1199,598}</string>
+                <key>textureRect</key>
+                <string>{{0,0},{1199,598}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>다크 포그_hit_0.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{162,135}</string>
+                <key>spriteSourceSize</key>
+                <string>{162,135}</string>
+                <key>textureRect</key>
+                <string>{{1199,0},{162,135}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>다크 포그_hit_1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{162,135}</string>
+                <key>spriteSourceSize</key>
+                <string>{162,135}</string>
+                <key>textureRect</key>
+                <string>{{1361,0},{162,135}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>다크 포그_hit_2.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{162,135}</string>
+                <key>spriteSourceSize</key>
+                <string>{162,135}</string>
+                <key>textureRect</key>
+                <string>{{1523,0},{162,135}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>다크 포그_hit_3.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{162,135}</string>
+                <key>spriteSourceSize</key>
+                <string>{162,135}</string>
+                <key>textureRect</key>
+                <string>{{1685,0},{162,135}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>다크 포그_hit_4.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{162,135}</string>
+                <key>spriteSourceSize</key>
+                <string>{162,135}</string>
+                <key>textureRect</key>
+                <string>{{1847,0},{162,135}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+        </dict>
+        <key>metadata</key>
+        <dict>
+            <key>format</key>
+            <integer>3</integer>
+            <key>pixelFormat</key>
+            <string>RGBA8888</string>
+            <key>premultiplyAlpha</key>
+            <false/>
+            <key>realTextureFileName</key>
+            <string>다크 포그12.png</string>
+            <key>size</key>
+            <string>{2009,598}</string>
+            <key>smartupdate</key>
+            <string>$TexturePacker:SmartUpdate:d2c63a75d5e3e288e871d3a8199a751d:8148155f65aa52f21083b3161abc03a7:51d8ecd5676f1e18500507f0d74f2e02$</string>
+            <key>textureFileName</key>
+            <string>다크 포그12.png</string>
+        </dict>
+    </dict>
+</plist>
