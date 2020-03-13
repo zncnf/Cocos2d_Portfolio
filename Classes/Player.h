@@ -18,11 +18,15 @@ private:
 	Layer* _expLayer;
 	Layer* _lifeLayer;
 	Label* _lifeLabel;
+	Label* _lvLabel;
 	Sprite *_rect, *_rect2;
 	Sprite *_body, *_head, *_arm, *_rhand, *_lhand;
 	Sprite* _expBar;
+	Sprite *_skillBox, *_skillGauge;
+	ProgressTimer* _pt;
 	Vector<Animate*> _stand, _walk;
 	Animate* _levelUP;
+	
 
 	string _name;
 	float _lv, _exp, _expm, _gold;
@@ -35,7 +39,7 @@ private:
 	vector<int> _mobInRange;
 
 	int _isStand, _isLeft, _isRight, _isJump, _isHit;
-	bool _isDead, _isFoot, _isAttack, _way, _isGame;
+	bool _isDead, _isFoot, _isAttack, _way, _isGame, _isSkill;
 	float _jPow;
 	int _pickUpDelay;
 
@@ -88,7 +92,7 @@ public:
 	void onKeyPressed(EventKeyboard::KeyCode keyCode, Event* event);
 	void onKeyReleased(EventKeyboard::KeyCode keyCode, Event* event);
 
-	void tick();
+	void tick(float delta);
 
 	Layer* getPlayer() { return _player; }
 	bool getIsLeft() { return _isLeft == 2 ? true : false; }

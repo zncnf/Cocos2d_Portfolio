@@ -6,13 +6,14 @@ Skill::Skill()
 
 	_mountNormal = new Normal({ 0 });
 
-	setSpecial("다크 포그");
-
-	//_mountSpecial = new Special({ 0 });
-
 	mountNormal(0);
 
-	//mountSpecial(0);
+	setSpecial("쉘터");
+
+	_mountSpecial = new Special({ "" });
+
+	mountSpecial(0);
+
 }
 
 void Skill::setLayer(Layer* layer, Layer* player)
@@ -34,8 +35,12 @@ void Skill::setLayer(Layer* layer, Layer* player)
 	_mountNormal->rect->setVisible(false);
 	_player->addChild(_mountNormal->rect, -1);
 
+	_delay = 0;
+
 	_isWay = false;
 	_isNormal = false;
+	_isAllKill = 0;
+	_isShield = false;
 }
 
 void Skill::setNormal(String name, int n)
@@ -87,8 +92,8 @@ void Skill::setSpecial(String name, int n)
 	if (n == -1) n = _mySpecial.size();
 	else if (_mySpecial.size() == 0) n = 0;
 
-	if (_mySpecial.size() == 0)_mySpecial.push_back(new Special({ 0 }));
-	else _mySpecial.insert(_mySpecial.begin() + n, new Special({ 0 }));
+	if (_mySpecial.size() == 0)_mySpecial.push_back(new Special({}));
+	else _mySpecial.insert(_mySpecial.begin() + n, new Special({}));
 
 	_mySpecial[n]->name = name;
 	if (name.compare("다크 포그") == 0) {
@@ -101,7 +106,7 @@ void Skill::setSpecial(String name, int n)
 	} else if (name.compare("쉘터") == 0) {
 		cache->addSpriteFramesWithFile("Skill/Special/쉘터.plist");
 		_mySpecial[n]->name = "쉘터";
-		_mySpecial[n]->ex = "5초간 무적";
+		_mySpecial[n]->ex = "6초간 무적";
 		_mySpecial[n]->delay = 5.0f;
 	}
 }
@@ -118,13 +123,11 @@ void Skill::mountNormal(int n)
 {
 	if (n < _myNormal.size()) {
 		String temp = _mountNormal->name;
+		_mountNormal->name = _myNormal[n]->name;
+		_mountNormal->code = _myNormal[n]->code;
 		_mountNormal->atkf = _myNormal[n]->atkf;
 		_mountNormal->delay = _myNormal[n]->delay;
 		_mountNormal->count = _myNormal[n]->count;
-		_mountNormal->code = _myNormal[n]->code;
-		_mountNormal->attack = _myNormal[n]->attack;
-		_mountNormal->hit = _myNormal[n]->hit;
-		_mountNormal->name = _myNormal[n]->name;
 		_mountNormal->atkCount = _myNormal[n]->atkCount;
 		_mountNormal->hitCount = _myNormal[n]->hitCount;
 
@@ -136,7 +139,7 @@ void Skill::mountNormal(int n)
 void Skill::mountSpecial(int n)
 {
 	if (n < _mySpecial.size()) {
-		String temp = _mountNormal->name;
+		String temp = _mountSpecial->name;
 		_mountSpecial->name = _mySpecial[n]->name;
 		_mountSpecial->ex = _mySpecial[n]->ex;
 		_mountSpecial->delay = _mySpecial[n]->delay;
@@ -161,6 +164,7 @@ void Skill::playNormal()
 		Animate::create(Animation::createWithSpriteFrames(frame, 0.1f)),
 		CallFunc::create(CC_CALLBACK_0(Skill::playNormalClean, this)),
 		nullptr);
+	_mountNormal->attack->setSpriteFrame(StringUtils::format("%s_attack_0.png", _mountNormal->code.getCString()));
 	_mountNormal->attack->runAction(action1);
 	_mountNormal->attack->setPositionX(_player->getPositionX() + (_mountNormal->attack->boundingBox().size.width / 2 * (_isWay ? 1 : -1)));
 	_mountNormal->attack->setPositionY(_player->getPositionY() + _mountNormal->attack->boundingBox().size.height / 5);
@@ -194,4 +198,89 @@ void Skill::playNormalHit(Vec2 pt)
 void Skill::playNormalHitClean(Sprite* sprite)
 {
 	_layer->removeChild(sprite);
+}
+
+void Skill::playSpecial(bool isGame)
+{
+	if (_delay <= 0 || !isGame) {
+		_delay = _mountSpecial->delay;
+		if(!isGame) setSkillClean();
+		vector<Vector<SpriteFrame*>> frame;
+		if (_mountSpecial->name.compare("다크 포그") == 0) {
+			frame.push_back({});
+			for (int i = 0; i <= 33; i++) {
+				frame.back().pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_attack_%d.png", _mountSpecial->name.getCString(), i)));
+			}
+			for (int i = 0; i < 4; i++) {
+				auto attack = Sprite::create();
+				if (isGame) attack->setPosition(_player->getPositionX() - 1050 + 700 * i, 445);
+				else {
+					if (i != 0) break;
+					attack->setScale(0.5);
+					attack->setPosition(460, 420);
+					attack->setTag(50);
+				}
+				_layer->addChild(attack);
+				setIsAllKill(1);
+				attack->runAction(Spawn::create(
+					Sequence::create(
+						Animate::create(Animation::createWithSpriteFrames(frame[0], 0.1f)),
+						RemoveSelf::create(true),
+						nullptr),
+					Sequence::create(
+						DelayTime::create(2),
+						CallFunc::create(CC_CALLBACK_0(Skill::setIsAllKill, this, 2)),
+						nullptr),
+					nullptr));
+			}
+			if (isGame) {
+				auto bgColor = Sprite::createWithTexture(nullptr, Rect(-2500, -2500, 5000, 5000));
+				bgColor->setColor(Color3B::BLACK);
+				bgColor->setOpacity(0);
+				_layer->addChild(bgColor, 30);
+				bgColor->runAction(Sequence::create(
+					FadeTo::create(0.5, 100),
+					DelayTime::create(2.4),
+					FadeTo::create(0.5, 0),
+					RemoveSelf::create(true),
+					nullptr
+				));
+			}
+		}
+		else if (_mountSpecial->name.compare("쉘터") == 0) {
+			frame.push_back({});
+			for (int i = 0; i <= 13; i++) {
+				frame.back().pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_0_%d.png", _mountSpecial->name.getCString(), i)));
+			}
+			frame.push_back({});
+			for (int i = 0; i <= 10; i++) {
+				frame.back().pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_1_%d.png", _mountSpecial->name.getCString(), i)));
+			}
+			frame.push_back({});
+			for (int i = 0; i <= 12; i++) {
+				frame.back().pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("%s_2_%d.png", _mountSpecial->name.getCString(), i)));
+			}
+			auto shield = Sprite::create();
+			shield->setAnchorPoint(Vec2(0.865, 0.005));
+			shield->setPosition(140, -50);
+			shield->setColor(Color3B(250, 250, 255));
+			shield->setTag(50);
+			_player->addChild(shield, 100);
+
+			_isShield = true;
+
+			shield->runAction(Sequence::create(
+				Animate::create(Animation::createWithSpriteFrames(frame[0], 0.1f)),
+				Repeat::create(Animate::create(Animation::createWithSpriteFrames(frame[1], 0.1f)), 3),
+				Animate::create(Animation::createWithSpriteFrames(frame[2], 0.1f)),
+				CallFunc::create(CC_CALLBACK_0(Skill::setIsShield, this, false)),
+				RemoveSelf::create(true),
+				nullptr));
+		}
+	}
+}
+
+void Skill::tick(float delta)
+{
+	if (_delay > 0) _delay -= delta;
 }

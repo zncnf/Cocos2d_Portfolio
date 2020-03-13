@@ -242,8 +242,9 @@ Monster::Monster(Layer* layer, MOB mob) {
 	_isFollow = false;
 	_isHitTrue = false;
 	_isRemove = false;
+	_isAllKill = false;
 	_way = LEFT;
-	_state = STAND;
+	_state = STAND;	
 
 	_hitDamage = 0;
 
@@ -296,6 +297,7 @@ void Monster::tick()
 			_monster->setSpriteFrame(StringUtils::format("%s_move_0.png", _code));
 			_monster->setAnchorPoint(Vec2(0.5, 0.5));
 			_monster->setPositionY(160 + _monster->getContentSize().height / 2);
+			_monster->setRotation(0);
 			_rect->setTextureRect(_monster->getBoundingBox());
 			_monster->runAction(Spawn::create(
 				Animate::create(Animation::createWithSpriteFrames(frame, 0.2f)),

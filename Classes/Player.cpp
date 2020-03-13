@@ -7,6 +7,7 @@ Player::Player()
 	cache->addSpriteFramesWithFile("Player/Player.plist");
 	cache->addSpriteFramesWithFile("Player/LavelUp1.plist");
 	cache->addSpriteFramesWithFile("Player/LavelUp2.plist");
+	cache->addSpriteFramesWithFile("Main/SkillSelect.plist");
 
 	_layer = Layer::create();
 
@@ -78,6 +79,7 @@ void Player::setLayer(Layer * layer, bool game)
 	_isAttack = game ? false : true;
 	_isFoot = false;
 	_isDead = false;
+	_isSkill = true;
 	_way = false;
 	_jPow = 0;
 	_pickUpDelay = 0;
@@ -109,6 +111,12 @@ void Player::setLayer(Layer * layer, bool game)
 	_skill->setLayer(_layer, _player);
 	_pet->setLayer(_layer, _player);
 	if (game) {
+		auto UIBack = Sprite::createWithTexture(cuey->texture("Main/장비창.png"));
+		UIBack->setAnchorPoint(Vec2(0, 1));
+		UIBack->setPosition(950, 130);
+		UIBack->setOpacity(190);
+		_layer->getParent()->addChild(UIBack);
+
 		_rect = Sprite::createWithTexture(nullptr, { 0,0,30,72 });
 		_player->addChild(_rect, -1);
 		_rect->setPosition(0, -13);
@@ -157,6 +165,36 @@ void Player::setLayer(Layer * layer, bool game)
 		_lifeLabel = Label::create(StringUtils::format("%d", (int)_life), "fonts/야놀자 야체Rehular.ttf", 30);
 		_lifeLayer->addChild(_lifeLabel);
 
+		auto _skillGaugeLayer = Layer::create();
+		_skillGaugeLayer->setPosition(1170, 70);
+		_layer->getParent()->addChild(_skillGaugeLayer);
+
+		_skillBox = Sprite::createWithSpriteFrameName("SkillSelect2_0.png");
+		_skillGaugeLayer->addChild(_skillBox);
+		Vector<SpriteFrame*> frame;
+		for (int i = 0; i <= 6; i++) frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("SkillSelect2_%d.png", i)));
+		_skillBox->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame, 0.1f))));
+
+		_skillGauge = Sprite::createWithSpriteFrameName(StringUtils::format("%s_icon.png", _skill->getSpecialName().getCString()));
+		_skillGauge->setScale(2);
+		_skillGaugeLayer->addChild(_skillGauge);
+
+		auto ptSprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_iconDisabled.png", _skill->getSpecialName().getCString()));
+		_pt = ProgressTimer::create(ptSprite);
+		_pt->setType(ProgressTimer::Type::RADIAL);
+		_pt->setMidpoint(Vec2(0.5, 0.5));
+		_pt->setScale(2);
+		_pt->setReverseProgress(true);
+		_pt->setColor(Color3B(100, 100, 100));
+		_pt->setOpacity(150);
+		_skillGaugeLayer->addChild(_pt);
+
+		_lvLabel = Label::createWithTTF(StringUtils::format("LV : %d", (int)_lv), "fonts/Maplestory Bold.ttf", 30);
+		_lvLabel->setAnchorPoint(Vec2(0, 0));
+		_lvLabel->setPosition(1000, 50);
+		_lvLabel->enableOutline(Color4B::BLACK, 1);
+		_lvLabel->setOpacity(200);
+		_layer->getParent()->addChild(_lvLabel);
 	}
 
 	setStand();
@@ -418,6 +456,7 @@ void Player::levelUp()
 	if (_speed < 4) {
 		_speed = (int)(_lv / 3) * 0.1 + 1;
 	}
+	_lvLabel->setString(StringUtils::format("LV : %d", (int)_lv));
 	_expBar->cleanup();
 	_expBar->setScaleX(_exp / _expm);
 	if (_exp >= _expm) {
@@ -436,6 +475,9 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 		case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 			_isRight = 1;
 			if (_isLeft == 2) _isLeft = 1;
+			break;
+		case EventKeyboard::KeyCode::KEY_CTRL:
+			_skill->playSpecial();
 			break;
 		case EventKeyboard::KeyCode::KEY_ALT:
 			if (_isFoot) {
@@ -465,11 +507,22 @@ void Player::onKeyReleased(EventKeyboard::KeyCode keyCode, Event * event)
 	}
 }
 
-void Player::tick()
+void Player::tick(float delta)
 {
 	if (_isGame) {
 		if (!_isDead) {
 			_pet->tick();
+			_skill->tick(delta);
+			if (_skill->getDelay() > 0) {
+				_isSkill = true;
+				_skillBox->setVisible(false);
+				_pt->setPercentage(_skill->getDelay() / _skill->getSpecialDelay() * 100);
+			}
+			else if (_isSkill) {
+				_isSkill = false;
+				_skillBox->setVisible(true);
+				_pt->setPercentage(_skill->getDelay() / _skill->getSpecialDelay() * 100);
+			}
 			if (_isHit != 1) {
 				if (_isStand == 1) { //멈춤 0, 대기 1, 적용 2
 					if (_isLeft != 2 && _isRight != 2 && !_isAttack && _isFoot) {

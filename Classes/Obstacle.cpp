@@ -46,7 +46,7 @@ void Obstacle::setMissile()
 	_obstacle->setRotation(getAngle(_player->getPosition(), _obstacle->getPosition()) * 57.2);
 	_obstacle->setFlippedX(true);
 	_obstacle->setFlippedY(true);
-	_layer->addChild(_obstacle);
+	_layer->addChild(_obstacle, 50);
 
 	_rect = Sprite::createWithTexture(nullptr, Rect(0,0, 20, 20));
 	_rect->setVisible(false);
@@ -150,7 +150,7 @@ void Obstacle::tick()
 			_obstacle->getPositionY() - sinf(_obstacle->getRotation() / 57.2) * 3);
 		_rect->setPosition(_obstacle->getRotation() < 90 ? _obstacle->boundingBox().getMaxX() - 30 : _obstacle->boundingBox().getMinX() + 30,
 			_obstacle->boundingBox().getMinY() + 30);
-		if (player->getRect().intersectsRect(_rect->getBoundingBox())) {
+		if (player->getRect().intersectsRect(_rect->getBoundingBox()) && !player->getSkill()->getIsShield()) {
 			player->setHit();
 			setHit();
 		}
@@ -182,7 +182,7 @@ void Obstacle::tick()
 		_rect->setPosition(_obstacle->getRotation() < 90 ? _obstacle->boundingBox().getMaxX() - 30 : _obstacle->boundingBox().getMinX() + 30,
 			_obstacle->boundingBox().getMinY() + 30);
 
-		if (player->getRect().intersectsRect(_rect->getBoundingBox())) {
+		if (player->getRect().intersectsRect(_rect->getBoundingBox()) && !player->getSkill()->getIsShield()) {
 			_obstacle->setPosition(_obstacle->getPositionX() + cosf(_obstacle->getRotation() / 57.2) * 200,
 				_obstacle->getPositionY() - sinf(_obstacle->getRotation() / 57.2) * 200);
 			player->setHit();

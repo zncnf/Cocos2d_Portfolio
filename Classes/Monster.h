@@ -54,7 +54,7 @@ private:
 	float _jPow;
 	float _hitDamage;
 
-	bool _isFollow, _isAttack, _isHitTrue, _isRemove;
+	bool _isFollow, _isAttack, _isHitTrue, _isRemove, _isAllKill;
 
 	WAY _way;
 	STATE _state;
@@ -80,10 +80,14 @@ public:
 
 	bool getIsFollow() { return _isFollow; }
 	bool getIsHitTrue() { return _isHitTrue; }
+	bool getIsAttackTrue() { return _hp > 0 ? true : false; }
+	bool getIsAllKill() { return _isAllKill; }
+	bool getIsMove() { return _state == MOVE ? true : false; }
 	bool getIsDead() { return _state == DEAD ? true : false; }
 	bool getIsRemove() { return _isRemove; }
 	bool getIsAttack() { return _isAttack; }
 
+	void setIsAllKill() { _isAllKill = true;}
 	void setPhase(PHASE n) { _phase = n; }
 	void setState(STATE n) { _state = n; }
 	void setFollow() { _isFollow = true; }
@@ -94,6 +98,7 @@ public:
 		setPhase(¸ð¼Ç);
 		_state = HIT;
 	}
+	void setHp(int n) { _hp = n; }
 
 	void viewRect(bool view) { _rect->setVisible(view); }
 	
@@ -112,13 +117,13 @@ private:
 		_damageNumber->setAnchorPoint(Vec2(0.5f, 0.0f));
 		_damageNumber->setPosition(Vec2(_monster->getPositionX(), _monster->getPositionY() + 50));
 		_damageNumber->setString(StringUtils::format("%d", (int)_hitDamage));
-		_damageNumber->setScale(1.5);
+		_damageNumber->setScale(1.7);
 		//_damageNumber->setVisible(false);
 		
 		_damageNumber->runAction(Sequence::create(
 			Spawn::create(
-				JumpBy::create(0.6, Vec2(cuey->rand(-100, 100), cuey->rand(30, 35)), 50, 1),
-				ScaleBy::create(0.6, 0),
+				JumpBy::create(0.7, Vec2(cuey->rand(-100, 100), cuey->rand(30, 35)), 50, 1),
+				ScaleBy::create(0.7, 0),
 				nullptr), 
 			nullptr)
 		);

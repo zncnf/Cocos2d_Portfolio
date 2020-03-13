@@ -14,6 +14,7 @@ private:
 
 	struct RightEquip {
 		Layer* layer;
+		Sprite* box;
 		Sprite* sprite;
 		Label* label;
 		Label* label2;

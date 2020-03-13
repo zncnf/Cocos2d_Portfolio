@@ -150,6 +150,8 @@ void Equip::setStand()
 
 	action4 = RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame[3], 0.5f)));
 	_mountShoes->sprite->runAction(action4);
+
+	_mountWeapon->sprite->setZOrder(13);
 	
 	for (int i = 0; i < 4; i++) {
 		frame[i].clear();

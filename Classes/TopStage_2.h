@@ -20,6 +20,8 @@ private:
 	int _gold;
 	float _time;
 
+	bool _itemChat[10];
+
 	bool _isViewRect;
 
 public:
@@ -42,4 +44,6 @@ private:
 	virtual void onTouchEnded(Touch* touch, Event* event);
 
 	virtual void onTouchCancelled(Touch* touch, Event* event);
+
+	void setItemChatFalse(int n) { _itemChat[n] = false; }
 };

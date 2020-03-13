@@ -35,9 +35,15 @@ public:
 private:
 
 	void setisAction(bool b) { _isAction = b; }
-	void moveTopLayer() { 
+	void setClean() { 
+		player->getPlayer()->setPosition(9999, 9999);
+		player->getPet()->getMountPet()->setPosition(9999, 9999);
+		player->getSkill()->setSkillClean();
+		player->setStand();
 		_equipLayer->setPosition(9999, 9999); 
 		_skillLayer->setPosition(9999, 9999);
+		_skillBg->setPosition(_skillLayer->getPosition());
+		_skillLeftUI->setPosition(_skillLayer->getPosition() + Vec2(-231, 53));
 	}
 
 	virtual void onEnter();

@@ -19,8 +19,13 @@ private:
 	Layer* _layer;
 	Layer* _player;
 
+	float _delay;
+
 	bool _isWay;
 	bool _isNormal;
+
+	int _isAllKill;
+	bool _isShield;
 
 	Action *action1;
 	Animate *action2, *action3, *action4;
@@ -48,6 +53,10 @@ public:
 	void playNormalClean();
 	void playNormalHit(Vec2 pt);
 	void playNormalHitClean(Sprite* sprite);
+
+	void playSpecial(bool isGame = true);
+
+	void tick(float delta);
 
 	void viewRect(bool view) { 
 		_mountNormal->rect->setVisible(view);
@@ -82,4 +91,18 @@ public:
 	String getSpecialName() { return _mountSpecial->name; }
 	String getSpecialEx() { return _mountSpecial->ex; }
 	float getSpecialDelay() { return _mountSpecial->delay; }
+
+	void setIsAllKill(int isKill) { _isAllKill = isKill; }
+	int getIsAllKill() { return _isAllKill; }
+
+	void setIsShield(bool isShield) { _isShield = isShield; }
+	bool getIsShield() { return _isShield; }
+
+	void setSkillClean() {
+		if(_layer->getChildByTag(50) != nullptr) _layer->removeChildByTag(50, true);
+		if (_player->getChildByTag(50) != nullptr) _player->removeChildByTag(50, true);
+		_mountNormal->attack->setVisible(false);
+	}
+
+	float getDelay() { return _delay; }
 };

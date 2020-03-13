@@ -46,4 +46,8 @@ public:
 	virtual void onTouchCancelled(Touch* touch, Event* event, bool isUse);
 
 	virtual void onTouchEnded(Touch* touch, Event* event, bool isUse);
+
+private:
+	void setNormal();
+	void setSpecial();
 };

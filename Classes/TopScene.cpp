@@ -62,7 +62,7 @@ void TopScene::tick(float delta)
 		player->setBestTime(0, _time);
 	}
 	_timeLabel->setString(StringUtils::format("TIME   %02d : %02d", (int)_time / 60, (int)_time % 60));
-	player->tick();
+	player->tick(delta);
 	int mobRezen = 600 / pow(_time, 0.6f) + 30;
 	if (cuey->rand(0, mobRezen) == 0 && !player->getIsDead()) {
 		_monster.pushBack(new Monster(_layer, cuey->rand(0, 1) == 0 ? Monster::ÃÊ·Ï´ŞÆØÀÌ : Monster::µÅÁö));

@@ -108,9 +108,7 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 
 	Vec2 pt = touch->getLocation() - _layer->getPosition();
 	if (_equipBtn->getBoundingBox().containsPoint(pt)) {
-		_skillLayer->setPosition(9999, 9999);
-		_skillBg->setPosition(_skillLayer->getPosition());
-		_skillLeftUI->setPosition(_skillLayer->getPosition() + Vec2(-231, 53));
+		setClean();
 		_equipLayer->setPosition(700, 357);
 		player->getPlayer()->setPosition(370, 530);
 		player->getPet()->getMountPet()->setPosition(280, 500);
@@ -124,12 +122,11 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 		_isUse = false;
 	}
 	if (_skillBtn->getBoundingBox().containsPoint(pt)) {
-		_equipLayer->setPosition(9999, 9999);
+		setClean();
 		_skillLayer->setPosition(689, 357);
 		_skillBg->setPosition(_skillLayer->getPosition());
 		_skillLeftUI->setPosition(_skillLayer->getPosition() + Vec2(-231, 53));
-		player->getPlayer()->setPosition(270, 330);
-		player->getPet()->getMountPet()->setPosition(9999, 9999);
+		player->getPlayer()->setPosition(400, 330);
 		if (_isAction) {
 			_layer->runAction(Sequence::create(
 				EaseExponentialInOut::create(MoveTo::create(1, Vec2(0, 0))),
@@ -147,7 +144,7 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 			_layer->runAction(Sequence::create(
 				EaseExponentialInOut::create(MoveTo::create(1, Vec2(-1103, 0))),
 				CallFunc::create(CC_CALLBACK_0(MainScene::setisAction, this, true)),
-				CallFunc::create(CC_CALLBACK_0(MainScene::moveTopLayer, this)),
+				CallFunc::create(CC_CALLBACK_0(MainScene::setClean, this)),
 				nullptr));
 		}
 		_isAction = false;

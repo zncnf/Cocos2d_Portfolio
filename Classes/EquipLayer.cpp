@@ -153,40 +153,7 @@ bool EquipLayer::init()
 	_rightUI_pet->setPosition(9999, 9999);
 	this->addChild(_rightUI_pet);
 
-	for (int i = 0; i < player->getEquip()->getMyWeaponSize(); i++) {
-		_myEquip.push_back(new RightEquip({ Layer::create() }));
-		_myEquip.back()->layer->setPosition(30, 232 - 96 * i);
-		this->addChild(_myEquip.back()->layer);
-
-		auto equipbg = Sprite::create("Main/¾ÆÀÌÅÛÄ­.png");
-		equipbg->setPositionY(-22);
-		_myEquip.back()->layer->addChild(equipbg);
-
-		_myEquip.back()->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_icon.png", player->getEquip()->getMyWeaponCode(i).getCString()));
-		_myEquip.back()->sprite->setPositionY(-22);
-		_myEquip.back()->sprite->setScale(1.5f);
-		_myEquip.back()->layer->addChild(_myEquip.at(i)->sprite);
-		
-		_myEquip.back()->label = Label::createWithTTF(player->getEquip()->getMyWeaponName(i).getCString(), "fonts/Maplestory Bold.ttf", 20);
-		_myEquip.back()->label->setAnchorPoint(Vec2(0, 0.5));
-		_myEquip.back()->label->setPositionX(60);
-		_myEquip.back()->label->setColor(Color3B(50, 50, 50));
-		_myEquip.back()->layer->addChild(_myEquip.at(i)->label);
-		
-		_myEquip.back()->label2 = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 15);
-		_myEquip.back()->label2->setString(StringUtils::format("°ø°Ý·Â : +%.1f", player->getEquip()->getMyWeaponAtk(i)));
-		_myEquip.back()->label2->setAnchorPoint(Vec2(0, 0.5));
-		_myEquip.back()->label2->setPosition(50, -35);
-		_myEquip.back()->label2->setColor(Color3B(100, 100, 100));
-		_myEquip.back()->layer->addChild(_myEquip.at(i)->label2);
-	}
-
-	_selEquip = 0;
-
-	player->getPet()->setPet("¹é·Ï");
-	player->getPet()->setPet("»Ú¶ì ºÎ¿ì");
-	player->getPet()->setPet("¹é·Ï");
-	player->getPet()->setPet("»Ú¶ì ºÎ¿ì");
+	setWeapon();
 
 	return true;
 }
@@ -210,7 +177,7 @@ bool EquipLayer::onTouchBegan(Touch * touch, Event * event, bool isUse)
 
 
 	for (int i = 0; i < _myEquip.size(); i++) {
-		if (_myEquip.at(i)->sprite->getBoundingBox().containsPoint(pt - _myEquip.at(i)->layer->getPosition())) {
+		if (_myEquip.at(i)->box->getBoundingBox().containsPoint(pt - _myEquip.at(i)->layer->getPosition())) {
 			switch (_selEquip) {
 			case 0:
 				player->getEquip()->mountWeapon(i);
@@ -276,9 +243,9 @@ void EquipLayer::setWeapon()
 		_myEquip.back()->layer->setPosition(30, 232 - 96 * i);
 		this->addChild(_myEquip.back()->layer);
 
-		auto equipbg = Sprite::create("Main/¾ÆÀÌÅÛÄ­.png");
-		equipbg->setPositionY(-22);
-		_myEquip.back()->layer->addChild(equipbg);
+		_myEquip.back()->box = Sprite::create("Main/¾ÆÀÌÅÛÄ­.png");
+		_myEquip.back()->box->setPositionY(-22);
+		_myEquip.back()->layer->addChild(_myEquip.back()->box);
 
 		_myEquip.back()->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_icon.png", player->getEquip()->getMyWeaponCode(i).getCString()));
 		_myEquip.back()->sprite->setPositionY(-22);
@@ -320,9 +287,9 @@ void EquipLayer::setArmor()
 		_myEquip.back()->layer->setPosition(30, 232 - 96 * i);
 		this->addChild(_myEquip.back()->layer);
 
-		auto equipbg = Sprite::create("Main/¾ÆÀÌÅÛÄ­.png");
-		equipbg->setPositionY(-22);
-		_myEquip.back()->layer->addChild(equipbg);
+		_myEquip.back()->box = Sprite::create("Main/¾ÆÀÌÅÛÄ­.png");
+		_myEquip.back()->box->setPositionY(-22);
+		_myEquip.back()->layer->addChild(_myEquip.back()->box);
 
 		_myEquip.back()->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_icon.png", player->getEquip()->getMyArmorCode(i).getCString()));
 		_myEquip.back()->sprite->setPositionY(-22);
@@ -364,9 +331,9 @@ void EquipLayer::setShoes()
 		_myEquip.back()->layer->setPosition(30, 232 - 96 * i);
 		this->addChild(_myEquip.back()->layer);
 
-		auto equipbg = Sprite::create("Main/¾ÆÀÌÅÛÄ­.png");
-		equipbg->setPositionY(-22);
-		_myEquip.back()->layer->addChild(equipbg);
+		_myEquip.back()->box = Sprite::create("Main/¾ÆÀÌÅÛÄ­.png");
+		_myEquip.back()->box->setPositionY(-22);
+		_myEquip.back()->layer->addChild(_myEquip.back()->box);
 
 		_myEquip.back()->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_icon.png", player->getEquip()->getMyShoesCode(i).getCString()));
 		_myEquip.back()->sprite->setPositionY(-22);
@@ -408,9 +375,9 @@ void EquipLayer::setPet()
 		_myEquip.back()->layer->setPosition(30, 232 - 96 * i);
 		this->addChild(_myEquip.back()->layer);
 
-		auto equipbg = Sprite::create("Main/¾ÆÀÌÅÛÄ­.png");
-		equipbg->setPositionY(-22);
-		_myEquip.back()->layer->addChild(equipbg);
+		_myEquip.back()->box = Sprite::create("Main/¾ÆÀÌÅÛÄ­.png");
+		_myEquip.back()->box->setPositionY(-22);
+		_myEquip.back()->layer->addChild(_myEquip.back()->box);
 
 		_myEquip.back()->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_icon.png", player->getPet()->getMyPetName(i).getCString()));
 		_myEquip.back()->sprite->setPositionY(-22);

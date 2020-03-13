@@ -29,6 +29,7 @@ bool TopStage_2::init()
 
 	_gold = 0;
 	_time = 0;
+	for (int i = 0; i < 10; i++) _itemChat[i] = false;
 
 	_goldLabel = Label::create(StringUtils::format("%d", _gold), "fonts/야놀자 야체Rehular.ttf", 35);
 	_goldLabel->setPosition(instance->getWinSize().width - 100, instance->getWinSize().height - 30);
@@ -72,7 +73,7 @@ void TopStage_2::tick(float delta)
 		}
 	}
 	_timeLabel->setString(StringUtils::format("TIME   %02d : %02d", (int)_time / 60, (int)_time % 60));
-	player->tick();
+	player->tick(delta);
 	int mobRezen = 600 / pow(_time, 0.6f) + 30;
 	if (cuey->rand(0, mobRezen) == 0 && !player->getIsDead()) {
 		_monster.pushBack(new Monster(_layer, cuey->rand(0, 1) == 0 ? Monster::마이너_좀비 : Monster::스켈레곤));
@@ -81,12 +82,12 @@ void TopStage_2::tick(float delta)
 	int obsRezen = 600 / pow(_time, 0.5f) + 30;
 	if (cuey->rand(0, obsRezen) == 0 && !player->getIsDead()) {
 		_obstacle.pushBack(new Obstacle("유도 미사일"));
-		//_obstacle.pushBack(new Obstacle("레이저"));
 	}
+
 	for (int i = 0; i < _obstacle.size(); i++) {
 		_obstacle.at(i)->tick();
 		if (_obstacle.at(i)->getIsAttack()) {
-			if (_obstacle.at(i)->getIsSectRect()) {
+			if (_obstacle.at(i)->getIsSectRect() && !player->getSkill()->getIsShield()) {
 				player->setHit();
 			}
 		}
@@ -139,16 +140,22 @@ void TopStage_2::tick(float delta)
 	for (int i = 0; i < _monster.size(); i++) {
 		_monster.at(i)->tick();
 		if (!_monster.at(i)->getIsDead()) {
-			if (player->getRect().intersectsRect(_monster.at(i)->getRect())) {
+			if (player->getRect().intersectsRect(_monster.at(i)->getRect()) && _monster.at(i)->getIsAttackTrue() && !player->getSkill()->getIsShield()) {
 				player->setHit();
 			}
 			if (player->getSkill()->getNormalRect().intersectsRect(_monster.at(i)->getRect()) &&
 				!player->getIsAttack() && !player->getSkill()->getIsNormal() && player->getSkill()->getNormalCount() > player->getMobRangeSize() &&
-				_monster.at(i)->getIsHitTrue()) {
+				_monster.at(i)->getIsHitTrue() && _monster.at(i)->getIsAttackTrue()) {
 				player->setRange(i);
 				_monster.at(i)->setHit(player->getNormalDamage());
-				//sprintf(str, "%s%d : %d/%d, ", str, i, (int)_monster.at(i)->getHp(), (int)_monster.at(i)->getHpm());
 			}
+		}
+		if (_monster.at(i)->getIsHitTrue() && (_monster.at(i)->getIsAttackTrue() || _monster.at(i)->getIsAllKill())) {
+			if (player->getSkill()->getIsAllKill() == 1) {
+				_monster.at(i)->setIsAllKill();
+				_monster.at(i)->setHp(0);
+			}
+			else if (player->getSkill()->getIsAllKill() == 2) _monster.at(i)->setHit(99999);
 		}
 		for (int j = 0; j < _monster.at(i)->getItem()->getItemSize(); j++) {
 			if (_monster.at(i)->getItem()->getIsPickUp(j)) {
@@ -170,9 +177,30 @@ void TopStage_2::tick(float delta)
 				}
 				else {
 					player->getItem()->setItem(_monster.at(i)->getItem()->getName(j));
-					log("%s(%d)을(를) 획득하였습니다.",
+					auto itemLabel = Label::createWithTTF("", "fonts/Maplestory Bold.ttf", 18);
+					itemLabel->setAnchorPoint(Vec2(1, 0.5));
+					itemLabel->setAlignment(TextHAlignment::RIGHT);
+					itemLabel->enableOutline(Color4B::GRAY, 1);
+					itemLabel->setOpacity(150);
+					itemLabel->setString(StringUtils::format("%s(%d)을(를) 획득하였습니다.",
 						player->getItem()->getName(player->getItem()->getId(_monster.at(i)->getItem()->getName(j))).getCString(),
-						player->getItem()->getCount(player->getItem()->getId(_monster.at(i)->getItem()->getName(j))));
+						player->getItem()->getCount(player->getItem()->getId(_monster.at(i)->getItem()->getName(j)))));
+					int itemNum = 0;
+					for (int i = 0; i < 10; i++) {
+						if (_itemChat[i]) continue;
+						itemLabel->setPosition(1250, 200 + 23 * i);
+						itemNum = i;
+						_itemChat[i] = true;
+						break;
+					}
+					this->addChild(itemLabel, 5);
+					itemLabel->runAction(Sequence::create(
+						DelayTime::create(0.5),
+						FadeTo::create(1, 0),
+						CallFunc::create(CC_CALLBACK_0(TopStage_2::setItemChatFalse, this, itemNum)),
+						RemoveSelf::create(true),
+						nullptr
+					));
 				}
 				_monster.at(i)->getItem()->removeItem(j);
 			}
@@ -183,6 +211,7 @@ void TopStage_2::tick(float delta)
 			i--;
 		}
 	}
+	if (player->getSkill()->getIsAllKill() != 0) player->getSkill()->setIsAllKill(0);
 	if (strcmp(str, "") != 0) {
 		log("%s", str);
 	}
