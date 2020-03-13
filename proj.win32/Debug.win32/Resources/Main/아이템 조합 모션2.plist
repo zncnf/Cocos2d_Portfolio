@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+    <dict>
+        <key>frames</key>
+        <dict>
+            <key>아이템 조합 모션2_0.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{110,98}</string>
+                <key>spriteSourceSize</key>
+                <string>{110,98}</string>
+                <key>textureRect</key>
+                <string>{{0,0},{110,98}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>아이템 조합 모션2_1.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{110,98}</string>
+                <key>spriteSourceSize</key>
+                <string>{110,98}</string>
+                <key>textureRect</key>
+                <string>{{110,0},{110,98}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>아이템 조합 모션2_2.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{110,98}</string>
+                <key>spriteSourceSize</key>
+                <string>{110,98}</string>
+                <key>textureRect</key>
+                <string>{{220,0},{110,98}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>아이템 조합 모션2_3.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{110,98}</string>
+                <key>spriteSourceSize</key>
+                <string>{110,98}</string>
+                <key>textureRect</key>
+                <string>{{330,0},{110,98}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>아이템 조합 모션2_4.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{110,98}</string>
+                <key>spriteSourceSize</key>
+                <string>{110,98}</string>
+                <key>textureRect</key>
+                <string>{{440,0},{110,98}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>아이템 조합 모션2_5.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{110,98}</string>
+                <key>spriteSourceSize</key>
+                <string>{110,98}</string>
+                <key>textureRect</key>
+                <string>{{550,0},{110,98}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>아이템 조합 모션2_6.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{110,98}</string>
+                <key>spriteSourceSize</key>
+                <string>{110,98}</string>
+                <key>textureRect</key>
+                <string>{{660,0},{110,98}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+        </dict>
+        <key>metadata</key>
+        <dict>
+            <key>format</key>
+            <integer>3</integer>
+            <key>pixelFormat</key>
+            <string>RGBA8888</string>
+            <key>premultiplyAlpha</key>
+            <false/>
+            <key>realTextureFileName</key>
+            <string>아이템 조합 모션2.png</string>
+            <key>size</key>
+            <string>{770,98}</string>
+            <key>smartupdate</key>
+            <string>$TexturePacker:SmartUpdate:f748a5a633b208e50d6f8e3266b23b1f:b48d2f50dafca97980c1bce04f62ac42:20215fc454c28dec3320c8c86b34ba75$</string>
+            <key>textureFileName</key>
+            <string>아이템 조합 모션2.png</string>
+        </dict>
+    </dict>
+</plist>
