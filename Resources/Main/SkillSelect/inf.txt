@@ -1,2 +1,0 @@
-SkillSelect_0	0~6
-SkillSelect2_0	0~6

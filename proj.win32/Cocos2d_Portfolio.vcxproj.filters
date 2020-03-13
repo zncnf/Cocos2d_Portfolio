@@ -123,6 +123,9 @@
     <ClCompile Include="..\Classes\TopStage_3.cpp">
       <Filter>src\Top</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\ItemLayer.cpp">
+      <Filter>src\Main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -193,6 +196,9 @@
     </ClInclude>
     <ClInclude Include="..\Classes\TopStage_3.h">
       <Filter>src\Top</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\ItemLayer.h">
+      <Filter>src\Main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

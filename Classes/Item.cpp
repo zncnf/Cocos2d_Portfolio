@@ -13,6 +13,7 @@ void Item::setLayer(Layer * layer)
 void Item::setItem(String name)
 {
 	bool isEmpty = true;
+	bool isHave = false;
 	if (name.compare("µ∑") == 0) {
 		for (int i = 0; i < _item.size(); i++) {
 			if (_item[i]->name.compare(name.getCString()) == 0) {
@@ -21,16 +22,9 @@ void Item::setItem(String name)
 				break;
 			}
 		}
-		if (isEmpty) {
-			_item.push_back(new ITEM({
-			"µ∑",
-			Sprite::create("Item/µ∑.png"),
-			Sprite::create("Item/µ∑_icon.png"),
-			NONE, 1
-				}));
-		}
-	}
-	if (name.compare("¥ﬁ∆ÿ¿Ã¿« ≤Æ¡˙") == 0) {
+		isHave = true;
+	} 
+	else if (name.compare("¥ﬁ∆ÿ¿Ã¿« ≤Æ¡˙") == 0) {
 		for (int i = 0; i < _item.size(); i++) {
 			if (_item[i]->name.compare(name.getCString()) == 0) {
 				isEmpty = false;
@@ -38,16 +32,9 @@ void Item::setItem(String name)
 				break;
 			}
 		}
-		if (isEmpty) {
-			_item.push_back(new ITEM({
-			"¥ﬁ∆ÿ¿Ã¿« ≤Æ¡˙",
-			Sprite::create("Item/¥ﬁ∆ÿ¿Ã¿« ≤Æ¡˙.png"),
-			Sprite::create("Item/¥ﬁ∆ÿ¿Ã¿« ≤Æ¡˙_icon.png"),
-			NONE, 1
-				}));
-		}
+		isHave = true;
 	}
-	if (name.compare("µ≈¡ˆ¿« ∏”∏Æ") == 0) {
+	else if (name.compare("µ≈¡ˆ¿« ∏”∏Æ") == 0) {
 		for (int i = 0; i < _item.size(); i++) {
 			if (_item[i]->name.compare(name.getCString()) == 0) {
 				isEmpty = false;
@@ -55,13 +42,24 @@ void Item::setItem(String name)
 				break;
 			}
 		}
-		if (isEmpty) {
-			_item.push_back(new ITEM({
-			"µ≈¡ˆ¿« ∏”∏Æ",
-			Sprite::create("Item/µ≈¡ˆ¿« ∏”∏Æ.png"),
-			Sprite::create("Item/µ≈¡ˆ¿« ∏”∏Æ_icon.png"),
-			NONE, 1
-				}));
+		isHave = true;
+	}
+	if (isEmpty && isHave) {
+		_item.push_back(new ITEM({}));
+		_item.back()->sprite = Sprite::create(StringUtils::format("Item/%s.png", name.getCString()));
+		_item.back()->name = name;
+		_item.back()->state = NONE;
+		_item.back()->count = 1;
+	}
+}
+
+void Item::removeItem(String name)
+{
+	for (int i = 0; i++; i++) {
+		if (_item[i]->name.compare(name.getCString()) == 0) {
+			if (_item[i]->count > 1) _item[i]->count--;
+			else if(_item[i]->count == 1) _item.erase(_item.begin() + i);
+			return;
 		}
 	}
 }

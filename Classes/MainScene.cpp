@@ -17,6 +17,7 @@ bool MainScene::init()
 	this->addChild(_bg);
 
 	_layer = Layer::create();
+	_layer->setPositionX(-10);
 	this->addChild(_layer, 1);
 
 	player->setLayer(_layer, false);
@@ -37,6 +38,10 @@ bool MainScene::init()
 	_itemBtn->setPosition(1160, 424);
 	_layer->addChild(_itemBtn);
 
+	_topBtn = Sprite::create("Main/아이템버튼.png");
+	_topBtn->setPosition(1234, 174);
+	_layer->addChild(_topBtn);
+
 	_isAction = true;
 	_isUse = false;
 
@@ -55,6 +60,10 @@ bool MainScene::init()
 	_skillLeftUI = Sprite::create("Main/스킬창좌측UI.png");
 	_skillLeftUI->setPosition(_skillLayer->getPosition() + Vec2(-231, 53));
 	_layer->addChild(_skillLeftUI);
+
+	_itemLayer = ItemLayer::create();
+	_itemLayer->setPosition(9999, 9999);
+	_layer->addChild(_itemLayer);
 
 	_topLayer = TopLayer::create();
 	_topLayer->setPosition(1650, 357);
@@ -104,6 +113,7 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 {
 	_equipLayer->onTouchBegan(touch, event, _isUse ? false : true);
 	_skillLayer->onTouchBegan(touch, event, _isUse ? false : true);
+	_itemLayer->onTouchBegan(touch, event, _isUse ? false : true);
 	_topLayer->onTouchBegan(touch, event, _isUse ? true : false);
 
 	Vec2 pt = touch->getLocation() - _layer->getPosition();
@@ -113,42 +123,57 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 		player->getPlayer()->setPosition(370, 530);
 		player->getPet()->getMountPet()->setPosition(280, 500);
 		if (_isAction) {
+			_isAction = false;
+			_isUse = false;
 			_layer->runAction(Sequence::create(
-				EaseExponentialInOut::create(MoveTo::create(1, Vec2(0, 0))),
+				EaseExponentialInOut::create(MoveTo::create(1, Vec2(-10, 0))),
 				CallFunc::create(CC_CALLBACK_0(MainScene::setisAction, this, true)),
 				nullptr));
+			_topBtn->runAction(EaseExponentialInOut::create(MoveTo::create(1, Vec2(1234, 174))));
 		}
-		_isAction = false;
-		_isUse = false;
 	}
-	if (_skillBtn->getBoundingBox().containsPoint(pt)) {
+	else if (_skillBtn->getBoundingBox().containsPoint(pt)) {
 		setClean();
-		_skillLayer->setPosition(689, 357);
+		_skillLayer->setPosition(689, 356);
 		_skillBg->setPosition(_skillLayer->getPosition());
 		_skillLeftUI->setPosition(_skillLayer->getPosition() + Vec2(-231, 53));
 		player->getPlayer()->setPosition(400, 330);
 		if (_isAction) {
+			_isAction = false;
+			_isUse = false;
 			_layer->runAction(Sequence::create(
-				EaseExponentialInOut::create(MoveTo::create(1, Vec2(0, 0))),
+				EaseExponentialInOut::create(MoveTo::create(1, Vec2(-10, 0))),
 				CallFunc::create(CC_CALLBACK_0(MainScene::setisAction, this, true)),
 				nullptr));
+			_topBtn->runAction(EaseExponentialInOut::create(MoveTo::create(1, Vec2(1234, 174))));
 		}
-		_isAction = false;
-		_isUse = false;
 	}
-
-	if (_itemBtn->getBoundingBox().containsPoint(pt)) {
-		/*_equipLayer->setPosition(9999, 9999);
-		_skillLayer->setPosition(9999, 9999);*/
+	else if (_itemBtn->getBoundingBox().containsPoint(pt)) {
+		setClean();
+		_itemLayer->setPosition(740, 351);
 		if (_isAction) {
+			_isAction = false;
+			_isUse = false;
+			_layer->runAction(Sequence::create(
+				EaseExponentialInOut::create(MoveTo::create(1, Vec2(-10, 0))),
+				CallFunc::create(CC_CALLBACK_0(MainScene::setisAction, this, true)),
+				nullptr));
+			_topBtn->runAction(EaseExponentialInOut::create(MoveTo::create(1, Vec2(1234, 174))));
+		}
+	} else if (_topBtn->getBoundingBox().containsPoint(pt)) {
+		if (_isAction && !_isUse) {
+			_isAction = false;
+			_isUse = true;
 			_layer->runAction(Sequence::create(
 				EaseExponentialInOut::create(MoveTo::create(1, Vec2(-1103, 0))),
 				CallFunc::create(CC_CALLBACK_0(MainScene::setisAction, this, true)),
 				CallFunc::create(CC_CALLBACK_0(MainScene::setClean, this)),
 				nullptr));
+			_topBtn->runAction(Sequence::create(
+				DelayTime::create(0.3),
+				EaseExponentialInOut::create(MoveTo::create(0.4, Vec2(1469, 174))),
+				nullptr));
 		}
-		_isAction = false;
-		_isUse = true;
 	}
 
 	return true;

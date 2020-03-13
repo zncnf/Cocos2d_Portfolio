@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "EquipLayer.h"
 #include "SkillLayer.h"
+#include "ItemLayer.h"
 #include "TopLayer.h"
 #include "TopScene.h"
 
@@ -12,12 +13,13 @@ private:
 	Layer* _layer;
 	EquipLayer* _equipLayer;
 	SkillLayer* _skillLayer;
+	ItemLayer* _itemLayer;
 	TopLayer* _topLayer;
 
 	Sprite* _bg;
 	Sprite *_skillBg, *_skillLeftUI;
 
-	Sprite *_equipBtn, *_skillBtn, *_itemBtn;
+	Sprite *_equipBtn, *_skillBtn, *_itemBtn, *_topBtn;
 
 	Sprite* _weaponBtn;
 
@@ -44,6 +46,7 @@ private:
 		_skillLayer->setPosition(9999, 9999);
 		_skillBg->setPosition(_skillLayer->getPosition());
 		_skillLeftUI->setPosition(_skillLayer->getPosition() + Vec2(-231, 53));
+		_itemLayer->setPosition(9999, 9999);
 	}
 
 	virtual void onEnter();

@@ -12,9 +12,8 @@ class Item : public Scene
 	};
 	struct ITEM
 	{
-		String name;
 		Sprite* sprite;
-		Sprite* icon;
+		String name;
 		STATE state;
 		int count;
 	};
@@ -33,6 +32,7 @@ public:
 	void setLayer(Layer* layer);
 
 	void setItem(String name);
+	void removeItem(String name);
 
 	void dropItem(Vec2 position);
 
@@ -40,6 +40,9 @@ public:
 	void pickupItem(Sprite* pet, int n);
 
 	int getItemSize() { return _item.size(); }
+	String getName(int n) { return _item[n]->name; }
+	int getCount(int n) { return _item[n]->count; }
+	int getId(String s);
 
 	Vec2 getItemPosition(int n) { return Vec2(
 		_item[n]->sprite->boundingBox().getMidX(), _item[n]->sprite->boundingBox().getMaxY()); }
@@ -56,9 +59,6 @@ public:
 			if(_item[i]->state != REMOVE) _isRemove = false;
 		}
 	}
-	String getName(int n) { return _item[n]->name; }
-	int getCount(int n) { return _item[n]->count; }
-	int getId(String s);
 
 	bool getIsNone(int n) { return _item[n]->state == NONE ? true : false; }
 	bool getIsDrop(int n) { return _item[n]->state == DROP ? true : false; }
