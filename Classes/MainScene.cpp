@@ -11,6 +11,22 @@ bool MainScene::init()
 		return false;
 	}
 
+	return true;
+}
+
+void MainScene::tick(float delta)
+{
+	_bg->setPositionX(_bg->getPositionX() - 0.1);
+	if (_bg->getPositionX() - instance->getWinSize().width < -_bg->getContentSize().width) {
+		_bg->setPositionX(0);
+	}
+	_goldLabel->setString(StringUtils::format("GOLD : %d", (int)player->getGold()));
+}
+
+void MainScene::onEnter()
+{
+	Scene::onEnter();
+
 	_bg = Sprite::create("Main/오르비스bg.png");
 	_bg->setAnchorPoint(Vec2(0, 0.5));
 	_bg->setPositionY(645);
@@ -19,12 +35,6 @@ bool MainScene::init()
 	_layer = Layer::create();
 	_layer->setPositionX(-10);
 	this->addChild(_layer, 1);
-
-	player->setLayer(_layer, false);
-	player->getPlayer()->setPosition(370, 530);
-	player->setWay(true);
-	player->getPet()->getMountPet()->setPosition(280, 500);
-	player->getPet()->getMountPet()->setFlippedX(true);
 
 	_equipBtn = Sprite::create("Main/장비버튼.png");
 	_equipBtn->setPosition(1160, 574);
@@ -38,7 +48,7 @@ bool MainScene::init()
 	_itemBtn->setPosition(1160, 424);
 	_layer->addChild(_itemBtn);
 
-	_topBtn = Sprite::create("Main/아이템버튼.png");
+	_topBtn = Sprite::create("Main/탑버튼.png");
 	_topBtn->setPosition(1234, 174);
 	_layer->addChild(_topBtn);
 
@@ -69,30 +79,36 @@ bool MainScene::init()
 	_topLayer->setPosition(1650, 357);
 	_layer->addChild(_topLayer);
 
-	/*_weaponBtn = Sprite::createWithTexture(cuey->texture("Main/무기버튼.png"));
-	_weaponBtn->setTextureRect(Rect(4, 227, _weaponBtn->getContentSize().width, _weaponBtn->getContentSize().height));
-	_weaponBtn->setAnchorPoint(Vec2(2, 0.5));
-	_weaponBtn->setPosition(704, 645);
-	_layer->addChild(_weaponBtn);*/
+	_goldLabel = Label::create(StringUtils::format("GOLD : %d", (int)player->getGold()), "fonts/야놀자 야체Rehular.ttf", 30);
+	_goldLabel->setPosition(instance->getWinSize().width - 160, instance->getWinSize().height - 50);
+	_goldLabel->setAnchorPoint(Vec2(0, 0.5));
+	_goldLabel->setColor(Color3B::YELLOW);
+	_goldLabel->enableOutline(Color4B(192, 128, 64, 255), 1);
+	_layer->addChild(_goldLabel, 50);
+
+	/*for (int i = 0; i < 15; i++) {
+		player->getItem()->setItem("달팽이의 껍질");
+		player->getItem()->setItem("돼지의 머리");
+		player->getItem()->setItem("부러진 뿔");
+		player->getItem()->setItem("좀비의 잃어버린 금니");
+		player->getItem()->setItem("좀비의 잃어버린 어금니");
+		player->getItem()->setItem("어둠의 크리스탈");
+		player->getItem()->setItem("어둠의 조각");
+		player->getItem()->setItem("어둠의 날개");
+		player->getItem()->setItem("어둠의 돌");
+	}
+	player->appendGold(10000);*/
+
+	player->setLayer(_layer, false);
+	player->setStand();
+	player->getPlayer()->setPosition(370, 530);
+	player->setWay(true);
+	player->getPet()->getMountPet()->setPosition(280, 500);
+	player->getPet()->getMountPet()->setFlippedX(true);
 
 	this->schedule(schedule_selector(MainScene::tick));
 
-	return true;
-}
-
-void MainScene::tick(float delta)
-{
-	_bg->setPositionX(_bg->getPositionX() - 0.1);
-	if (_bg->getPositionX() + instance->getWinSize().width >= _bg->getContentSize().width) {
-		_bg->setPositionX(0);
-	}
-}
-
-void MainScene::onEnter()
-{
-	Scene::onEnter();
-
-	auto listener = EventListenerTouchOneByOne::create();
+	listener = EventListenerTouchOneByOne::create();
 	listener->setSwallowTouches(true);
 	listener->onTouchBegan = CC_CALLBACK_2(MainScene::onTouchBegan, this);
 	listener->onTouchMoved = CC_CALLBACK_2(MainScene::onTouchMoved, this);
@@ -104,6 +120,7 @@ void MainScene::onEnter()
 
 void MainScene::onExit()
 {
+	_eventDispatcher->removeEventListener(listener);
 	//_eventDispatcher->removeAllEventListeners();
 
 	Scene::onExit();
@@ -115,6 +132,8 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 	_skillLayer->onTouchBegan(touch, event, _isUse ? false : true);
 	_itemLayer->onTouchBegan(touch, event, _isUse ? false : true);
 	_topLayer->onTouchBegan(touch, event, _isUse ? true : false);
+
+	cuey->glview()->setCursor("Cursor_down.png");
 
 	Vec2 pt = touch->getLocation() - _layer->getPosition();
 	if (_equipBtn->getBoundingBox().containsPoint(pt)) {
@@ -150,7 +169,7 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 	}
 	else if (_itemBtn->getBoundingBox().containsPoint(pt)) {
 		setClean();
-		_itemLayer->setPosition(740, 351);
+		_itemLayer->setPosition(772, 351);
 		if (_isAction) {
 			_isAction = false;
 			_isUse = false;
@@ -181,7 +200,7 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 
 void MainScene::onTouchMoved(Touch * touch, Event * event)
 {
-	
+	_itemLayer->onTouchMoved(touch, event, _isUse ? false : true);
 }
 
 void MainScene::onTouchCancelled(Touch * touch, Event * event)
@@ -190,4 +209,9 @@ void MainScene::onTouchCancelled(Touch * touch, Event * event)
 
 void MainScene::onTouchEnded(Touch * touch, Event * event)
 {
+	_equipLayer->onTouchEnded(touch, event, _isUse ? false : true);
+	_skillLayer->onTouchEnded(touch, event, _isUse ? false : true);
+	_itemLayer->onTouchEnded(touch, event, _isUse ? false : true);
+
+	cuey->glview()->setCursor("Cursor_up.png");
 }

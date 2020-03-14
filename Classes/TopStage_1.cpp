@@ -10,6 +10,7 @@ bool TopStage_1::init()
 	if (!Scene::init()) {
 		return false;
 	}
+	cache->addSpriteFramesWithFile("GameIntro.plist");
 
 	_layer = Layer::create();
 	this->addChild(_layer);
@@ -25,28 +26,28 @@ bool TopStage_1::init()
 
 	_isViewRect = false;
 
-	player->setLayer(_layer, true);
-
 	_gold = 0;
 	_time = 0;
+	_isGameSet = false;
+
 	for (int i = 0; i < 10; i++) _itemChat[i] = false;
 
-	_goldLabel = Label::create(StringUtils::format("%d", _gold), "fonts/æﬂ≥Ó¿⁄ æﬂ√ºRehular.ttf", 35);
-	_goldLabel->setPosition(instance->getWinSize().width - 100, instance->getWinSize().height - 30);
+	_goldLabel = Label::create(StringUtils::format("GOLD : %d", _gold), "fonts/æﬂ≥Ó¿⁄ æﬂ√ºRehular.ttf", 35);
+	_goldLabel->setPosition(instance->getWinSize().width - 260, instance->getWinSize().height - 100);
 	_goldLabel->setAnchorPoint(Vec2(0, 0.5));
 	_goldLabel->setColor(Color3B::YELLOW);
 	_goldLabel->enableOutline(Color4B(192, 128, 64, 255), 1);
 	this->addChild(_goldLabel, 50);
 
-	_bestTimeLabel = Label::create(StringUtils::format("BEST TIME   %02d : %02d", (int)player->getBestTime(0) / 60, (int)player->getBestTime(0) % 60), "fonts/æﬂ≥Ó¿⁄ æﬂ√ºRehular.ttf", 25);
-	_bestTimeLabel->setPosition(instance->getWinSize().width - 400, instance->getWinSize().height - 30);
+	_bestTimeLabel = Label::create(StringUtils::format("BEST TIME   %02d : %02d", (int)player->getBestTime(2) / 60, (int)player->getBestTime(2) % 60), "fonts/æﬂ≥Ó¿⁄ æﬂ√ºRehular.ttf", 25);
+	_bestTimeLabel->setPosition(instance->getWinSize().width - 260, instance->getWinSize().height - 30);
 	_bestTimeLabel->setAnchorPoint(Vec2(0, 0.5));
 	_bestTimeLabel->setColor(Color3B::YELLOW);
 	_bestTimeLabel->enableOutline(Color4B(150, 50, 150, 255), 1);
 	this->addChild(_bestTimeLabel, 50);
 
 	_timeLabel = Label::create(StringUtils::format("TIME   %02d : %02d", (int)_time / 60, (int)_time % 60), "fonts/æﬂ≥Ó¿⁄ æﬂ√ºRehular.ttf", 35);
-	_timeLabel->setPosition(instance->getWinSize().width - 400, instance->getWinSize().height - 60);
+	_timeLabel->setPosition(instance->getWinSize().width - 260, instance->getWinSize().height - 60);
 	_timeLabel->setAnchorPoint(Vec2(0, 0.5));
 	_timeLabel->setColor(Color3B(0, 255, 255));
 	_timeLabel->enableOutline(Color4B::BLUE, 1);
@@ -57,8 +58,29 @@ bool TopStage_1::init()
 	K_listner->onKeyPressed = CC_CALLBACK_2(TopStage_1::onKeyPressed, this);
 	K_listner->onKeyReleased = CC_CALLBACK_2(TopStage_1::onKeyReleased, this);
 	instance->getEventDispatcher()->addEventListenerWithSceneGraphPriority(K_listner, this);
+	
+	auto startCount = Sprite::createWithSpriteFrameName("GameIntro_0.png");
+	startCount->setPosition(cuey->winsize().width / 2, cuey->winsize().height / 2);
+	this->addChild(startCount, 5);
 
-	this->schedule(schedule_selector(TopStage_1::tick));
+	Vector<SpriteFrame*> frame;
+
+	for (int i = 0; i <= 3; i++) {
+		frame.pushBack(cache->spriteFrameByName(StringUtils::format("GameIntro_%d.png", i)));
+	}
+
+	startCount->runAction(Sequence::create(
+		Spawn::create(
+			Animate::create(Animation::createWithSpriteFrames(frame, 0.8)),
+			Repeat::create(Sequence::create(
+				EaseExponentialIn::create(ScaleTo::create(0.8, 0)),
+				ScaleTo::create(0, 1),
+				nullptr), 4),
+			nullptr),
+		CallFunc::create(CC_CALLBACK_0(TopStage_1::setGame, this)),
+		RemoveSelf::create(true),
+		nullptr
+	));
 
 	return true;
 }
@@ -71,17 +93,28 @@ void TopStage_1::tick(float delta)
 			player->setBestTime(0, _time);
 			_bestTimeLabel->setString(StringUtils::format("BEST TIME   %02d : %02d(New)", (int)player->getBestTime(0) / 60, (int)player->getBestTime(0) % 60));
 		}
+		else {
+			_bestTimeLabel->setString(StringUtils::format("BEST TIME   %02d : %02d", (int)player->getBestTime(0) / 60, (int)player->getBestTime(0) % 60));
+		}
+	}
+	else if (!_isGameSet) {
+		_isGameSet = true;
+		this->scheduleOnce(schedule_selector(TopStage_1::gameOver), 2);
 	}
 	_timeLabel->setString(StringUtils::format("TIME   %02d : %02d", (int)_time / 60, (int)_time % 60));
 	player->tick(delta);
 	int mobRezen = 600 / pow(_time, 0.6f) + 30;
 	if (cuey->rand(0, mobRezen) == 0 && !player->getIsDead()) {
-		_monster.pushBack(new Monster(_layer, cuey->rand(0, 1) == 0 ? Monster::√ ∑œ¥ﬁ∆ÿ¿Ã : Monster::µ≈¡ˆ));
-		_monster.back()->viewRect(_isViewRect);
+		if (_layer == player->getPlayer()->getParent()) {
+			_monster.pushBack(new Monster(_layer, cuey->rand(0, 1) == 0 ? Monster::√ ∑œ¥ﬁ∆ÿ¿Ã : Monster::µ≈¡ˆ));
+			_monster.back()->viewRect(_isViewRect);
+		}
 	}
 	int obsRezen = 600 / pow(_time, 0.5f) + 30;
 	if (cuey->rand(0, obsRezen) == 0 && !player->getIsDead()) {
-		_obstacle.pushBack(new Obstacle("πÃªÁ¿œ"));
+		if (_layer == player->getPlayer()->getParent()) {
+			_obstacle.pushBack(new Obstacle("πÃªÁ¿œ"));
+		}
 	}
 
 	for (int i = 0; i < _obstacle.size(); i++) {
@@ -114,26 +147,28 @@ void TopStage_1::tick(float delta)
 			}
 		}
 	}
-	bool isItamInPlayer = false;
-	if (itemX.size() == 0 &&
-		(player->getPlayer()->getPositionX() + 150 < player->getPet()->getMountPet()->getPositionX() ||
-			player->getPlayer()->getPositionX() - 150 > player->getPet()->getMountPet()->getPositionX())) {
-		isItamInPlayer = true;
-		itemX.push_back(player->getPlayer()->getPositionX() + (player->getPlayer()->getPositionX() > player->getPet()->getMountPet()->getPositionX() ? 10 : -10));
-	}
-	if (!player->getIsDead()) {
-		if (itemX.empty()) {
-			if (!player->getPet()->getIsStand()) player->getPet()->setStand();
+	if (player->getPet()->getMountPetName().compare("") != 0) {
+		bool isItamInPlayer = false;
+		if (itemX.size() == 0 &&
+			(player->getPlayer()->getPositionX() + 150 < player->getPet()->getMountPet()->getPositionX() ||
+				player->getPlayer()->getPositionX() - 150 > player->getPet()->getMountPet()->getPositionX())) {
+			isItamInPlayer = true;
+			itemX.push_back(player->getPlayer()->getPositionX() + (player->getPlayer()->getPositionX() > player->getPet()->getMountPet()->getPositionX() ? 10 : -10));
 		}
-		else {
-			if (!player->getPet()->getIsMove()) player->getPet()->setMove();
-			if (player->getPet()->getMountPet()->getPositionX() > itemX[0]) {
-				player->getPet()->getMountPet()->setFlippedX(false);
-				player->getPet()->getMountPet()->setPositionX(player->getPet()->getMountPet()->getPositionX() - player->getSpeed() * (isItamInPlayer ? 1.0f : 1.8f));
+		if (!player->getIsDead()) {
+			if (itemX.empty()) {
+				if (!player->getPet()->getIsStand()) player->getPet()->setStand();
 			}
 			else {
-				player->getPet()->getMountPet()->setFlippedX(true);
-				player->getPet()->getMountPet()->setPositionX(player->getPet()->getMountPet()->getPositionX() + player->getSpeed() * (isItamInPlayer ? 1.0f : 1.8f));
+				if (!player->getPet()->getIsMove()) player->getPet()->setMove();
+				if (player->getPet()->getMountPet()->getPositionX() > itemX[0]) {
+					player->getPet()->getMountPet()->setFlippedX(false);
+					player->getPet()->getMountPet()->setPositionX(player->getPet()->getMountPet()->getPositionX() - player->getSpeed() * (isItamInPlayer ? 1.0f : 1.8f));
+				}
+				else {
+					player->getPet()->getMountPet()->setFlippedX(true);
+					player->getPet()->getMountPet()->setPositionX(player->getPet()->getMountPet()->getPositionX() + player->getSpeed() * (isItamInPlayer ? 1.0f : 1.8f));
+				}
 			}
 		}
 	}
@@ -150,10 +185,11 @@ void TopStage_1::tick(float delta)
 				_monster.at(i)->setHit(player->getNormalDamage());
 			}
 		}
-		if (_monster.at(i)->getIsHitTrue() && (_monster.at(i)->getIsAttackTrue() || _monster.at(i)->getIsAllKill())) {
+		if (_monster.at(i)->getIsRemove() && _monster.at(i)->getIsHitTrue() && (_monster.at(i)->getIsAttackTrue() || _monster.at(i)->getIsAllKill())) {
 			if (player->getSkill()->getIsAllKill() == 1) {
 				_monster.at(i)->setIsAllKill();
 				_monster.at(i)->setHp(0);
+				log("%d", i);
 			}
 			else if (player->getSkill()->getIsAllKill() == 2) _monster.at(i)->setHit(99999);
 		}
@@ -173,7 +209,7 @@ void TopStage_1::tick(float delta)
 					int gold = _monster.at(i)->getGold();
 					player->appendGold(gold);
 					_gold += gold;
-					_goldLabel->setString(StringUtils::format("%d", _gold));
+					_goldLabel->setString(StringUtils::format("GOLD : %d", _gold));
 				}
 				else {
 					player->getItem()->setItem(_monster.at(i)->getItem()->getName(j));
@@ -226,9 +262,6 @@ void TopStage_1::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 		_monster.back()->viewRect(_isViewRect);
 		break;
 	case EventKeyboard::KeyCode::KEY_R:
-		player->offGame();
-		this->cleanup();
-		init();
 		instance->replaceScene(IntroScene::createScene());
 		break;
 	case EventKeyboard::KeyCode::KEY_F1:
@@ -251,7 +284,7 @@ void TopStage_1::onEnter()
 {
 	Scene::onEnter();
 
-	auto listener = EventListenerTouchOneByOne::create();
+	listener = EventListenerTouchOneByOne::create();
 	listener->setSwallowTouches(true);
 	listener->onTouchBegan = CC_CALLBACK_2(TopStage_1::onTouchBegan, this);
 	listener->onTouchMoved = CC_CALLBACK_2(TopStage_1::onTouchMoved, this);
@@ -263,7 +296,7 @@ void TopStage_1::onEnter()
 
 void TopStage_1::onExit()
 {
-	_eventDispatcher->removeAllEventListeners();
+	_eventDispatcher->removeEventListener(listener);
 
 	Scene::onExit();
 }
@@ -296,4 +329,15 @@ void TopStage_1::onTouchEnded(Touch * touch, Event * event)
 void TopStage_1::onTouchCancelled(Touch * touch, Event * event)
 {
 
+}
+
+void TopStage_1::setGame()
+{
+	player->setLayer(_layer, true);
+	this->schedule(schedule_selector(TopStage_1::tick));
+}
+
+void TopStage_1::gameOver(float delta)
+{
+	instance->replaceScene(TransitionFade::create(2, MainScene::createScene()));
 }

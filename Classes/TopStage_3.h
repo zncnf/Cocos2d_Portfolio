@@ -24,6 +24,10 @@ private:
 
 	bool _isViewRect;
 
+	bool _isGameSet;
+
+	EventListenerTouchOneByOne* listener;
+
 public:
 	static Scene* createScene();
 	virtual bool init();
@@ -46,4 +50,8 @@ private:
 	virtual void onTouchCancelled(Touch* touch, Event* event);
 
 	void setItemChatFalse(int n) { _itemChat[n] = false; }
+
+	void setGame();
+
+	void gameOver(float delta);
 };

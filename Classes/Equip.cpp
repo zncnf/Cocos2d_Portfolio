@@ -21,9 +21,9 @@ Equip::Equip()
 	action4 = new Action;
 	action4->setFlags(10);
 
-	setWeapon("태극부채");
-	setArmor("나이트 매지션");
-	setShoes("슈퍼 부스터 운동화");
+	setWeapon("몽둥이");
+	setArmor("커닝공고 교복");
+	setShoes("야광 신발");
 
 	_mountWeapon = new Weapon({ 0 });
 	_mountArmor = new Armor({ 0 });

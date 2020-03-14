@@ -23,8 +23,12 @@ private:
 
 	Sprite* _weaponBtn;
 
+	Label* _goldLabel;
+
 	bool _isAction;
 	bool _isUse;
+
+	EventListenerTouchOneByOne* listener;
 
 public:
 	static Scene* createScene();

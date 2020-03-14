@@ -90,7 +90,8 @@ Monster::Monster(Layer* layer, MOB mob) {
 		_speed = 1.2;
 		_gold = 30;
 		_exp = 8;
-		itemString.push_back("µÅÁöÀÇ ¸Ó¸®");
+		itemString.push_back("Á»ºñÀÇ ÀÒ¾î¹ö¸° ±İ´Ï");
+		itemString.push_back("Á»ºñÀÇ ÀÒ¾î¹ö¸° ¾î±İ´Ï");
 
 		shuffle(itemString.begin(), itemString.end(), g);
 
@@ -98,6 +99,11 @@ Monster::Monster(Layer* layer, MOB mob) {
 			if (itemString[i].compare("µ·") == 0) {
 				if (cuey->rand(0.0, 1.0) < 0.9) {
 					_item->setItem("µ·");
+				}
+			}
+			else if (itemString[i].compare("Á»ºñÀÇ ÀÒ¾î¹ö¸° ±İ´Ï") == 0) {
+				if (cuey->rand(0.0, 1.0) < 0.1) {
+					_item->setItem(itemString[i]);
 				}
 			}
 			else {
@@ -122,7 +128,7 @@ Monster::Monster(Layer* layer, MOB mob) {
 		_speed = 1.5;
 		_gold = 35;
 		_exp = 10;
-		itemString.push_back("µÅÁöÀÇ ¸Ó¸®");
+		itemString.push_back("ºÎ·¯Áø »Ô");
 
 		shuffle(itemString.begin(), itemString.end(), g);
 
@@ -152,9 +158,10 @@ Monster::Monster(Layer* layer, MOB mob) {
 		_hp = _hpm = 40;
 		_delay = 0;
 		_speed = 1.7;
-		_gold = 40;
+		_gold = 50;
 		_exp = 15;
-		itemString.push_back("µÅÁöÀÇ ¸Ó¸®");
+		itemString.push_back("¾îµÒÀÇ µ¹");
+		itemString.push_back("¾îµÒÀÇ Å©¸®½ºÅ»");
 
 		shuffle(itemString.begin(), itemString.end(), g);
 
@@ -162,6 +169,11 @@ Monster::Monster(Layer* layer, MOB mob) {
 			if (itemString[i].compare("µ·") == 0) {
 				if (cuey->rand(0.0, 1.0) < 0.9) {
 					_item->setItem("µ·");
+				}
+			}
+			else if (itemString[i].compare("¾îµÒÀÇ Å©¸®½ºÅ»") == 0) {
+				if (cuey->rand(0.0, 1.0) < 0.2) {
+					_item->setItem(itemString[i]);
 				}
 			}
 			else {
@@ -184,9 +196,10 @@ Monster::Monster(Layer* layer, MOB mob) {
 		_hp = _hpm = 50;
 		_delay = 0;
 		_speed = 1.4;
-		_gold = 20;
+		_gold = 65;
 		_exp = 20;
-		itemString.push_back("µÅÁöÀÇ ¸Ó¸®");
+		itemString.push_back("¾îµÒÀÇ ³¯°³");
+		itemString.push_back("¾îµÒÀÇ Á¶°¢");
 
 		shuffle(itemString.begin(), itemString.end(), g);
 
@@ -194,6 +207,11 @@ Monster::Monster(Layer* layer, MOB mob) {
 			if (itemString[i].compare("µ·") == 0) {
 				if (cuey->rand(0.0, 1.0) < 0.9) {
 					_item->setItem("µ·");
+				}
+			}
+			else if (itemString[i].compare("¾îµÒÀÇ Á¶°¢") == 0) {
+				if (cuey->rand(0.0, 1.0) < 0.1) {
+					_item->setItem(itemString[i]);
 				}
 			}
 			else {
@@ -208,6 +226,7 @@ Monster::Monster(Layer* layer, MOB mob) {
 
 	_monster = Sprite::createWithSpriteFrameName(StringUtils::format("%s_move_0.png", _code));
 	_monster->setPosition(cuey->rand(100, 1890), 720);
+	_monster->setTag(101);
 	
 	_rect = Sprite::createWithTexture(nullptr, _monster->boundingBox());
 	_monster->addChild(_rect, -1);

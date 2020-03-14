@@ -9,8 +9,7 @@ private:
 		Layer* layer;
 		Sprite* box;
 		Sprite* sprite;
-		Label *label;
-		Label* label2;
+		String sel;
 	};
 
 	struct RightItem {
@@ -21,13 +20,35 @@ private:
 		Label* label2;
 	};
 
+	struct Recipe {
+		String kind;
+		String complete;
+		vector<String> material;
+		int gold;
+	};
+
 	Sprite* _leftUI;
 
-	vector<LeftItem*> _selItem;
+	LeftItem* _selItem[5];
 
 	Sprite* _rightUI;
 
 	vector<RightItem*> _myItem;
+
+	Sprite *_leftBtn, *_rightBtn;
+
+	Sprite* _pickItemSprite;
+
+	String _pickItem;
+
+	Sprite* _makeBtn;
+
+	vector<Recipe*> _recipe;
+	vector<Label*> _selRecipe;
+
+	Vec2 _selPt;
+
+	int _selPage;
 
 public:
 	static Layer* createLayer();
@@ -45,4 +66,8 @@ public:
 
 private:
 	void setItem();
+
+	void seMadeItem(int n);
+
+	void setRecipe();
 };

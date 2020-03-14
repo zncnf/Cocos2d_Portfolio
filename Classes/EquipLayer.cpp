@@ -101,7 +101,8 @@ bool EquipLayer::init()
 	_mountEquip.at(2)->label2->setColor(Color3B(100, 100, 100));
 	_mountEquip.at(2)->layer->addChild(_mountEquip.at(2)->label2);
 
-	_mountEquip.at(3)->sprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_icon.png", player->getPet()->getMountPetName().getCString()));
+	_mountEquip.at(3)->sprite = Sprite::create();
+	if (player->getPet()->getMountPetName().compare("") != 0) _mountEquip.at(3)->sprite->setSpriteFrame(StringUtils::format("%s_icon.png", player->getPet()->getMountPetName().getCString()));
 	_mountEquip.at(3)->sprite->setPositionY(-22);
 	_mountEquip.at(3)->sprite->setScale(1.5f);
 	_mountEquip.at(3)->layer->addChild(_mountEquip.at(3)->sprite);
@@ -175,7 +176,6 @@ bool EquipLayer::onTouchBegan(Touch * touch, Event * event, bool isUse)
 		setPet();
 	}
 
-
 	for (int i = 0; i < _myEquip.size(); i++) {
 		if (_myEquip.at(i)->box->getBoundingBox().containsPoint(pt - _myEquip.at(i)->layer->getPosition())) {
 			switch (_selEquip) {
@@ -221,6 +221,20 @@ void EquipLayer::onTouchCancelled(Touch * touch, Event * event, bool isUse)
 
 void EquipLayer::onTouchEnded(Touch * touch, Event * event, bool isUse)
 {
+	switch (_selEquip) {
+	case 0:
+		setWeapon();
+		break;
+	case 1:
+		setArmor();
+		break;
+	case 2:
+		setShoes();
+		break;
+	case 3:
+		setPet();
+		break;
+	}
 }
 
 void EquipLayer::setWeapon()
@@ -358,9 +372,11 @@ void EquipLayer::setShoes()
 
 void EquipLayer::setPet()
 {
-	_mountEquip.at(3)->sprite->setSpriteFrame(StringUtils::format("%s_icon.png", player->getPet()->getMountPetName().getCString()));
-	_mountEquip.at(3)->label->setString(player->getPet()->getMountPetName().getCString());
-	_mountEquip.at(3)->label2->setString(StringUtils::format(""));
+	if (player->getPet()->getMountPetName().compare("") != 0) {
+		_mountEquip.at(3)->sprite->setSpriteFrame(StringUtils::format("%s_icon.png", player->getPet()->getMountPetName().getCString()));
+		_mountEquip.at(3)->label->setString(player->getPet()->getMountPetName().getCString());
+		_mountEquip.at(3)->label2->setString(StringUtils::format(""));
+	}
 
 	_rightUI_weapon->setPosition(9999, 9999);
 	_rightUI_armor->setPosition(9999, 9999);

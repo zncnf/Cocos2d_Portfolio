@@ -2,17 +2,13 @@
 
 Skill::Skill()
 {
-	setNormal("파이널 블로우");
+	setNormal("소울 블레이드");
 
 	_mountNormal = new Normal({ 0 });
 
 	mountNormal(0);
 
-	setSpecial("쉘터");
-
 	_mountSpecial = new Special({ "" });
-
-	mountSpecial(0);
 
 }
 

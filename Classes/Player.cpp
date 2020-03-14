@@ -52,7 +52,7 @@ Player::Player()
 	_expm = 25;
 	_gold = 0;
 	_atk = 10;
-	_lifem = _life = 3;
+	_lifem = _life = 2;
 	_speed = 1;
 	_isGame = false;
 
@@ -69,8 +69,9 @@ Player * Player::getInstance()
 
 void Player::setLayer(Layer * layer, bool game)
 {
-	_layer = layer;
+	if(_layer != layer) _layer = layer;
 
+	_isGame = game;
 	_isStand = 1;
 	_isLeft = 0;
 	_isRight = 0;
@@ -169,17 +170,26 @@ void Player::setLayer(Layer * layer, bool game)
 		_skillGaugeLayer->setPosition(1170, 70);
 		_layer->getParent()->addChild(_skillGaugeLayer);
 
-		_skillBox = Sprite::createWithSpriteFrameName("SkillSelect2_0.png");
+		_skillBox = Sprite::create(); 
 		_skillGaugeLayer->addChild(_skillBox);
-		Vector<SpriteFrame*> frame;
-		for (int i = 0; i <= 6; i++) frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("SkillSelect2_%d.png", i)));
-		_skillBox->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame, 0.1f))));
 
-		_skillGauge = Sprite::createWithSpriteFrameName(StringUtils::format("%s_icon.png", _skill->getSpecialName().getCString()));
+		if (player->getSkill()->getSpecialName().compare("") != 0) {
+			_skillBox->setSpriteFrame("SkillSelect2_0.png");
+			Vector<SpriteFrame*> frame;
+			for (int i = 0; i <= 6; i++) frame.pushBack(SpriteFrameCache::sharedSpriteFrameCache()->spriteFrameByName(StringUtils::format("SkillSelect2_%d.png", i)));
+			_skillBox->runAction(RepeatForever::create(Animate::create(Animation::createWithSpriteFrames(frame, 0.1f))));
+		}
+
+		_skillGauge = Sprite::create();
+		if (player->getSkill()->getSpecialName().compare("") != 0) {
+			_skillGauge->setSpriteFrame(StringUtils::format("%s_icon.png", _skill->getSpecialName().getCString()));
+		}
 		_skillGauge->setScale(2);
 		_skillGaugeLayer->addChild(_skillGauge);
-
-		auto ptSprite = Sprite::createWithSpriteFrameName(StringUtils::format("%s_iconDisabled.png", _skill->getSpecialName().getCString()));
+		auto ptSprite = Sprite::create();
+		if (player->getSkill()->getSpecialName().compare("") != 0) {
+			ptSprite->setSpriteFrame(StringUtils::format("%s_iconDisabled.png", _skill->getSpecialName().getCString()));
+		}
 		_pt = ProgressTimer::create(ptSprite);
 		_pt->setType(ProgressTimer::Type::RADIAL);
 		_pt->setMidpoint(Vec2(0.5, 0.5));
@@ -198,7 +208,6 @@ void Player::setLayer(Layer * layer, bool game)
 	}
 
 	setStand();
-	_isGame = true;
 }
 
 void Player::setStand()
@@ -477,7 +486,9 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 			if (_isLeft == 2) _isLeft = 1;
 			break;
 		case EventKeyboard::KeyCode::KEY_CTRL:
-			_skill->playSpecial();
+			if (player->getSkill()->getSpecialName().compare("") != 0) {
+				_skill->playSpecial();
+			}
 			break;
 		case EventKeyboard::KeyCode::KEY_ALT:
 			if (_isFoot) {

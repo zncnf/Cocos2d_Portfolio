@@ -40,11 +40,11 @@ bool IntroScene::init()
 
 void IntroScene::allUserFadeIn()
 {
-	grade->runAction(FadeIn::create(3));
-	grade2->runAction(FadeIn::create(3));
-	message->runAction(FadeIn::create(3));
+	grade->runAction(FadeIn::create(2));
+	grade2->runAction(FadeIn::create(2));
+	message->runAction(FadeIn::create(2));
 	this->runAction(Sequence::create(
-		DelayTime::create(0.5),//4
+		DelayTime::create(2.5),//4
 		CallFunc::create(CC_CALLBACK_0(IntroScene::allUserFadeOut, this)),
 		nullptr
 	));
@@ -52,11 +52,11 @@ void IntroScene::allUserFadeIn()
 
 void IntroScene::allUserFadeOut()
 {
-	grade->runAction(FadeOut::create(1));
-	grade2->runAction(FadeOut::create(1));
-	message->runAction(FadeOut::create(1));
+	grade->runAction(FadeOut::create(0.6));
+	grade2->runAction(FadeOut::create(0.6));
+	message->runAction(FadeOut::create(0.6));
 	this->runAction(Sequence::create(
-		DelayTime::create(0.5),//1
+		DelayTime::create(0.6),//1
 		CallFunc::create(CC_CALLBACK_0(IntroScene::gotoTopScene, this)),
 		nullptr
 	));
@@ -64,5 +64,5 @@ void IntroScene::allUserFadeOut()
 
 void IntroScene::gotoTopScene()
 {
-	instance->replaceScene(MainScene::createScene());
+	instance->replaceScene(TransitionFade::create(0.5, MainScene::createScene(),Color3B::WHITE));
 }

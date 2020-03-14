@@ -10,6 +10,7 @@ Obstacle::Obstacle(String name)
 	cache->addSpriteFramesWithFile("Obstacle/유도 미사일.plist");
 
 	_obstacle =  Sprite::createWithSpriteFrameName(StringUtils::format("%s_attack_0.png", name.getCString()));
+	_obstacle->setTag(101);
 	_rect = Sprite::createWithTexture(nullptr, _obstacle->boundingBox());
 
 	_name = name;

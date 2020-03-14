@@ -5,11 +5,11 @@ Pet::Pet()
 	cache->addSpriteFramesWithFile("Pet/寥煙.plist");
 	cache->addSpriteFramesWithFile("Pet/際塑 睡辦.plist");
 
-	setPet("際塑 睡辦");
+	//setPet("際塑 睡辦");
 
 	_mountPet = new PET({ 0 });
 
-	mountPet(0);
+	//mountPet(0);
 }
 
 void Pet::setLayer(Layer * layer, Layer* player)
@@ -28,7 +28,9 @@ void Pet::setLayer(Layer * layer, Layer* player)
 
 	_pickUpDelay = 0;
 
-	setStand();
+	if (_mountPet->name.compare("") != 0) {
+		setStand();
+	}
 
 }
 

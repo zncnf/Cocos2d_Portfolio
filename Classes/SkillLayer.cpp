@@ -147,6 +147,14 @@ void SkillLayer::onTouchCancelled(Touch * touch, Event * event, bool isUse)
 
 void SkillLayer::onTouchEnded(Touch * touch, Event * event, bool isUse)
 {
+	switch (_selSkill) {
+	case 0:
+		setNormal();
+		break;
+	case 1:
+		setSpecial();
+		break;
+	}
 }
 
 void SkillLayer::setNormal()
@@ -198,6 +206,7 @@ void SkillLayer::setSpecial()
 		_mountSkill[1]->label2->setString("");
 	}
 	else {
+		_mountSkill[1]->sprite->setVisible(true);
 		_mountSkill[1]->sprite->setSpriteFrame(StringUtils::format("%s_icon.png", player->getSkill()->getSpecialName().getCString()));
 		_mountSkill[1]->label->setString(player->getSkill()->getSpecialName().getCString());
 		_mountSkill[1]->label2->setString(player->getSkill()->getSpecialEx().getCString());

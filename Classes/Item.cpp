@@ -13,8 +13,18 @@ void Item::setLayer(Layer * layer)
 void Item::setItem(String name)
 {
 	bool isEmpty = true;
-	bool isHave = false;
-	if (name.compare("돈") == 0) {
+	if (name.compare("돈") == 0 ||
+		name.compare("달팽이의 껍질") == 0 ||
+		name.compare("돼지의 머리") == 0 ||
+		name.compare("좀비의 잃어버린 금니") == 0 ||
+		name.compare("좀비의 잃어버린 어금니") == 0 ||
+		name.compare("부러진 뿔") == 0 ||
+		name.compare("어둠의 날개") == 0 ||
+		name.compare("어둠의 돌") == 0 ||
+		name.compare("어둠의 조각") == 0 ||
+		name.compare("죽음의 공포") == 0 ||
+		name.compare("어둠의 크리스탈") == 0 ||
+		name.compare("흑수정") == 0) {
 		for (int i = 0; i < _item.size(); i++) {
 			if (_item[i]->name.compare(name.getCString()) == 0) {
 				isEmpty = false;
@@ -22,40 +32,19 @@ void Item::setItem(String name)
 				break;
 			}
 		}
-		isHave = true;
-	} 
-	else if (name.compare("달팽이의 껍질") == 0) {
-		for (int i = 0; i < _item.size(); i++) {
-			if (_item[i]->name.compare(name.getCString()) == 0) {
-				isEmpty = false;
-				_item[i]->count++;
-				break;
-			}
+		if (isEmpty) {
+			_item.push_back(new ITEM({}));
+			_item.back()->sprite = Sprite::create(StringUtils::format("Item/%s.png", name.getCString()));
+			_item.back()->name = name;
+			_item.back()->state = NONE;
+			_item.back()->count = 1;
 		}
-		isHave = true;
-	}
-	else if (name.compare("돼지의 머리") == 0) {
-		for (int i = 0; i < _item.size(); i++) {
-			if (_item[i]->name.compare(name.getCString()) == 0) {
-				isEmpty = false;
-				_item[i]->count++;
-				break;
-			}
-		}
-		isHave = true;
-	}
-	if (isEmpty && isHave) {
-		_item.push_back(new ITEM({}));
-		_item.back()->sprite = Sprite::create(StringUtils::format("Item/%s.png", name.getCString()));
-		_item.back()->name = name;
-		_item.back()->state = NONE;
-		_item.back()->count = 1;
 	}
 }
 
 void Item::removeItem(String name)
 {
-	for (int i = 0; i++; i++) {
+	for (int i = 0; _item.size(); i++) {
 		if (_item[i]->name.compare(name.getCString()) == 0) {
 			if (_item[i]->count > 1) _item[i]->count--;
 			else if(_item[i]->count == 1) _item.erase(_item.begin() + i);

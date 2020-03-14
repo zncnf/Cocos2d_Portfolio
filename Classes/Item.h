@@ -59,7 +59,7 @@ public:
 			if(_item[i]->state != REMOVE) _isRemove = false;
 		}
 	}
-
+	
 	bool getIsNone(int n) { return _item[n]->state == NONE ? true : false; }
 	bool getIsDrop(int n) { return _item[n]->state == DROP ? true : false; }
 	bool getIsPickUp(int n) { return _item[n]->state == PICKUP ? true : false; }
