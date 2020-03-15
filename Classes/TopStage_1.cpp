@@ -12,6 +12,8 @@ bool TopStage_1::init()
 	}
 	cache->addSpriteFramesWithFile("GameIntro.plist");
 
+	_bgm = AudioEngine::play2d("Sound/RestNPeace.mp3", true, 1.0f);
+
 	_layer = Layer::create();
 	this->addChild(_layer);
 	_bg = Sprite::create("Map/헤네시스bg.png");
@@ -262,6 +264,7 @@ void TopStage_1::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 		_monster.back()->viewRect(_isViewRect);
 		break;
 	case EventKeyboard::KeyCode::KEY_R:
+		AudioEngine::stop(_bgm);
 		instance->replaceScene(IntroScene::createScene());
 		break;
 	case EventKeyboard::KeyCode::KEY_F1:
@@ -339,5 +342,6 @@ void TopStage_1::setGame()
 
 void TopStage_1::gameOver(float delta)
 {
+	AudioEngine::stop(_bgm);
 	instance->replaceScene(TransitionFade::create(2, MainScene::createScene()));
 }

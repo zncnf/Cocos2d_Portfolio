@@ -101,11 +101,13 @@ bool SkillLayer::onTouchBegan(Touch * touch, Event * event, bool isUse)
 		_rightUI_normal->setPosition(233, 0);
 		_rightUI_special->setPosition(9999, 9999);
 		setNormal();
+		AudioEngine::play2d("Sound/장비변경.mp3", false, 1.0f);
 	}
 	if (_specialBtn->getBoundingBox().containsPoint(pt)) {
 		_rightUI_normal->setPosition(9999, 9999);
 		_rightUI_special->setPosition(233, 0);
 		setSpecial();
+		AudioEngine::play2d("Sound/장비변경.mp3", false, 1.0f);
 	}
 	if (_mountSkill[0]->box->getBoundingBox().containsPoint(pt - _mountSkill[0]->layer->getPosition())) {
 		player->getSkill()->setSkillClean();

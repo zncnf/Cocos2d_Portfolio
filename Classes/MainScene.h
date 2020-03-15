@@ -30,6 +30,8 @@ private:
 
 	EventListenerTouchOneByOne* listener;
 
+	int _bgm;
+
 public:
 	static Scene* createScene();
 	virtual bool init();
@@ -64,4 +66,6 @@ private:
 	virtual void onTouchCancelled(Touch* touch, Event* event);
 
 	virtual void onTouchEnded(Touch* touch, Event* event);
+
+	void bgmPlay(float delta);
 };

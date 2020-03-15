@@ -26,6 +26,8 @@ private:
 
 	bool _isGameSet;
 
+	int _bgm;
+
 	EventListenerTouchOneByOne* listener;
 
 public:

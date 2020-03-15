@@ -35,16 +35,18 @@ bool IntroScene::init()
 
 	allUserFadeIn();
 
+	_bgm = AudioEngine::play2d("Sound/WzLogo.mp3", false, 1.0f);
+
 	return true;
 }
 
 void IntroScene::allUserFadeIn()
 {
-	grade->runAction(FadeIn::create(2));
-	grade2->runAction(FadeIn::create(2));
-	message->runAction(FadeIn::create(2));
+	grade->runAction(FadeIn::create(3));
+	grade2->runAction(FadeIn::create(3));
+	message->runAction(FadeIn::create(3));
 	this->runAction(Sequence::create(
-		DelayTime::create(2.5),//4
+		DelayTime::create(4),//4
 		CallFunc::create(CC_CALLBACK_0(IntroScene::allUserFadeOut, this)),
 		nullptr
 	));

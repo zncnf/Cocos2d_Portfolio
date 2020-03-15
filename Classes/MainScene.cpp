@@ -27,6 +27,13 @@ void MainScene::onEnter()
 {
 	Scene::onEnter();
 
+	
+	/*if (AudioEngine::getState(_soundBs) != AudioEngine::AudioState::PLAYING && AudioEngine::getState(_soundBg1) != AudioEngine::AudioState::PLAYING && !BgSoundClear)
+	{
+		_soundBg1 = AudioEngine::play2d("Sound/bg_stage.mp3", true, 0.6);
+		BgSoundClear = true;
+	}*/
+
 	_bg = Sprite::create("Main/오르비스bg.png");
 	_bg->setAnchorPoint(Vec2(0, 0.5));
 	_bg->setPositionY(645);
@@ -61,7 +68,7 @@ void MainScene::onEnter()
 
 	_skillLayer = SkillLayer::create();
 	_skillLayer->setPosition(9999, 9999);
-	_layer->addChild(_skillLayer, 1);
+	_layer->addChild(_skillLayer, 50);
 
 	_skillBg = Sprite::create("Main/스킬창.png");
 	_skillBg->setPosition(_skillLayer->getPosition());
@@ -86,7 +93,7 @@ void MainScene::onEnter()
 	_goldLabel->enableOutline(Color4B(192, 128, 64, 255), 1);
 	_layer->addChild(_goldLabel, 50);
 
-	/*for (int i = 0; i < 15; i++) {
+	for (int i = 0; i < 15; i++) {
 		player->getItem()->setItem("달팽이의 껍질");
 		player->getItem()->setItem("돼지의 머리");
 		player->getItem()->setItem("부러진 뿔");
@@ -97,7 +104,12 @@ void MainScene::onEnter()
 		player->getItem()->setItem("어둠의 날개");
 		player->getItem()->setItem("어둠의 돌");
 	}
-	player->appendGold(10000);*/
+	player->appendGold(10000);
+
+	player->getSkill()->setNormal("파이널 블로우");
+	player->getSkill()->setNormal("디바이드");
+	player->getSkill()->setSpecial("쉘터");
+	player->getSkill()->setSpecial("다크 포그");
 
 	player->setLayer(_layer, false);
 	player->setStand();
@@ -107,6 +119,8 @@ void MainScene::onEnter()
 	player->getPet()->getMountPet()->setFlippedX(true);
 
 	this->schedule(schedule_selector(MainScene::tick));
+
+	this->scheduleOnce(schedule_selector(MainScene::bgmPlay), 1);
 
 	listener = EventListenerTouchOneByOne::create();
 	listener->setSwallowTouches(true);
@@ -122,6 +136,7 @@ void MainScene::onExit()
 {
 	_eventDispatcher->removeEventListener(listener);
 	//_eventDispatcher->removeAllEventListeners();
+	AudioEngine::stop(_bgm);
 
 	Scene::onExit();
 }
@@ -137,6 +152,7 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 
 	Vec2 pt = touch->getLocation() - _layer->getPosition();
 	if (_equipBtn->getBoundingBox().containsPoint(pt)) {
+		AudioEngine::play2d("Sound/창변경.mp3", false, 1.0f);
 		setClean();
 		_equipLayer->setPosition(700, 357);
 		player->getPlayer()->setPosition(370, 530);
@@ -152,11 +168,12 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 		}
 	}
 	else if (_skillBtn->getBoundingBox().containsPoint(pt)) {
+		AudioEngine::play2d("Sound/창변경.mp3", false, 1.0f);
 		setClean();
 		_skillLayer->setPosition(689, 356);
 		_skillBg->setPosition(_skillLayer->getPosition());
 		_skillLeftUI->setPosition(_skillLayer->getPosition() + Vec2(-231, 53));
-		player->getPlayer()->setPosition(400, 330);
+		player->getPlayer()->setPosition(380, 330);
 		if (_isAction) {
 			_isAction = false;
 			_isUse = false;
@@ -168,6 +185,7 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 		}
 	}
 	else if (_itemBtn->getBoundingBox().containsPoint(pt)) {
+		AudioEngine::play2d("Sound/창변경.mp3", false, 1.0f);
 		setClean();
 		_itemLayer->setPosition(772, 351);
 		if (_isAction) {
@@ -180,6 +198,7 @@ bool MainScene::onTouchBegan(Touch * touch, Event * event)
 			_topBtn->runAction(EaseExponentialInOut::create(MoveTo::create(1, Vec2(1234, 174))));
 		}
 	} else if (_topBtn->getBoundingBox().containsPoint(pt)) {
+		AudioEngine::play2d("Sound/창변경.mp3", false, 1.0f);
 		if (_isAction && !_isUse) {
 			_isAction = false;
 			_isUse = true;
@@ -214,4 +233,9 @@ void MainScene::onTouchEnded(Touch * touch, Event * event)
 	_itemLayer->onTouchEnded(touch, event, _isUse ? false : true);
 
 	cuey->glview()->setCursor("Cursor_up.png");
+}
+
+void MainScene::bgmPlay(float delta)
+{
+	_bgm = AudioEngine::play2d("Sound/Shinin'Harbor.mp3", true, 1.0f);
 }

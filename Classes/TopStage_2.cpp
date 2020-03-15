@@ -12,6 +12,8 @@ bool TopStage_2::init()
 	}
 	cache->addSpriteFramesWithFile("GameIntro.plist");
 
+	_bgm = AudioEngine::play2d("Sound/EvilEyes.mp3", true, 1.0f);
+
 	_layer = Layer::create();
 	this->addChild(_layer);
 	_bg = Sprite::create("Map/저주받은 신전bg.png");
@@ -261,6 +263,7 @@ void TopStage_2::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 		_monster.back()->viewRect(_isViewRect);
 		break;
 	case EventKeyboard::KeyCode::KEY_R:
+		AudioEngine::stop(_bgm);
 		instance->replaceScene(IntroScene::createScene());
 		break;
 	case EventKeyboard::KeyCode::KEY_F1:
@@ -338,5 +341,6 @@ void TopStage_2::setGame()
 
 void TopStage_2::gameOver(float delta)
 {
+	AudioEngine::stop(_bgm);
 	instance->replaceScene(TransitionFade::create(2, MainScene::createScene()));
 }

@@ -241,6 +241,7 @@ void Player::setFoot()
 {
 	if (_isJump != 0) {
 		_jPow = -getSpeed() * 0.2 - 8;
+		AudioEngine::play2d("Sound/점프.mp3", false, 1.0f);
 	} else {
 		_jPow = 0;
 		_isFoot = true;
@@ -392,7 +393,7 @@ void Player::setHitCount(int n)
 void Player::setDead()
 {
 	_isDead = true;
-
+	AudioEngine::play2d("Sound/캐릭터죽음.mp3", false, 1.0f);
 	_lifeLayer->setVisible(false);
 	for (int i = 0; i < _player->getChildrenCount(); i++) {
 		_player->getChildren().at(i)->stopActionsByFlags(10);
@@ -441,6 +442,8 @@ void Player::setWay(bool way)
 
 void Player::levelUp()
 {
+	AudioEngine::play2d("Sound/레벨업.mp3", false, 1.0f);
+
 	auto sprite = Sprite::create();
 	sprite->setTag(15);
 	sprite->setPositionY(70);
@@ -456,7 +459,6 @@ void Player::levelUp()
 		Animate::create(Animation::createWithSpriteFrames(frame, 0.08f)),
 		RemoveSelf::create(true),
 		nullptr));
-
 	_exp -= _expm;
 	_lv+= 1;
 	_expm = _lv * 25;
@@ -494,6 +496,7 @@ void Player::onKeyPressed(EventKeyboard::KeyCode keyCode, Event * event)
 			if (_isFoot) {
 				_isJump = 2;
 				_jPow = -getSpeed() * 0.2 - 8;
+				AudioEngine::play2d("Sound/점프.mp3", false, 1.0f);
 			}
 			else {
 				_isJump = 1;

@@ -70,4 +70,6 @@ private:
 	void seMadeItem(int n);
 
 	void setRecipe();
+
+	void makeBgm1();
 };

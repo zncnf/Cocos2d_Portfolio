@@ -86,6 +86,7 @@ void Item::dropItem(Vec2 position)
 
 void Item::pickupItem(Layer* player, int n)
 {
+	AudioEngine::play2d("Sound/아이템줍기.mp3", false, 1.0f);
 	_item[n]->state = GET;
 	_item[n]->sprite->setZOrder(2);
 
@@ -97,6 +98,7 @@ void Item::pickupItem(Layer* player, int n)
 
 void Item::pickupItem(Sprite * pet, int n)
 {
+	AudioEngine::play2d("Sound/아이템줍기.mp3", false, 1.0f);
 	_item[n]->state = GET;
 	_item[n]->sprite->setZOrder(2);
 

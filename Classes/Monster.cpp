@@ -346,6 +346,7 @@ void Monster::tick()
 			_isFollow = true;
 			break;
 		case DEAD:
+			AudioEngine::play2d(StringUtils::format("Sound/%s_die.mp3", _code), false, 1.0f);
 			_item->dropItem(Vec2(_monster->getPositionX(), 160));
 			_monster->setAnchorPoint(Vec2(0.5, 0.5));
 			_monster->setPositionY(160 + _monster->getContentSize().height / 2);

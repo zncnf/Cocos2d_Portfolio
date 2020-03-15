@@ -103,9 +103,11 @@ bool ItemLayer::onTouchBegan(Touch * touch, Event * event, bool isUse)
 	if (_pickItem.compare("") == 0) {
 		if (_leftBtn->getBoundingBox().containsPoint(pt)) {
 			_selPage--;
+			AudioEngine::play2d("Sound/RollDown.mp3", false, 1.0f);
 		}
 		if (_rightBtn->getBoundingBox().containsPoint(pt)) {
 			_selPage++;
+			AudioEngine::play2d("Sound/RollUp.mp3", false, 1.0f);
 		}
 		for (int i = 0; i < _myItem.size(); i++) {
 			if (_myItem.at(i)->box->getBoundingBox().containsPoint(pt - _myItem.at(i)->layer->getPosition())) {
@@ -115,10 +117,12 @@ bool ItemLayer::onTouchBegan(Touch * touch, Event * event, bool isUse)
 				_selPt = pt;
 				_selItem[4]->box->setVisible(false);
 				_selItem[4]->sprite->setVisible(false);
+				AudioEngine::play2d("Sound/DragStart.mp3", false, 1.0f);
 				break;
 			}
 		}
 		if (_makeBtn->getBoundingBox().containsPoint(pt)) {
+			AudioEngine::play2d("Sound/MBtMouseClick.mp3", false, 1.0f);
 			for (int i = 0; i < _recipe.size(); i++) {
 				vector<String> temp;
 				for (int j = 0; j < _recipe.at(i)->material.size(); j++) {
@@ -150,10 +154,13 @@ bool ItemLayer::onTouchBegan(Touch * touch, Event * event, bool isUse)
 
 					for (int j = 0; j < 4; j++) {
 						if (_selItem[j]->sel.compare("") != 0) {
+							AudioEngine::play2d("Sound/아이템제작 이동음.mp3", false, 1.0f);
 							auto sprite2 = Sprite::create(StringUtils::format("Item/%s.png", _selItem[j]->sel.getCString()));
 							sprite2->setPosition(_selItem[j]->layer->getPosition());
 							sprite2->setScale(1.5);
 							this->addChild(sprite2);
+							_selItem[j]->sel = "";
+							_selItem[j]->sprite->setPosition(9999, 9999);
 
 							sprite2->runAction(Sequence::create(
 								DelayTime::create(j*0.2),
@@ -180,7 +187,10 @@ bool ItemLayer::onTouchBegan(Touch * touch, Event * event, bool isUse)
 					}
 					sprite->runAction(Sequence::create(
 						DelayTime::create(2),
-						Repeat::create(Animate::create(Animation::createWithSpriteFrames(frame[0], 0.1f)), 4),
+						Repeat::create(Sequence::create(
+							CallFunc::create(CC_CALLBACK_0(ItemLayer::makeBgm1, this)),
+							Animate::create(Animation::createWithSpriteFrames(frame[0], 0.1f)), 
+							nullptr), 4),
 						CallFunc::create(CC_CALLBACK_0(ItemLayer::seMadeItem, this, i)),
 						Animate::create(Animation::createWithSpriteFrames(frame[1], 0.13f)),
 						RemoveSelf::create(true),
@@ -227,6 +237,7 @@ void ItemLayer::onTouchEnded(Touch * touch, Event * event, bool isUse)
 			}
 		}
 	} else {
+		AudioEngine::play2d("Sound/DragEnd.mp3", false, 1.0f);
 		for (int i = 0; i < 4; i++) {
 			if (_selItem[i]->box->getBoundingBox().containsPoint(pt - _selItem[i]->layer->getPosition())) {
 				if (_selItem[i]->sel.compare("") != 0) {
@@ -368,6 +379,7 @@ void ItemLayer::setItem()
 
 void ItemLayer::seMadeItem(int n)
 {
+	AudioEngine::play2d("Sound/아이템제작완료.mp3", false, 1.0f);
 	if (_recipe.at(n)->kind.compare("일반스킬") == 0) {
 		player->getSkill()->setNormal(_recipe.at(n)->complete);
 		_selItem[4]->sprite->setSpriteFrame(StringUtils::format("%s_icon.png", player->getSkill()->getMyNormalCode(player->getSkill()->getMyNormalSize() - 1).getCString()));
@@ -475,4 +487,9 @@ void ItemLayer::setRecipe()
 	_recipe.back()->material.push_back({ "어둠의 크리스탈" });
 	_recipe.back()->gold = 1000;
 
+}
+
+void ItemLayer::makeBgm1()
+{
+	AudioEngine::play2d("Sound/아이템제작 망치음.mp3", false, 1.0f);
 }

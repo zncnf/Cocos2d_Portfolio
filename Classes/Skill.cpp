@@ -147,6 +147,8 @@ void Skill::mountSpecial(int n)
 
 void Skill::playNormal()
 {
+	AudioEngine::play2d(StringUtils::format("Sound/%s_use.mp3", _mountNormal->name.getCString()), false, 1.0f);
+
 	_isNormal = true;
 	_mountNormal->attack->setVisible(true);
 	_mountNormal->attack->cleanup();
@@ -175,6 +177,7 @@ void Skill::playNormalClean()
 
 void Skill::playNormalHit(Vec2 pt)
 {
+	AudioEngine::play2d(StringUtils::format("Sound/%s_hit.mp3", _mountNormal->name.getCString()), false, 1.0f);
 	Vector<SpriteFrame*> frame;
 
 	for (int i = 0; i <= _mountNormal->hitCount; i++) {
@@ -199,6 +202,7 @@ void Skill::playNormalHitClean(Sprite* sprite)
 void Skill::playSpecial(bool isGame)
 {
 	if (_delay <= 0 || !isGame) {
+		AudioEngine::play2d(StringUtils::format("Sound/%s_use.mp3", _mountSpecial->name.getCString()), false, 1.0f);
 		_delay = _mountSpecial->delay;
 		if(!isGame) setSkillClean();
 		vector<Vector<SpriteFrame*>> frame;

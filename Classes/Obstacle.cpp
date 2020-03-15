@@ -115,6 +115,8 @@ void Obstacle::setLaser()
 
 void Obstacle::setHit()
 {
+	AudioEngine::play2d("Sound/장애물_hit.mp3", false, 0.8f);
+
 	_obstacle->cleanup();
 
 	_obstacle->setPositionY(_obstacle->getPositionY() - 20);
@@ -202,6 +204,7 @@ void Obstacle::tick()
 bool Obstacle::getIsSectRect()
 {
 	//선충돌
+	AudioEngine::play2d("Sound/장애물_hit.mp3", false, 0.8f);
 	for (int i = 0; i < 1000; i++) {
 		if (player->getRect().containsPoint(Vec2(getRect().getMinX() + getRect().size.width / 1000 * i, 
 			_obstacle->getRotation() / 57.2 < PI*1.5f ? getRect().getMaxY() - getRect().size.height / 1000 * i : getRect().getMinY() + getRect().size.height / 1000 * i))) {

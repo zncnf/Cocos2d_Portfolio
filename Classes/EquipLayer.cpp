@@ -164,20 +164,25 @@ bool EquipLayer::onTouchBegan(Touch * touch, Event * event, bool isUse)
 	Vec2 pt = touch->getLocation() - this->getPosition();
 
 	if (_weaponBtn->getBoundingBox().containsPoint(pt)) {
+		AudioEngine::play2d("Sound/장비변경.mp3", false, 1.0f);
 		setWeapon();
 	}
 	if (_armorBtn->getBoundingBox().containsPoint(pt)) {
+		AudioEngine::play2d("Sound/장비변경.mp3", false, 1.0f);
 		setArmor();
 	}
 	if (_shoesBtn->getBoundingBox().containsPoint(pt)) {
+		AudioEngine::play2d("Sound/장비변경.mp3", false, 1.0f);
 		setShoes();
 	}
 	if (_petBtn->getBoundingBox().containsPoint(pt)) {
+		AudioEngine::play2d("Sound/장비변경.mp3", false, 1.0f);
 		setPet();
 	}
 
 	for (int i = 0; i < _myEquip.size(); i++) {
 		if (_myEquip.at(i)->box->getBoundingBox().containsPoint(pt - _myEquip.at(i)->layer->getPosition())) {
+			AudioEngine::play2d("Sound/장비변경.mp3", false, 1.0f);
 			switch (_selEquip) {
 			case 0:
 				player->getEquip()->mountWeapon(i);

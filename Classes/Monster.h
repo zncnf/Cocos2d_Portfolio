@@ -112,6 +112,7 @@ private:
 		_monster->setVisible(false);
 	}
 	void setHitEffect() { 
+		AudioEngine::play2d(StringUtils::format("Sound/%s_hit.mp3", _code), false, 1.0f);
 		player->getSkill()->playNormalHit(_monster->getPosition()); 
 		_damageNumber->cleanup();
 		_damageNumber->setAnchorPoint(Vec2(0.5f, 0.0f));
